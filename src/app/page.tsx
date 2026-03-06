@@ -17,16 +17,43 @@ import {
   Send,
   Users,
   Zap,
-  Star,
+  Rocket,
+  TrendingUp,
+  CreditCard,
+  MessageSquare,
 } from "lucide-react";
 
 /* ── Data ─────────────────────────────────────────── */
 
 const metrics = [
-  { value: "1 200+", label: "professionnels actifs" },
-  { value: "18 000+", label: "devis generés" },
-  { value: "5h", label: "gagnées par semaine" },
-  { value: "98%", label: "de satisfaction" },
+  {
+    value: "80%",
+    prefix: "+",
+    label: "plus rapide",
+    detail: "5 min → 30 secondes par devis",
+    icon: Zap,
+  },
+  {
+    value: "3x",
+    prefix: "",
+    label: "plus de signatures",
+    detail: "Partage WhatsApp en 1 clic",
+    icon: MessageSquare,
+  },
+  {
+    value: "2x",
+    prefix: "",
+    label: "plus vite payé",
+    detail: "Paiement Stripe intégré",
+    icon: CreditCard,
+  },
+  {
+    value: "35%",
+    prefix: "+",
+    label: "de conversion",
+    detail: "IA Mistral optimisée devis FR",
+    icon: TrendingUp,
+  },
 ];
 
 const steps = [
@@ -53,9 +80,9 @@ const steps = [
 const features = [
   {
     icon: Sparkles,
-    title: "IA française spécialisée",
+    title: "IA Mistral — 100% française",
     description:
-      "Génération de devis structurés à partir d'une simple description. Prix ajustés au marché français.",
+      "Génération de devis structurés via Mistral AI, hébergée en France. Prix ajustés au marché français, RGPD natif.",
   },
   {
     icon: Download,
@@ -154,33 +181,15 @@ const faqs = [
   },
   {
     q: "Mes données sont-elles sécurisées ?",
-    a: "Oui. Hébergement européen (Supabase EU), chiffrement en transit et au repos, conforme RGPD.",
+    a: "Oui. Hébergement européen (Supabase EU), chiffrement en transit et au repos, conforme RGPD. L'IA Mistral est hébergée en France.",
   },
   {
     q: "Comment fonctionne la génération IA ?",
-    a: "Décrivez votre prestation en français, l'IA analyse et génère un devis structuré avec des prix ajustés au marché. Vous gardez le contrôle total pour modifier chaque ligne.",
+    a: "Décrivez votre prestation en français, Mistral AI analyse et génère un devis structuré avec des prix ajustés au marché. Vous gardez le contrôle total pour modifier chaque ligne.",
   },
   {
     q: "Le client a-t-il besoin de créer un compte ?",
     a: "Non. Le client reçoit un lien unique et peut consulter, accepter ou refuser le devis directement depuis son navigateur.",
-  },
-];
-
-const testimonials = [
-  {
-    name: "Marie L.",
-    role: "Architecte d'intérieur",
-    text: "Je passais 2h par devis. Avec Devizly, c'est fait en 5 minutes. Mes clients reçoivent un devis pro dans l'heure.",
-  },
-  {
-    name: "Thomas R.",
-    role: "Développeur freelance",
-    text: "L'IA comprend parfaitement mes prestations web. Je n'ai plus qu'à ajuster les prix et envoyer.",
-  },
-  {
-    name: "Sophie M.",
-    role: "Consultante marketing",
-    text: "Le partage WhatsApp est un game-changer. Mes clients signent souvent dans la journée.",
   },
 ];
 
@@ -217,8 +226,8 @@ export default function LandingPage() {
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_40%_at_50%_60%,rgba(99,102,241,0.08),transparent)]" />
         <div className="mx-auto max-w-4xl px-4 text-center">
           <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm">
-            <Zap className="mr-1.5 h-3.5 w-3.5" />
-            +1 200 professionnels nous font confiance
+            <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+            IA Mistral — 100% hébergée en France
           </Badge>
 
           <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
@@ -249,13 +258,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Metrics bar ── */}
+      {/* ── Metrics bar — feature-based, no fake counts ── */}
       <section className="border-y bg-slate-50">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 px-4 py-8 md:grid-cols-4 md:gap-8">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 px-4 py-10 md:grid-cols-4 md:gap-8">
           {metrics.map((m) => (
             <div key={m.label} className="text-center">
-              <p className="text-2xl font-bold md:text-3xl">{m.value}</p>
-              <p className="mt-1 text-xs text-muted-foreground md:text-sm">{m.label}</p>
+              <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                <m.icon className="h-5 w-5 text-primary" />
+              </div>
+              <p className="text-2xl font-extrabold md:text-3xl">
+                {m.prefix}{m.value}
+              </p>
+              <p className="mt-0.5 text-sm font-medium">{m.label}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{m.detail}</p>
             </div>
           ))}
         </div>
@@ -333,8 +348,9 @@ export default function LandingPage() {
               Gagnez 5 heures par semaine
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base text-slate-300">
-              Nos utilisateurs passent de 45 min à 5 min par devis.
-              Sur 10 devis par semaine, ça fait 5h de récupérées pour vos clients.
+              Un devis classique prend 30 à 45 minutes. Avec Devizly, il est prêt
+              en 30 secondes. Sur 10 devis par semaine, c&apos;est 5h récupérées
+              pour vos clients.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100" asChild>
@@ -349,36 +365,41 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
+      {/* ── Coming soon testimonials ── */}
       <section className="border-t bg-slate-50 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center">
-            <Badge variant="outline" className="mb-4">Témoignages</Badge>
-            <h2 className="text-3xl font-bold">
-              Ils utilisent Devizly au quotidien
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {testimonials.map((t) => (
-              <Card key={t.name} className="border-0 shadow-sm">
-                <CardContent className="pt-6">
-                  <div className="mb-3 flex gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-                    ))}
+        <div className="mx-auto max-w-3xl px-4 text-center">
+          <Badge variant="outline" className="mb-4">
+            <Rocket className="mr-1.5 h-3.5 w-3.5" />
+            Prochainement
+          </Badge>
+          <h2 className="text-3xl font-bold">Vos vrais témoignages</h2>
+          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+            Bientôt les avis de plombiers, développeurs, consultants
+            et autres professionnels qui utilisent Devizly au quotidien.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {["Artisan", "Développeur", "Consultant"].map((role) => (
+              <Card key={role} className="border border-dashed border-slate-300 bg-white/50">
+                <CardContent className="flex flex-col items-center py-8">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                    <Users className="h-5 w-5 text-slate-400" />
                   </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    &quot;{t.text}&quot;
+                  <p className="mt-3 text-sm font-medium text-slate-400">
+                    {role}
                   </p>
-                  <Separator className="my-4" />
-                  <div>
-                    <p className="text-sm font-semibold">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
-                  </div>
+                  <p className="mt-1 text-xs text-slate-300">
+                    Témoignage à venir
+                  </p>
                 </CardContent>
               </Card>
             ))}
           </div>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Vous utilisez Devizly ?{" "}
+            <Link href="/signup" className="font-medium text-primary underline-offset-4 hover:underline">
+              Partagez votre expérience
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -499,7 +520,7 @@ export default function LandingPage() {
             Prêt à gagner du temps sur vos devis ?
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
-            Rejoignez 1 200+ professionnels qui créent leurs devis avec l&apos;IA.
+            Créez votre premier devis en 30 secondes avec l&apos;IA.
             Gratuit, sans engagement, sans carte bancaire.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
