@@ -232,7 +232,7 @@ export default function LandingPage() {
           <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
             Vos devis professionnels<br className="hidden sm:block" />
             en{" "}
-            <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               30 secondes
             </span>
             , pas 30 minutes
