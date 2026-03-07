@@ -1,4 +1,4 @@
-export type QuoteStatus = 'brouillon' | 'envoyé' | 'signé' | 'accepté' | 'refusé';
+export type QuoteStatus = 'brouillon' | 'envoyé' | 'signé' | 'accepté' | 'refusé' | 'payé';
 
 export interface Client {
   id: string;
@@ -43,6 +43,9 @@ export interface Quote {
   signature_data: string | null;
   signer_name: string | null;
   signed_at: string | null;
+  stripe_checkout_session: string | null;
+  stripe_payment_intent: string | null;
+  paid_at: string | null;
   created_at: string;
   updated_at: string;
 }

@@ -55,6 +55,8 @@ export function getStatusColor(status: string): string {
       return 'bg-emerald-100 text-emerald-700';
     case 'refusé':
       return 'bg-red-100 text-red-700';
+    case 'payé':
+      return 'bg-violet-100 text-violet-700';
     default:
       return 'bg-gray-100 text-gray-700';
   }
@@ -72,6 +74,8 @@ export function getStatusLabel(status: string): string {
       return 'Accepté';
     case 'refusé':
       return 'Refusé';
+    case 'payé':
+      return 'Payé';
     default:
       return status;
   }

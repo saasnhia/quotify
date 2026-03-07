@@ -23,6 +23,7 @@ import {
   XCircle,
   Loader2,
   PenLine,
+  CreditCard,
 } from "lucide-react";
 import {
   formatCurrency,
@@ -49,6 +50,7 @@ export default function PublicQuotePage({
   const [showSignature, setShowSignature] = useState(false);
   const [signatureData, setSignatureData] = useState<string | null>(null);
   const [signerName, setSignerName] = useState("");
+  const [payLoading, setPayLoading] = useState(false);
 
   useEffect(() => {
     async function fetchQuote() {
@@ -125,6 +127,28 @@ export default function PublicQuotePage({
     setResponding(false);
   }
 
+  async function handlePayment() {
+    if (!quote) return;
+    setPayLoading(true);
+    try {
+      const res = await fetch(`/api/quotes/${quote.id}/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ share_token: token }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error(data.error || "Erreur lors de la création du paiement");
+      }
+    } catch {
+      toast.error("Erreur de connexion");
+    } finally {
+      setPayLoading(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
@@ -156,7 +180,8 @@ export default function PublicQuotePage({
   const alreadyResponded =
     quote.status === "accepté" ||
     quote.status === "refusé" ||
-    quote.status === "signé";
+    quote.status === "signé" ||
+    quote.status === "payé";
 
   return (
     <div className="min-h-screen bg-slate-50 py-8">
@@ -281,7 +306,7 @@ export default function PublicQuotePage({
             )}
 
             {/* Signature display (when signed) */}
-            {quote.status === "signé" && quote.signature_data && (
+            {(quote.status === "signé" || quote.status === "payé") && quote.signature_data && (
               <div className="rounded-lg border border-green-200 bg-green-50 p-4">
                 <div className="mb-3 flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600" />
@@ -326,22 +351,50 @@ export default function PublicQuotePage({
               </Button>
 
               {alreadyResponded ? (
-                <div className="flex items-center justify-center rounded-lg border bg-slate-50 py-3 text-sm text-muted-foreground">
-                  {quote.status === "signé" ? (
-                    <>
-                      <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
-                      Devis signé
-                    </>
-                  ) : quote.status === "accepté" ? (
-                    <>
-                      <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
-                      Devis accepté
-                    </>
-                  ) : (
-                    <>
-                      <XCircle className="mr-2 h-4 w-4 text-red-600" />
-                      Devis refusé
-                    </>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-center rounded-lg border bg-slate-50 py-3 text-sm text-muted-foreground">
+                    {quote.status === "payé" ? (
+                      <>
+                        <CheckCircle className="mr-2 h-4 w-4 text-violet-600" />
+                        Devis payé
+                      </>
+                    ) : quote.status === "signé" ? (
+                      <>
+                        <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
+                        Devis signé
+                      </>
+                    ) : quote.status === "accepté" ? (
+                      <>
+                        <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
+                        Devis accepté
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="mr-2 h-4 w-4 text-red-600" />
+                        Devis refusé
+                      </>
+                    )}
+                  </div>
+
+                  {quote.status === "signé" && (
+                    <Button
+                      className="w-full"
+                      onClick={handlePayment}
+                      disabled={payLoading}
+                    >
+                      {payLoading ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <CreditCard className="mr-2 h-4 w-4" />
+                      )}
+                      Payer {formatCurrency(Number(quote.total_ttc))} TTC
+                    </Button>
+                  )}
+
+                  {quote.status === "payé" && quote.paid_at && (
+                    <div className="rounded-lg border border-violet-200 bg-violet-50 p-3 text-center text-sm text-violet-700">
+                      Paiement reçu le {formatDate(quote.paid_at)}
+                    </div>
                   )}
                 </div>
               ) : showSignature ? (

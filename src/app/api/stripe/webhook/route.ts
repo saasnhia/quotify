@@ -43,6 +43,25 @@ export async function POST(request: Request) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
+
+      // Connect payment for a quote
+      if (session.metadata?.devizly_payment === "true") {
+        const quoteId = session.metadata.quote_id;
+        if (quoteId) {
+          await supabase
+            .from("quotes")
+            .update({
+              status: "payé",
+              paid_at: new Date().toISOString(),
+              stripe_payment_intent: (session.payment_intent as string) || null,
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", quoteId);
+        }
+        break;
+      }
+
+      // Subscription checkout
       const userId = session.metadata?.supabase_user_id;
       if (!userId || !session.subscription) break;
 

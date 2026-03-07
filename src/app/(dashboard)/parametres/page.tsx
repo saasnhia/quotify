@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Save, Loader2, CreditCard, Building, ExternalLink, Upload, Trash2, ImageIcon } from "lucide-react";
+import { Save, Loader2, CreditCard, Building, ExternalLink, Upload, Trash2, ImageIcon, Wallet, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 
@@ -25,6 +25,8 @@ export default function ParametresPage() {
   const [logoLoading, setLogoLoading] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState("free");
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [stripeConnectStatus, setStripeConnectStatus] = useState("not_connected");
+  const [connectLoading, setConnectLoading] = useState(false);
   const [profile, setProfile] = useState({
     full_name: "",
     company_name: "",
@@ -53,7 +55,7 @@ export default function ParametresPage() {
 
       const { data } = await supabase
         .from("profiles")
-        .select("subscription_status, logo_url")
+        .select("subscription_status, logo_url, stripe_connect_status")
         .eq("id", user.id)
         .single();
       if (data?.subscription_status) {
@@ -61,6 +63,9 @@ export default function ParametresPage() {
       }
       if (data?.logo_url) {
         setLogoUrl(data.logo_url);
+      }
+      if (data?.stripe_connect_status) {
+        setStripeConnectStatus(data.stripe_connect_status);
       }
     }
     loadProfile();
@@ -389,6 +394,85 @@ export default function ParametresPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Stripe Connect */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Wallet className="h-5 w-5" />
+            Paiements
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {stripeConnectStatus === "connected" ? (
+            <>
+              <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <div>
+                  <p className="font-medium text-green-700">Stripe connecté</p>
+                  <p className="text-sm text-green-600">
+                    Vos clients peuvent payer directement après signature.
+                  </p>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full" asChild>
+                <a
+                  href="https://dashboard.stripe.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  Voir tableau de bord Stripe
+                </a>
+              </Button>
+            </>
+          ) : (
+            <>
+              <div className="rounded-lg border p-4">
+                <p className="font-medium">Recevez vos paiements</p>
+                <p className="text-sm text-muted-foreground">
+                  Connectez votre compte Stripe pour recevoir les paiements
+                  directement après signature de vos devis.
+                </p>
+              </div>
+              <Button
+                className="w-full"
+                disabled={connectLoading}
+                onClick={async () => {
+                  setConnectLoading(true);
+                  try {
+                    const res = await fetch("/api/stripe/connect/authorize", {
+                      method: "POST",
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                      window.location.href = data.url;
+                    } else {
+                      toast.error(data.error || "Erreur Stripe Connect");
+                    }
+                  } catch {
+                    toast.error("Erreur de connexion");
+                  } finally {
+                    setConnectLoading(false);
+                  }
+                }}
+              >
+                {connectLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Wallet className="mr-2 h-4 w-4" />
+                )}
+                Connecter mon Stripe
+              </Button>
+              {stripeConnectStatus === "pending" && (
+                <p className="text-sm text-amber-600">
+                  Onboarding en cours — complétez la configuration sur Stripe.
+                </p>
+              )}
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
