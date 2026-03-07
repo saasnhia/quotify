@@ -83,7 +83,7 @@ export function DashboardCharts({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <TrendingUp className="h-4 w-4" />
-            Chiffre d&apos;affaires mensuel
+            CA mensuel
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -128,7 +128,7 @@ export function DashboardCharts({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <Filter className="h-4 w-4" />
-            Funnel de conversion
+            Conversion des devis
           </CardTitle>
         </CardHeader>
         <CardContent>
