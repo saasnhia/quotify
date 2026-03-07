@@ -32,6 +32,7 @@
   "devDependencies": {
     "@remotion/bundler": "^4.0.434",
     "@remotion/cli": "^4.0.434",
+    "@remotion/google-fonts": "^4.0.434",
     "@remotion/renderer": "^4.0.434",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

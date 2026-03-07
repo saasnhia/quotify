@@ -5,8 +5,12 @@ import {
   useVideoConfig,
   interpolate,
   spring,
-  Easing,
+  staticFile,
+  Img,
 } from "remotion";
+import { loadFont } from "@remotion/google-fonts/Inter";
+
+const { fontFamily } = loadFont();
 
 /* ── Brand colors ─────────────────────────────────── */
 const C = {
@@ -17,6 +21,8 @@ const C = {
   whiteAlpha: "rgba(255,255,255,0.7)",
   whiteAlpha2: "rgba(255,255,255,0.12)",
 };
+
+const font = fontFamily;
 
 /* ── Helpers ──────────────────────────────────────── */
 
@@ -32,32 +38,9 @@ function FadeIn({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const opacity = spring({ frame: frame - delay, fps, config: { damping: 30 } });
-  const y = interpolate(opacity, [0, 1], [40, 0]);
+  const y = interpolate(opacity, [0, 1], [30, 0]);
   return (
     <div style={{ opacity, transform: `translateY(${y}px)`, ...style }}>
-      {children}
-    </div>
-  );
-}
-
-function SlideIn({
-  children,
-  delay = 0,
-  from = "left",
-  style,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  from?: "left" | "right";
-  style?: React.CSSProperties;
-}) {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const progress = spring({ frame: frame - delay, fps, config: { damping: 25, mass: 0.8 } });
-  const dir = from === "left" ? -1 : 1;
-  const x = interpolate(progress, [0, 1], [120 * dir, 0]);
-  return (
-    <div style={{ opacity: progress, transform: `translateX(${x}px)`, ...style }}>
       {children}
     </div>
   );
@@ -105,10 +88,36 @@ function GradientText({
   );
 }
 
+/* ── Typing animation ────────────────────────────── */
+
+function TypeText({
+  text,
+  delay = 0,
+  style,
+}: {
+  text: string;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {
+  const frame = useCurrentFrame();
+  const elapsed = Math.max(0, frame - delay);
+  const charsPerFrame = 0.8;
+  const visibleChars = Math.min(Math.floor(elapsed * charsPerFrame), text.length);
+  const showCursor = elapsed % 16 < 10;
+
+  return (
+    <span style={{ fontFamily: "monospace", ...style }}>
+      {text.slice(0, visibleChars)}
+      {visibleChars < text.length && showCursor && (
+        <span style={{ backgroundColor: C.emerald, color: C.emerald }}>|</span>
+      )}
+    </span>
+  );
+}
+
 /* ── Logo SVG ─────────────────────────────────────── */
 
 function Logo({ size = 80 }: { size?: number }) {
-  const s = size / 48;
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
       <rect width="48" height="48" rx="12" fill={C.violet} />
@@ -129,7 +138,6 @@ function GlowBg() {
   const pulse = Math.sin(frame / 30) * 0.15 + 0.85;
   return (
     <AbsoluteFill style={{ background: C.bg }}>
-      {/* Violet glow top-left */}
       <div
         style={{
           position: "absolute",
@@ -142,7 +150,6 @@ function GlowBg() {
           opacity: pulse,
         }}
       />
-      {/* Emerald glow bottom-right */}
       <div
         style={{
           position: "absolute",
@@ -155,7 +162,6 @@ function GlowBg() {
           opacity: pulse,
         }}
       />
-      {/* Grid */}
       <div
         style={{
           position: "absolute",
@@ -171,6 +177,45 @@ function GlowBg() {
   );
 }
 
+/* ── Perspective Mockup (inspired by Remotion ref) ── */
+
+function MockupFrame({
+  src,
+  delay = 0,
+  tiltDirection = "left",
+}: {
+  src: string;
+  delay?: number;
+  tiltDirection?: "left" | "right";
+}) {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const progress = spring({ frame: frame - delay, fps, config: { damping: 18, mass: 0.8 } });
+
+  const rotateY = tiltDirection === "left" ? 8 : -8;
+  const rotateX = 4;
+  const startY = 80;
+
+  const y = interpolate(progress, [0, 1], [startY, 0]);
+  const currentRotateY = interpolate(progress, [0, 1], [rotateY * 2, rotateY]);
+
+  return (
+    <div
+      style={{
+        opacity: progress,
+        transform: `perspective(1200px) rotateY(${currentRotateY}deg) rotateX(${rotateX}deg) translateY(${y}px)`,
+        borderRadius: 16,
+        overflow: "hidden",
+        boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 40px ${C.violet}20`,
+        border: `1px solid rgba(255,255,255,0.1)`,
+        maxWidth: 820,
+      }}
+    >
+      <Img src={src} style={{ width: "100%", display: "block" }} />
+    </div>
+  );
+}
+
 /* ── Scene 1: Logo reveal (0-3s = 0-90 frames) ───── */
 
 function Scene1() {
@@ -180,12 +225,7 @@ function Scene1() {
   const textOpacity = spring({ frame: frame - 20, fps, config: { damping: 30 } });
 
   return (
-    <AbsoluteFill
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <GlowBg />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: 1 }}>
         <div style={{ transform: `scale(${logoScale})` }}>
@@ -206,7 +246,7 @@ function Scene1() {
               fontWeight: 800,
               color: C.white,
               letterSpacing: -2,
-              fontFamily: "sans-serif",
+              fontFamily: font,
             }}
           >
             Devizly
@@ -218,7 +258,7 @@ function Scene1() {
               fontSize: 28,
               color: C.whiteAlpha,
               marginTop: 16,
-              fontFamily: "sans-serif",
+              fontFamily: font,
             }}
           >
             Devis IA en 30 secondes
@@ -229,84 +269,42 @@ function Scene1() {
   );
 }
 
-/* ── Scene 2: Problem (3-6s = 90-180 frames) ─────── */
+/* ── Scene 2: Problem (3-5.5s = 90-165 frames) ───── */
 
 function Scene2() {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const counterProgress = spring({ frame: frame - 12, fps, config: { damping: 40, mass: 1.5 } });
+  const counterValue = Math.round(interpolate(counterProgress, [0, 1], [0, 45]));
+
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <GlowBg />
       <div style={{ zIndex: 1, padding: 60, textAlign: "center" }}>
         <FadeIn>
-          <p
-            style={{
-              fontSize: 36,
-              color: C.whiteAlpha,
-              fontFamily: "sans-serif",
-              marginBottom: 20,
-            }}
-          >
+          <p style={{ fontSize: 34, color: C.whiteAlpha, fontFamily: font, marginBottom: 16 }}>
             Vous perdez encore
           </p>
         </FadeIn>
-        <FadeIn delay={12}>
-          <p
-            style={{
-              fontSize: 80,
-              fontWeight: 800,
-              color: C.white,
-              fontFamily: "sans-serif",
-              lineHeight: 1.1,
-            }}
-          >
-            <GradientText>45 minutes</GradientText>
+        <FadeIn delay={8}>
+          <p style={{ fontSize: 90, fontWeight: 900, color: C.white, fontFamily: font, lineHeight: 1.1 }}>
+            <GradientText>{counterValue} min</GradientText>
           </p>
         </FadeIn>
-        <FadeIn delay={24}>
-          <p
-            style={{
-              fontSize: 36,
-              color: C.whiteAlpha,
-              fontFamily: "sans-serif",
-              marginTop: 20,
-            }}
-          >
+        <FadeIn delay={18}>
+          <p style={{ fontSize: 34, color: C.whiteAlpha, fontFamily: font, marginTop: 16 }}>
             par devis ?
           </p>
         </FadeIn>
 
-        {/* Strikethrough animation */}
-        <FadeIn delay={45}>
-          <div
-            style={{
-              marginTop: 50,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 30,
-            }}
-          >
-            <span
-              style={{
-                fontSize: 42,
-                color: "rgba(255,255,255,0.3)",
-                textDecoration: "line-through",
-                fontFamily: "sans-serif",
-              }}
-            >
+        <FadeIn delay={40}>
+          <div style={{ marginTop: 40, display: "flex", alignItems: "center", justifyContent: "center", gap: 24 }}>
+            <span style={{ fontSize: 38, color: "rgba(255,255,255,0.25)", textDecoration: "line-through", fontFamily: font }}>
               Word / Excel
             </span>
-            <span style={{ fontSize: 42, color: C.emerald, fontFamily: "sans-serif" }}>
-              {"->"}
-            </span>
-            <span
-              style={{
-                fontSize: 42,
-                fontWeight: 700,
-                color: C.emerald,
-                fontFamily: "sans-serif",
-              }}
-            >
-              30 secondes
+            <span style={{ fontSize: 38, color: C.emerald, fontFamily: font, fontWeight: 700 }}>
+              {"->  30s"}
             </span>
           </div>
         </FadeIn>
@@ -315,171 +313,108 @@ function Scene2() {
   );
 }
 
-/* ── Scene 3: Features (6-10s = 180-300 frames) ──── */
+/* ── Scene 3: AI Demo with screenshot (5.5-9.5s = 165-285) ── */
 
 function Scene3() {
-  const features = [
-    { icon: "AI", label: "IA Mistral francaise", color: C.violet },
-    { icon: "PDF", label: "Export PDF pro", color: C.emerald },
-    { icon: "WA", label: "Partage WhatsApp", color: C.violet },
-    { icon: "OK", label: "Signature 1-clic", color: C.emerald },
-  ];
-
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <GlowBg />
-      <div style={{ zIndex: 1, padding: 60 }}>
+      <div style={{ zIndex: 1, textAlign: "center", padding: "0 40px" }}>
         <FadeIn>
-          <p
-            style={{
-              fontSize: 52,
-              fontWeight: 800,
-              color: C.white,
-              textAlign: "center",
-              fontFamily: "sans-serif",
-              marginBottom: 50,
-            }}
-          >
-            Tout-en-un
+          <p style={{ fontSize: 40, fontWeight: 700, color: C.white, fontFamily: font, marginBottom: 12 }}>
+            Decrivez, l&apos;IA genere
           </p>
         </FadeIn>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 24,
-            maxWidth: 800,
-            margin: "0 auto",
-          }}
-        >
-          {features.map((f, i) => (
-            <SlideIn key={f.label} delay={15 + i * 12} from={i % 2 === 0 ? "left" : "right"}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 20,
-                  background: C.whiteAlpha2,
-                  borderRadius: 16,
-                  padding: "24px 30px",
-                  border: `1px solid ${f.color}30`,
-                }}
-              >
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 14,
-                    background: `${f.color}20`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 22,
-                    fontWeight: 800,
-                    color: f.color,
-                    fontFamily: "sans-serif",
-                    flexShrink: 0,
-                  }}
-                >
-                  {f.icon}
-                </div>
-                <span
-                  style={{
-                    fontSize: 28,
-                    fontWeight: 600,
-                    color: C.white,
-                    fontFamily: "sans-serif",
-                  }}
-                >
-                  {f.label}
-                </span>
-              </div>
-            </SlideIn>
-          ))}
-        </div>
+        <FadeIn delay={10}>
+          <div
+            style={{
+              background: C.whiteAlpha2,
+              borderRadius: 14,
+              padding: "18px 28px",
+              border: `1px solid ${C.violet}40`,
+              display: "inline-block",
+              marginBottom: 30,
+              maxWidth: 700,
+            }}
+          >
+            <TypeText
+              text={'"Renovation salle de bain, douche italienne + WC suspendu..."'}
+              delay={20}
+              style={{ fontSize: 22, color: C.emerald, lineHeight: 1.5 }}
+            />
+          </div>
+        </FadeIn>
+        <FadeIn delay={15}>
+          <MockupFrame
+            src={staticFile("marketing/screenshot-nouveau.png")}
+            delay={20}
+            tiltDirection="left"
+          />
+        </FadeIn>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ── Scene 4: Metrics (10-13s = 300-390 frames) ──── */
+/* ── Scene 4: Result screenshot (9.5-12.5s = 285-375) ── */
 
 function Scene4() {
-  const metrics = [
-    { value: "+80%", label: "plus rapide", color: C.emerald },
-    { value: "3x", label: "plus de signatures", color: C.violet },
-    { value: "2x", label: "plus vite paye", color: C.emerald },
-  ];
-
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <GlowBg />
-      <div style={{ zIndex: 1, padding: 60, textAlign: "center" }}>
+      <div style={{ zIndex: 1, textAlign: "center", padding: "0 40px" }}>
         <FadeIn>
-          <p
-            style={{
-              fontSize: 42,
-              fontWeight: 600,
-              color: C.whiteAlpha,
-              fontFamily: "sans-serif",
-              marginBottom: 50,
-            }}
-          >
-            Des resultats concrets
+          <p style={{ fontSize: 40, fontWeight: 700, color: C.white, fontFamily: font, marginBottom: 8 }}>
+            Devis pro en{" "}
+            <GradientText>30 secondes</GradientText>
           </p>
         </FadeIn>
-        <div
-          style={{
-            display: "flex",
-            gap: 40,
-            justifyContent: "center",
-          }}
-        >
-          {metrics.map((m, i) => (
-            <ScaleIn key={m.value} delay={15 + i * 15}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 12,
-                  minWidth: 200,
-                }}
-              >
-                <span
+        <FadeIn delay={8}>
+          <div style={{ display: "flex", gap: 20, justifyContent: "center", marginBottom: 24 }}>
+            {[
+              { icon: "AI", label: "IA Mistral", color: C.violet },
+              { icon: "PDF", label: "Export PDF", color: C.emerald },
+              { icon: "WA", label: "WhatsApp", color: C.violet },
+            ].map((f, i) => (
+              <ScaleIn key={f.label} delay={12 + i * 8}>
+                <div
                   style={{
-                    fontSize: 80,
-                    fontWeight: 900,
-                    color: m.color,
-                    fontFamily: "sans-serif",
-                    lineHeight: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    background: C.whiteAlpha2,
+                    borderRadius: 12,
+                    padding: "10px 18px",
+                    border: `1px solid ${f.color}30`,
                   }}
                 >
-                  {m.value}
-                </span>
-                <span
-                  style={{
-                    fontSize: 24,
-                    color: C.whiteAlpha,
-                    fontFamily: "sans-serif",
-                  }}
-                >
-                  {m.label}
-                </span>
-              </div>
-            </ScaleIn>
-          ))}
-        </div>
+                  <span style={{ fontSize: 16, fontWeight: 800, color: f.color, fontFamily: font }}>
+                    {f.icon}
+                  </span>
+                  <span style={{ fontSize: 18, fontWeight: 600, color: C.white, fontFamily: font }}>
+                    {f.label}
+                  </span>
+                </div>
+              </ScaleIn>
+            ))}
+          </div>
+        </FadeIn>
+        <FadeIn delay={15}>
+          <MockupFrame
+            src={staticFile("marketing/screenshot-devis.png")}
+            delay={18}
+            tiltDirection="right"
+          />
+        </FadeIn>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ── Scene 5: CTA (13-15s = 390-450 frames) ──────── */
+/* ── Scene 5: CTA (12.5-15s = 375-450 frames) ────── */
 
 function Scene5() {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
   const pulse = Math.sin(frame / 8) * 3;
 
   return (
@@ -487,30 +422,32 @@ function Scene5() {
       <GlowBg />
       <div style={{ zIndex: 1, textAlign: "center" }}>
         <ScaleIn>
-          <Logo size={100} />
+          <Logo size={90} />
         </ScaleIn>
-        <FadeIn delay={10}>
-          <p
-            style={{
-              fontSize: 60,
-              fontWeight: 800,
-              color: C.white,
-              fontFamily: "sans-serif",
-              marginTop: 30,
-              lineHeight: 1.2,
-            }}
-          >
+        <FadeIn delay={8}>
+          <p style={{ fontSize: 56, fontWeight: 800, color: C.white, fontFamily: font, marginTop: 24, lineHeight: 1.2 }}>
             Essayez{" "}
             <GradientText>gratuitement</GradientText>
           </p>
         </FadeIn>
-        <FadeIn delay={25}>
-          <div
-            style={{
-              marginTop: 40,
-              transform: `translateY(${pulse}px)`,
-            }}
-          >
+
+        <FadeIn delay={18}>
+          <div style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 28 }}>
+            {[
+              { value: "+80%", label: "plus rapide", color: C.emerald },
+              { value: "3x", label: "signatures", color: C.violet },
+              { value: "2x", label: "plus vite paye", color: C.emerald },
+            ].map((m) => (
+              <div key={m.value} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 36, fontWeight: 900, color: m.color, fontFamily: font }}>{m.value}</span>
+                <span style={{ fontSize: 16, color: C.whiteAlpha, fontFamily: font }}>{m.label}</span>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={28}>
+          <div style={{ marginTop: 32, transform: `translateY(${pulse}px)` }}>
             <div
               style={{
                 display: "inline-flex",
@@ -518,32 +455,18 @@ function Scene5() {
                 gap: 12,
                 background: `linear-gradient(135deg, ${C.violet}, ${C.emerald})`,
                 borderRadius: 16,
-                padding: "22px 50px",
+                padding: "20px 48px",
                 boxShadow: `0 10px 40px ${C.violet}40`,
               }}
             >
-              <span
-                style={{
-                  fontSize: 32,
-                  fontWeight: 700,
-                  color: C.white,
-                  fontFamily: "sans-serif",
-                }}
-              >
+              <span style={{ fontSize: 30, fontWeight: 700, color: C.white, fontFamily: font }}>
                 devizly.com
               </span>
             </div>
           </div>
         </FadeIn>
-        <FadeIn delay={38}>
-          <p
-            style={{
-              fontSize: 22,
-              color: C.whiteAlpha,
-              marginTop: 24,
-              fontFamily: "sans-serif",
-            }}
-          >
+        <FadeIn delay={36}>
+          <p style={{ fontSize: 20, color: C.whiteAlpha, marginTop: 20, fontFamily: font }}>
             Gratuit - Sans carte bancaire
           </p>
         </FadeIn>
@@ -557,28 +480,19 @@ function Scene5() {
 export const DevizlyAd: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: C.bg }}>
-      {/* Scene 1: Logo reveal (0-3s) */}
       <Sequence from={0} durationInFrames={90}>
         <Scene1 />
       </Sequence>
-
-      {/* Scene 2: Problem statement (3-6s) */}
-      <Sequence from={90} durationInFrames={90}>
+      <Sequence from={90} durationInFrames={75}>
         <Scene2 />
       </Sequence>
-
-      {/* Scene 3: Features grid (6-10s) */}
-      <Sequence from={180} durationInFrames={120}>
+      <Sequence from={165} durationInFrames={120}>
         <Scene3 />
       </Sequence>
-
-      {/* Scene 4: Metrics (10-13s) */}
-      <Sequence from={300} durationInFrames={90}>
+      <Sequence from={285} durationInFrames={90}>
         <Scene4 />
       </Sequence>
-
-      {/* Scene 5: CTA (13-15s) */}
-      <Sequence from={390} durationInFrames={60}>
+      <Sequence from={375} durationInFrames={75}>
         <Scene5 />
       </Sequence>
     </AbsoluteFill>
