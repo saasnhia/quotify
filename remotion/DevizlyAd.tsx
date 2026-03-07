@@ -12,79 +12,74 @@ import { loadFont } from "@remotion/google-fonts/Inter";
 
 const { fontFamily } = loadFont();
 
-/* ── Brand colors ─────────────────────────────────── */
+/* ── Colors (matching reference: light bg, dark text) ── */
 const C = {
-  bg: "#0A0A0A",
+  bg: "#EDEDF0",
+  dark: "#1A1A2E",
+  muted: "#6B7280",
   violet: "#6366F1",
   emerald: "#22D3A5",
   white: "#FFFFFF",
-  whiteAlpha: "rgba(255,255,255,0.7)",
-  whiteAlpha2: "rgba(255,255,255,0.12)",
 };
 
 const font = fontFamily;
 
-/* ── Helpers ──────────────────────────────────────── */
+/* ── macOS Window Chrome ─────────────────────────── */
 
-function FadeIn({
+function MacWindow({
   children,
-  delay = 0,
+  title = "Devizly",
   style,
 }: {
   children: React.ReactNode;
-  delay?: number;
-  style?: React.CSSProperties;
-}) {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const opacity = spring({ frame: frame - delay, fps, config: { damping: 30 } });
-  const y = interpolate(opacity, [0, 1], [30, 0]);
-  return (
-    <div style={{ opacity, transform: `translateY(${y}px)`, ...style }}>
-      {children}
-    </div>
-  );
-}
-
-function ScaleIn({
-  children,
-  delay = 0,
-  style,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  style?: React.CSSProperties;
-}) {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const progress = spring({ frame: frame - delay, fps, config: { damping: 20, mass: 0.6 } });
-  const scale = interpolate(progress, [0, 1], [0.5, 1]);
-  return (
-    <div style={{ opacity: progress, transform: `scale(${scale})`, ...style }}>
-      {children}
-    </div>
-  );
-}
-
-function GradientText({
-  children,
-  style,
-}: {
-  children: React.ReactNode;
+  title?: string;
   style?: React.CSSProperties;
 }) {
   return (
-    <span
+    <div
       style={{
-        background: `linear-gradient(135deg, ${C.violet}, ${C.emerald})`,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        backgroundClip: "text",
+        background: C.white,
+        borderRadius: 12,
+        overflow: "hidden",
+        boxShadow: "0 25px 80px rgba(0,0,0,0.15), 0 4px 20px rgba(0,0,0,0.08)",
         ...style,
       }}
     >
-      {children}
-    </span>
+      {/* Title bar */}
+      <div
+        style={{
+          height: 38,
+          background: "#F6F6F8",
+          borderBottom: "1px solid #E5E5EA",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: 16,
+          position: "relative",
+        }}
+      >
+        {/* Traffic lights */}
+        <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#FF5F57" }} />
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#FEBC2E" }} />
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#28C840" }} />
+        </div>
+        {/* Title */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: 13,
+            color: "#999",
+            fontFamily: font,
+          }}
+        >
+          {title}
+        </div>
+      </div>
+      {/* Content */}
+      <div style={{ overflow: "hidden" }}>{children}</div>
+    </div>
   );
 }
 
@@ -101,15 +96,24 @@ function TypeText({
 }) {
   const frame = useCurrentFrame();
   const elapsed = Math.max(0, frame - delay);
-  const charsPerFrame = 0.8;
+  const charsPerFrame = 0.6;
   const visibleChars = Math.min(Math.floor(elapsed * charsPerFrame), text.length);
   const showCursor = elapsed % 16 < 10;
 
   return (
-    <span style={{ fontFamily: "monospace", ...style }}>
+    <span style={style}>
       {text.slice(0, visibleChars)}
       {visibleChars < text.length && showCursor && (
-        <span style={{ backgroundColor: C.emerald, color: C.emerald }}>|</span>
+        <span
+          style={{
+            display: "inline-block",
+            width: 10,
+            height: "1.1em",
+            background: C.dark,
+            marginLeft: 2,
+            verticalAlign: "text-bottom",
+          }}
+        />
       )}
     </span>
   );
@@ -131,345 +135,262 @@ function Logo({ size = 80 }: { size?: number }) {
   );
 }
 
-/* ── Glow background ──────────────────────────────── */
-
-function GlowBg() {
-  const frame = useCurrentFrame();
-  const pulse = Math.sin(frame / 30) * 0.15 + 0.85;
-  return (
-    <AbsoluteFill style={{ background: C.bg }}>
-      <div
-        style={{
-          position: "absolute",
-          top: -200,
-          left: -200,
-          width: 700,
-          height: 700,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${C.violet}25, transparent 70%)`,
-          opacity: pulse,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: -200,
-          right: -200,
-          width: 600,
-          height: 600,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${C.emerald}20, transparent 70%)`,
-          opacity: pulse,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-        }}
-      />
-    </AbsoluteFill>
-  );
-}
-
-/* ── Perspective Mockup (inspired by Remotion ref) ── */
-
-function MockupFrame({
-  src,
-  delay = 0,
-  tiltDirection = "left",
-}: {
-  src: string;
-  delay?: number;
-  tiltDirection?: "left" | "right";
-}) {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const progress = spring({ frame: frame - delay, fps, config: { damping: 18, mass: 0.8 } });
-
-  const rotateY = tiltDirection === "left" ? 8 : -8;
-  const rotateX = 4;
-  const startY = 80;
-
-  const y = interpolate(progress, [0, 1], [startY, 0]);
-  const currentRotateY = interpolate(progress, [0, 1], [rotateY * 2, rotateY]);
-
-  return (
-    <div
-      style={{
-        opacity: progress,
-        transform: `perspective(1200px) rotateY(${currentRotateY}deg) rotateX(${rotateX}deg) translateY(${y}px)`,
-        borderRadius: 16,
-        overflow: "hidden",
-        boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 40px ${C.violet}20`,
-        border: `1px solid rgba(255,255,255,0.1)`,
-        maxWidth: 820,
-      }}
-    >
-      <Img src={src} style={{ width: "100%", display: "block" }} />
-    </div>
-  );
-}
-
-/* ── Scene 1: Logo reveal (0-3s = 0-90 frames) ───── */
+/* ── Scene 1: App mockup with typing (0-5s = 0-150 frames) ── */
 
 function Scene1() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const logoScale = spring({ frame, fps, config: { damping: 15, mass: 0.8 } });
-  const textOpacity = spring({ frame: frame - 20, fps, config: { damping: 30 } });
+
+  // Window slides up from bottom with perspective
+  const enterProgress = spring({ frame, fps, config: { damping: 22, mass: 1 } });
+  const y = interpolate(enterProgress, [0, 1], [300, -40]);
+  const rotateX = interpolate(enterProgress, [0, 1], [12, 3]);
+  const rotateY = interpolate(enterProgress, [0, 1], [-8, -5]);
+  const scale = interpolate(enterProgress, [0, 1], [0.9, 1]);
 
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <GlowBg />
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", zIndex: 1 }}>
-        <div style={{ transform: `scale(${logoScale})` }}>
-          <Logo size={140} />
-        </div>
-        <div
-          style={{
-            opacity: textOpacity,
-            marginTop: 30,
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 72,
-              fontWeight: 800,
-              color: C.white,
-              letterSpacing: -2,
-              fontFamily: font,
-            }}
-          >
-            Devizly
-          </span>
-        </div>
-        <FadeIn delay={35}>
-          <p
-            style={{
-              fontSize: 28,
-              color: C.whiteAlpha,
-              marginTop: 16,
-              fontFamily: font,
-            }}
-          >
-            Devis IA en 30 secondes
-          </p>
-        </FadeIn>
+    <AbsoluteFill style={{ background: C.bg, justifyContent: "flex-end", alignItems: "center" }}>
+      <div
+        style={{
+          transform: `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${y}px) scale(${scale})`,
+          width: "92%",
+          maxWidth: 960,
+        }}
+      >
+        <MacWindow title="Devizly — Nouveau devis">
+          {/* AI prompt bar */}
+          <div style={{ padding: "20px 24px", borderBottom: "1px solid #E5E5EA" }}>
+            <div style={{ fontSize: 13, color: C.muted, fontFamily: font, marginBottom: 8, fontWeight: 600 }}>
+              Generer avec l'IA
+            </div>
+            <div
+              style={{
+                background: "#F9FAFB",
+                border: "1px solid #E5E7EB",
+                borderRadius: 8,
+                padding: "14px 16px",
+                minHeight: 44,
+              }}
+            >
+              <TypeText
+                text="Renovation salle de bain complete, douche italienne + WC suspendu, carrelage haut de gamme"
+                delay={20}
+                style={{
+                  fontSize: 16,
+                  color: C.dark,
+                  fontFamily: "monospace",
+                  lineHeight: 1.5,
+                }}
+              />
+            </div>
+            <div
+              style={{
+                marginTop: 12,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: C.violet,
+                borderRadius: 8,
+                padding: "10px 20px",
+                opacity: interpolate(frame, [80, 95], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+              }}
+            >
+              <span style={{ fontSize: 14, fontWeight: 600, color: C.white, fontFamily: font }}>
+                Generer avec l'IA
+              </span>
+            </div>
+          </div>
+          {/* Devis form preview */}
+          <div style={{ padding: "16px 24px 20px", display: "flex", gap: 24 }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12, color: C.muted, fontFamily: font, marginBottom: 4 }}>Titre du devis</div>
+              <div style={{ fontSize: 15, color: C.dark, fontFamily: font, fontWeight: 500, padding: "8px 0", borderBottom: "1px solid #E5E7EB" }}>
+                Renovation salle de bain complete
+              </div>
+              <div style={{ fontSize: 12, color: C.muted, fontFamily: font, marginTop: 12, marginBottom: 4 }}>Client</div>
+              <div style={{ fontSize: 15, color: C.dark, fontFamily: font, fontWeight: 500, padding: "8px 0", borderBottom: "1px solid #E5E7EB" }}>
+                Martin Dupont
+              </div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12, color: C.muted, fontFamily: font, marginBottom: 4 }}>Lignes du devis</div>
+              {[
+                { desc: "Demolition et evacuation", price: "1 200 EUR" },
+                { desc: "Plomberie complete", price: "3 200 EUR" },
+                { desc: "Carrelage sol et murs", price: "1 530 EUR" },
+              ].map((item, i) => (
+                <div
+                  key={item.desc}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "6px 0",
+                    borderBottom: "1px solid #F3F4F6",
+                    fontSize: 13,
+                    fontFamily: font,
+                    opacity: interpolate(frame, [100 + i * 8, 108 + i * 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+                  }}
+                >
+                  <span style={{ color: C.dark }}>{item.desc}</span>
+                  <span style={{ color: C.muted, fontWeight: 600 }}>{item.price}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </MacWindow>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ── Scene 2: Problem (3-5.5s = 90-165 frames) ───── */
+/* ── Scene 2: Result mockup (5-8.5s = 150-255 frames) ── */
 
 function Scene2() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const counterProgress = spring({ frame: frame - 12, fps, config: { damping: 40, mass: 1.5 } });
-  const counterValue = Math.round(interpolate(counterProgress, [0, 1], [0, 45]));
+  const enterProgress = spring({ frame, fps, config: { damping: 20, mass: 0.9 } });
+  const y = interpolate(enterProgress, [0, 1], [250, -20]);
+  const rotateX = interpolate(enterProgress, [0, 1], [10, 3]);
+  const rotateY = interpolate(enterProgress, [0, 1], [6, 4]);
 
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <GlowBg />
-      <div style={{ zIndex: 1, padding: 60, textAlign: "center" }}>
-        <FadeIn>
-          <p style={{ fontSize: 34, color: C.whiteAlpha, fontFamily: font, marginBottom: 16 }}>
-            Vous perdez encore
-          </p>
-        </FadeIn>
-        <FadeIn delay={8}>
-          <p style={{ fontSize: 90, fontWeight: 900, color: C.white, fontFamily: font, lineHeight: 1.1 }}>
-            <GradientText>{counterValue} min</GradientText>
-          </p>
-        </FadeIn>
-        <FadeIn delay={18}>
-          <p style={{ fontSize: 34, color: C.whiteAlpha, fontFamily: font, marginTop: 16 }}>
-            par devis ?
-          </p>
-        </FadeIn>
-
-        <FadeIn delay={40}>
-          <div style={{ marginTop: 40, display: "flex", alignItems: "center", justifyContent: "center", gap: 24 }}>
-            <span style={{ fontSize: 38, color: "rgba(255,255,255,0.25)", textDecoration: "line-through", fontFamily: font }}>
-              Word / Excel
-            </span>
-            <span style={{ fontSize: 38, color: C.emerald, fontFamily: font, fontWeight: 700 }}>
-              {"->  30s"}
-            </span>
-          </div>
-        </FadeIn>
+    <AbsoluteFill style={{ background: C.bg, justifyContent: "flex-end", alignItems: "center" }}>
+      <div
+        style={{
+          transform: `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${y}px)`,
+          width: "92%",
+          maxWidth: 960,
+        }}
+      >
+        <MacWindow title="Devizly — Devis #DEV-2026-0001">
+          <Img
+            src={staticFile("marketing/screenshot-devis.png")}
+            style={{ width: "100%", display: "block" }}
+          />
+        </MacWindow>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ── Scene 3: AI Demo with screenshot (5.5-9.5s = 165-285) ── */
+/* ── Scene 3: Bold statement (8.5-11.5s = 255-345 frames) ── */
 
 function Scene3() {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const textProgress = spring({ frame: frame - 5, fps, config: { damping: 25, mass: 0.7 } });
+  const scale = interpolate(textProgress, [0, 1], [0.85, 1]);
+  const opacity = textProgress;
+
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <GlowBg />
-      <div style={{ zIndex: 1, textAlign: "center", padding: "0 40px" }}>
-        <FadeIn>
-          <p style={{ fontSize: 40, fontWeight: 700, color: C.white, fontFamily: font, marginBottom: 12 }}>
-            Decrivez, l&apos;IA genere
-          </p>
-        </FadeIn>
-        <FadeIn delay={10}>
-          <div
-            style={{
-              background: C.whiteAlpha2,
-              borderRadius: 14,
-              padding: "18px 28px",
-              border: `1px solid ${C.violet}40`,
-              display: "inline-block",
-              marginBottom: 30,
-              maxWidth: 700,
-            }}
-          >
-            <TypeText
-              text={'"Renovation salle de bain, douche italienne + WC suspendu..."'}
-              delay={20}
-              style={{ fontSize: 22, color: C.emerald, lineHeight: 1.5 }}
-            />
-          </div>
-        </FadeIn>
-        <FadeIn delay={15}>
-          <MockupFrame
-            src={staticFile("marketing/screenshot-nouveau.png")}
-            delay={20}
-            tiltDirection="left"
-          />
-        </FadeIn>
+    <AbsoluteFill style={{ background: C.bg, justifyContent: "center", alignItems: "center" }}>
+      <div style={{ textAlign: "center", opacity, transform: `scale(${scale})` }}>
+        <p
+          style={{
+            fontSize: 64,
+            fontWeight: 900,
+            color: C.dark,
+            fontFamily: font,
+            lineHeight: 1.15,
+            letterSpacing: -2,
+            margin: 0,
+          }}
+        >
+          Devis pro en 30 secondes
+        </p>
+        <p
+          style={{
+            fontSize: 28,
+            fontWeight: 500,
+            color: C.muted,
+            fontFamily: font,
+            marginTop: 20,
+            opacity: interpolate(frame, [20, 35], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
+          }}
+        >
+          IA Mistral — 100% hebergee en France
+        </p>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ── Scene 4: Result screenshot (9.5-12.5s = 285-375) ── */
+/* ── Scene 4: CTA (11.5-15s = 345-450 frames) ────── */
 
 function Scene4() {
-  return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <GlowBg />
-      <div style={{ zIndex: 1, textAlign: "center", padding: "0 40px" }}>
-        <FadeIn>
-          <p style={{ fontSize: 40, fontWeight: 700, color: C.white, fontFamily: font, marginBottom: 8 }}>
-            Devis pro en{" "}
-            <GradientText>30 secondes</GradientText>
-          </p>
-        </FadeIn>
-        <FadeIn delay={8}>
-          <div style={{ display: "flex", gap: 20, justifyContent: "center", marginBottom: 24 }}>
-            {[
-              { icon: "AI", label: "IA Mistral", color: C.violet },
-              { icon: "PDF", label: "Export PDF", color: C.emerald },
-              { icon: "WA", label: "WhatsApp", color: C.violet },
-            ].map((f, i) => (
-              <ScaleIn key={f.label} delay={12 + i * 8}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    background: C.whiteAlpha2,
-                    borderRadius: 12,
-                    padding: "10px 18px",
-                    border: `1px solid ${f.color}30`,
-                  }}
-                >
-                  <span style={{ fontSize: 16, fontWeight: 800, color: f.color, fontFamily: font }}>
-                    {f.icon}
-                  </span>
-                  <span style={{ fontSize: 18, fontWeight: 600, color: C.white, fontFamily: font }}>
-                    {f.label}
-                  </span>
-                </div>
-              </ScaleIn>
-            ))}
-          </div>
-        </FadeIn>
-        <FadeIn delay={15}>
-          <MockupFrame
-            src={staticFile("marketing/screenshot-devis.png")}
-            delay={18}
-            tiltDirection="right"
-          />
-        </FadeIn>
-      </div>
-    </AbsoluteFill>
-  );
-}
-
-/* ── Scene 5: CTA (12.5-15s = 375-450 frames) ────── */
-
-function Scene5() {
   const frame = useCurrentFrame();
-  const pulse = Math.sin(frame / 8) * 3;
+  const { fps } = useVideoConfig();
+
+  const logoProgress = spring({ frame, fps, config: { damping: 18, mass: 0.6 } });
+  const logoScale = interpolate(logoProgress, [0, 1], [0.5, 1]);
+
+  const textProgress = spring({ frame: frame - 15, fps, config: { damping: 25 } });
+  const ctaProgress = spring({ frame: frame - 35, fps, config: { damping: 20 } });
 
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <GlowBg />
-      <div style={{ zIndex: 1, textAlign: "center" }}>
-        <ScaleIn>
-          <Logo size={90} />
-        </ScaleIn>
-        <FadeIn delay={8}>
-          <p style={{ fontSize: 56, fontWeight: 800, color: C.white, fontFamily: font, marginTop: 24, lineHeight: 1.2 }}>
-            Essayez{" "}
-            <GradientText>gratuitement</GradientText>
-          </p>
-        </FadeIn>
+    <AbsoluteFill style={{ background: C.bg, justifyContent: "center", alignItems: "center" }}>
+      <div style={{ textAlign: "center" }}>
+        {/* Logo */}
+        <div style={{ opacity: logoProgress, transform: `scale(${logoScale})`, marginBottom: 28 }}>
+          <Logo size={80} />
+        </div>
 
-        <FadeIn delay={18}>
-          <div style={{ display: "flex", gap: 40, justifyContent: "center", marginTop: 28 }}>
-            {[
-              { value: "+80%", label: "plus rapide", color: C.emerald },
-              { value: "3x", label: "signatures", color: C.violet },
-              { value: "2x", label: "plus vite paye", color: C.emerald },
-            ].map((m) => (
-              <div key={m.value} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: 36, fontWeight: 900, color: m.color, fontFamily: font }}>{m.value}</span>
-                <span style={{ fontSize: 16, color: C.whiteAlpha, fontFamily: font }}>{m.label}</span>
-              </div>
-            ))}
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={28}>
-          <div style={{ marginTop: 32, transform: `translateY(${pulse}px)` }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 12,
-                background: `linear-gradient(135deg, ${C.violet}, ${C.emerald})`,
-                borderRadius: 16,
-                padding: "20px 48px",
-                boxShadow: `0 10px 40px ${C.violet}40`,
-              }}
-            >
-              <span style={{ fontSize: 30, fontWeight: 700, color: C.white, fontFamily: font }}>
-                devizly.com
-              </span>
-            </div>
-          </div>
-        </FadeIn>
-        <FadeIn delay={36}>
-          <p style={{ fontSize: 20, color: C.whiteAlpha, marginTop: 20, fontFamily: font }}>
-            Gratuit - Sans carte bancaire
+        {/* Brand name */}
+        <div style={{ opacity: textProgress }}>
+          <p
+            style={{
+              fontSize: 56,
+              fontWeight: 900,
+              color: C.dark,
+              fontFamily: font,
+              letterSpacing: -2,
+              margin: 0,
+            }}
+          >
+            Devizly
           </p>
-        </FadeIn>
+          <p
+            style={{
+              fontSize: 24,
+              fontWeight: 500,
+              color: C.muted,
+              fontFamily: font,
+              marginTop: 8,
+            }}
+          >
+            Essayez gratuitement
+          </p>
+        </div>
+
+        {/* CTA pill */}
+        <div style={{ opacity: ctaProgress, marginTop: 36 }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: C.violet,
+              borderRadius: 14,
+              padding: "16px 40px",
+              boxShadow: `0 8px 30px ${C.violet}40`,
+            }}
+          >
+            <span style={{ fontSize: 26, fontWeight: 700, color: C.white, fontFamily: font }}>
+              devizly.com
+            </span>
+          </div>
+          <p
+            style={{
+              fontSize: 18,
+              color: C.muted,
+              fontFamily: font,
+              marginTop: 16,
+            }}
+          >
+            Gratuit — Sans carte bancaire
+          </p>
+        </div>
       </div>
     </AbsoluteFill>
   );
@@ -480,20 +401,24 @@ function Scene5() {
 export const DevizlyAd: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: C.bg }}>
-      <Sequence from={0} durationInFrames={90}>
+      {/* Scene 1: App mockup with AI typing (0-5s) */}
+      <Sequence from={0} durationInFrames={150}>
         <Scene1 />
       </Sequence>
-      <Sequence from={90} durationInFrames={75}>
+
+      {/* Scene 2: Filled devis result (5-8.5s) */}
+      <Sequence from={150} durationInFrames={105}>
         <Scene2 />
       </Sequence>
-      <Sequence from={165} durationInFrames={120}>
+
+      {/* Scene 3: Bold statement (8.5-11.5s) */}
+      <Sequence from={255} durationInFrames={90}>
         <Scene3 />
       </Sequence>
-      <Sequence from={285} durationInFrames={90}>
+
+      {/* Scene 4: Logo + CTA (11.5-15s) */}
+      <Sequence from={345} durationInFrames={105}>
         <Scene4 />
-      </Sequence>
-      <Sequence from={375} durationInFrames={75}>
-        <Scene5 />
       </Sequence>
     </AbsoluteFill>
   );
