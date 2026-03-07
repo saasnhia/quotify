@@ -274,7 +274,38 @@ function Scene2() {
   );
 }
 
-/* ── Scene 3: Bold statement (8.5-11.5s = 255-345 frames) ── */
+/* ── Scene 2b: Shared devis link page (7.5-10s = 225-300 frames) ── */
+
+function Scene2b() {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const enterProgress = spring({ frame, fps, config: { damping: 20, mass: 0.9 } });
+  const y = interpolate(enterProgress, [0, 1], [250, -20]);
+  const rotateX = interpolate(enterProgress, [0, 1], [10, 3]);
+  const rotateY = interpolate(enterProgress, [0, 1], [-6, -4]);
+
+  return (
+    <AbsoluteFill style={{ background: C.bg, justifyContent: "flex-end", alignItems: "center" }}>
+      <div
+        style={{
+          transform: `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(${y}px)`,
+          width: "80%",
+          maxWidth: 780,
+        }}
+      >
+        <MacWindow title="Devizly — Devis partage">
+          <Img
+            src={staticFile("marketing/screenshot-devis-share.png")}
+            style={{ width: "100%", display: "block" }}
+          />
+        </MacWindow>
+      </div>
+    </AbsoluteFill>
+  );
+}
+
+/* ── Scene 3: Bold statement (10-12.5s = 300-375 frames) ── */
 
 function Scene3() {
   const frame = useCurrentFrame();
@@ -401,23 +432,28 @@ function Scene4() {
 export const DevizlyAd: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: C.bg }}>
-      {/* Scene 1: App mockup with AI typing (0-5s) */}
-      <Sequence from={0} durationInFrames={150}>
+      {/* Scene 1: App mockup with AI typing (0-4.5s) */}
+      <Sequence from={0} durationInFrames={135}>
         <Scene1 />
       </Sequence>
 
-      {/* Scene 2: Filled devis result (5-8.5s) */}
-      <Sequence from={150} durationInFrames={105}>
+      {/* Scene 2: Filled devis editor (4.5-7s) */}
+      <Sequence from={135} durationInFrames={75}>
         <Scene2 />
       </Sequence>
 
-      {/* Scene 3: Bold statement (8.5-11.5s) */}
-      <Sequence from={255} durationInFrames={90}>
+      {/* Scene 2b: Shared devis link (7-9.5s) */}
+      <Sequence from={210} durationInFrames={75}>
+        <Scene2b />
+      </Sequence>
+
+      {/* Scene 3: Bold statement (9.5-12s) */}
+      <Sequence from={285} durationInFrames={75}>
         <Scene3 />
       </Sequence>
 
-      {/* Scene 4: Logo + CTA (11.5-15s) */}
-      <Sequence from={345} durationInFrames={105}>
+      {/* Scene 4: Logo + CTA (12-15s) */}
+      <Sequence from={360} durationInFrames={90}>
         <Scene4 />
       </Sequence>
     </AbsoluteFill>
