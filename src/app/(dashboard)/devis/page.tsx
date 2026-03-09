@@ -111,6 +111,7 @@ export default function DevisPage() {
         tva_rate: quote.tva_rate,
         discount: quote.discount,
         total_ttc: quote.total_ttc,
+        currency: quote.currency || "EUR",
         notes: quote.notes,
         valid_until: quote.valid_until,
       })
@@ -233,7 +234,7 @@ export default function DevisPage() {
                     <TableCell className="font-medium">{quote.title}</TableCell>
                     <TableCell>{quote.clients?.name || "—"}</TableCell>
                     <TableCell>
-                      {formatCurrency(Number(quote.total_ttc))}
+                      {formatCurrency(Number(quote.total_ttc), quote.currency || "EUR")}
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1.5">

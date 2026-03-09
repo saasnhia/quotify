@@ -91,7 +91,7 @@ export async function tryAutoInvoice(
         clientName: result.clientName,
         invoiceNumber: result.invoice.invoice_number,
         quoteTitle: "", // Will be fetched inside generateInvoice context
-        amount: formatCurrency(Number(result.invoice.amount)),
+        amount: formatCurrency(Number(result.invoice.amount), result.currency),
         dueDate: result.invoice.due_date
           ? formatDate(result.invoice.due_date)
           : "—",

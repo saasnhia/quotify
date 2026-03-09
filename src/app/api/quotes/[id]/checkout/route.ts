@@ -53,6 +53,7 @@ export async function POST(
 
   const stripe = getStripe();
   const appUrl = getSiteUrl();
+  const stripeCurrency = (quote.currency || "EUR").toLowerCase();
 
   // Build line items from quote
   const items = (quote.quote_items || []).sort(
@@ -61,7 +62,7 @@ export async function POST(
 
   const lineItems = items.map((item: { description: string; total: number }) => ({
     price_data: {
-      currency: "eur",
+      currency: stripeCurrency,
       product_data: {
         name: item.description,
       },
@@ -75,7 +76,7 @@ export async function POST(
   if (tvaAmount > 0) {
     lineItems.push({
       price_data: {
-        currency: "eur",
+        currency: stripeCurrency,
         product_data: {
           name: `TVA (${Number(quote.tva_rate)}%)`,
         },

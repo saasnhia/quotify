@@ -14,7 +14,7 @@ export async function GET() {
   const [{ data: quotes }, { data: prospects }] = await Promise.all([
     supabase
       .from("quotes")
-      .select("id, title, number, total_ttc, status, created_at, updated_at, viewed_at, view_count, client_id, clients(name, email)")
+      .select("id, title, number, total_ttc, currency, status, created_at, updated_at, viewed_at, view_count, client_id, clients(name, email)")
       .eq("user_id", user.id)
       .in("status", ["envoyé", "signé", "accepté", "payé"])
       .order("updated_at", { ascending: false }),

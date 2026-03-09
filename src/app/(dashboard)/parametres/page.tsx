@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Save, Loader2, CreditCard, Building, ExternalLink, Upload, Trash2, ImageIcon, Wallet, CheckCircle2, Zap } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Save, Loader2, CreditCard, Building, ExternalLink, Upload, Trash2, ImageIcon, Wallet, CheckCircle2, Zap, Globe, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 
@@ -32,6 +33,15 @@ export default function ParametresPage() {
     auto_invoice_on_payment: true,
     auto_send_invoice: true,
   });
+  const [leadForm, setLeadForm] = useState({
+    lead_form_enabled: true,
+    lead_form_title: "Demandez un devis",
+    lead_form_description: "",
+    lead_form_color: "#7c3aed",
+  });
+  const [leadFormSaving, setLeadFormSaving] = useState(false);
+  const [snippetCopied, setSnippetCopied] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [profile, setProfile] = useState({
     full_name: "",
     company_name: "",
@@ -46,6 +56,7 @@ export default function ParametresPage() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+      setCurrentUserId(user.id);
 
       if (user.user_metadata) {
         setProfile({
@@ -87,6 +98,24 @@ export default function ParametresPage() {
       }
     }
     loadAutomations();
+
+    async function loadLeadForm() {
+      try {
+        const res = await fetch("/api/settings/lead-form");
+        if (res.ok) {
+          const data = await res.json();
+          setLeadForm({
+            lead_form_enabled: data.lead_form_enabled ?? true,
+            lead_form_title: data.lead_form_title || "Demandez un devis",
+            lead_form_description: data.lead_form_description || "",
+            lead_form_color: data.lead_form_color || "#7c3aed",
+          });
+        }
+      } catch {
+        // Use defaults
+      }
+    }
+    loadLeadForm();
   }, []);
 
   async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -184,6 +213,55 @@ export default function ParametresPage() {
       setAutomations((prev) => ({ ...prev, [field]: !newValue }));
       toast.error("Erreur de sauvegarde");
     }
+  }
+
+  async function handleLeadFormToggle() {
+    const newValue = !leadForm.lead_form_enabled;
+    setLeadForm((prev) => ({ ...prev, lead_form_enabled: newValue }));
+
+    try {
+      const res = await fetch("/api/settings/lead-form", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lead_form_enabled: newValue }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success(newValue ? "Formulaire activé" : "Formulaire désactivé");
+    } catch {
+      setLeadForm((prev) => ({ ...prev, lead_form_enabled: !newValue }));
+      toast.error("Erreur de sauvegarde");
+    }
+  }
+
+  async function handleLeadFormSave() {
+    setLeadFormSaving(true);
+    try {
+      const res = await fetch("/api/settings/lead-form", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lead_form_title: leadForm.lead_form_title,
+          lead_form_description: leadForm.lead_form_description || null,
+          lead_form_color: leadForm.lead_form_color,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Formulaire mis à jour");
+    } catch {
+      toast.error("Erreur de sauvegarde");
+    } finally {
+      setLeadFormSaving(false);
+    }
+  }
+
+  function copySnippet() {
+    if (!currentUserId) return;
+    const url = `${window.location.origin}/form/${currentUserId}`;
+    const snippet = `<iframe src="${url}" width="100%" height="600" frameborder="0" style="border:none;border-radius:12px;"></iframe>`;
+    navigator.clipboard.writeText(snippet);
+    setSnippetCopied(true);
+    setTimeout(() => setSnippetCopied(false), 2000);
+    toast.success("Code iframe copié");
   }
 
   const planLabel =
@@ -615,6 +693,154 @@ export default function ParametresPage() {
               />
             </button>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Lead Capture Form */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5 text-violet-500" />
+              Formulaire de demande de devis
+            </CardTitle>
+            <button
+              role="switch"
+              aria-checked={leadForm.lead_form_enabled}
+              onClick={handleLeadFormToggle}
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                leadForm.lead_form_enabled ? "bg-primary" : "bg-slate-200"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  leadForm.lead_form_enabled ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Intégrez un formulaire sur votre site pour recevoir des demandes de devis directement dans votre pipeline.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>Titre du formulaire</Label>
+            <Input
+              value={leadForm.lead_form_title}
+              onChange={(e) =>
+                setLeadForm({ ...leadForm, lead_form_title: e.target.value })
+              }
+              placeholder="Demandez un devis"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Description (optionnel)</Label>
+            <Textarea
+              value={leadForm.lead_form_description}
+              onChange={(e) =>
+                setLeadForm({
+                  ...leadForm,
+                  lead_form_description: e.target.value,
+                })
+              }
+              placeholder="Décrivez votre activité ou vos services..."
+              rows={2}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Couleur du bouton</Label>
+            <div className="flex items-center gap-3">
+              <input
+                type="color"
+                value={leadForm.lead_form_color}
+                onChange={(e) =>
+                  setLeadForm({ ...leadForm, lead_form_color: e.target.value })
+                }
+                className="h-10 w-10 cursor-pointer rounded border"
+              />
+              <Input
+                value={leadForm.lead_form_color}
+                onChange={(e) =>
+                  setLeadForm({ ...leadForm, lead_form_color: e.target.value })
+                }
+                className="w-28 font-mono text-sm"
+                maxLength={7}
+              />
+            </div>
+          </div>
+
+          <Button
+            onClick={handleLeadFormSave}
+            disabled={leadFormSaving}
+            className="w-full"
+          >
+            {leadFormSaving ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="mr-2 h-4 w-4" />
+            )}
+            Sauvegarder le formulaire
+          </Button>
+
+          <Separator />
+
+          {/* Embed snippet */}
+          <div className="space-y-2">
+            <Label>Code iframe à intégrer</Label>
+            {currentUserId ? (
+              <>
+                <div className="rounded-lg border bg-slate-50 p-3">
+                  <code className="block break-all text-xs text-slate-600">
+                    {`<iframe src="${typeof window !== "undefined" ? window.location.origin : ""}/form/${currentUserId}" width="100%" height="600" frameborder="0" style="border:none;border-radius:12px;"></iframe>`}
+                  </code>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copySnippet}
+                  className="w-full"
+                >
+                  {snippetCopied ? (
+                    <Check className="mr-2 h-4 w-4 text-green-500" />
+                  ) : (
+                    <Copy className="mr-2 h-4 w-4" />
+                  )}
+                  {snippetCopied ? "Copié !" : "Copier le code"}
+                </Button>
+              </>
+            ) : (
+              <div className="rounded-lg border bg-slate-50 p-3 text-center text-sm text-muted-foreground">
+                Chargement...
+              </div>
+            )}
+          </div>
+
+          {/* Direct link */}
+          {currentUserId && (
+            <div className="space-y-1">
+              <Label>Lien direct</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  readOnly
+                  value={`${typeof window !== "undefined" ? window.location.origin : ""}/form/${currentUserId}`}
+                  className="text-xs"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/form/${currentUserId}`
+                    );
+                    toast.success("Lien copié");
+                  }}
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

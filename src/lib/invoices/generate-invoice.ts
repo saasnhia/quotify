@@ -38,6 +38,7 @@ interface GenerateInvoiceResult {
   };
   clientEmail: string | null;
   clientName: string;
+  currency: string;
 }
 
 /**
@@ -96,10 +97,12 @@ export async function generateInvoice(
     (a: { position: number }, b: { position: number }) => a.position - b.position
   );
 
+  const stripeCurrency = (quote.currency || "EUR").toLowerCase();
+
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map(
     (item: { description: string; total: number }) => ({
       price_data: {
-        currency: "eur",
+        currency: stripeCurrency,
         product_data: { name: item.description },
         unit_amount: Math.round(Number(item.total) * 100),
       },
@@ -112,7 +115,7 @@ export async function generateInvoice(
   if (tvaAmount > 0) {
     lineItems.push({
       price_data: {
-        currency: "eur",
+        currency: stripeCurrency,
         product_data: { name: `TVA (${Number(quote.tva_rate)}%)` },
         unit_amount: Math.round(tvaAmount * 100),
       },
@@ -173,7 +176,7 @@ export async function generateInvoice(
       client_id: quote.client_id,
       invoice_number: invoiceNumber,
       amount: Number(quote.total_ttc),
-      currency: "EUR",
+      currency: quote.currency || "EUR",
       status: "draft",
       due_date: dueDateStr,
       stripe_checkout_url: stripeCheckoutUrl,
@@ -206,5 +209,6 @@ export async function generateInvoice(
     invoice,
     clientEmail,
     clientName,
+    currency: quote.currency || "EUR",
   };
 }

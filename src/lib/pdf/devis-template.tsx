@@ -52,6 +52,7 @@ export interface DevisPdfProps {
   signer_name?: string | null;
   signed_at?: string | null;
   company: PdfCompany;
+  currency?: string;
 }
 
 /* ── Colors ────────────────────────────────────── */
@@ -285,10 +286,10 @@ const s = StyleSheet.create({
 
 /* ── Helpers ───────────────────────────────────── */
 
-function fmt(n: number): string {
+function fmt(n: number, currency: string = "EUR"): string {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: "EUR",
+    currency,
   }).format(n);
 }
 
@@ -343,8 +344,10 @@ export function DevisPdf(props: DevisPdfProps) {
     signer_name,
     signed_at,
     company,
+    currency = "EUR",
   } = props;
 
+  const f = (n: number) => fmt(n, currency);
   const tvaAmount = total_ttc - total_ht;
   const quoteRef = `DEV-${String(number).padStart(4, "0")}`;
 
@@ -434,9 +437,9 @@ export function DevisPdf(props: DevisPdfProps) {
             >
               <Text style={s.colDesc}>{item.description}</Text>
               <Text style={s.colQty}>{Number(item.quantity)}</Text>
-              <Text style={s.colPrice}>{fmt(Number(item.unit_price))}</Text>
+              <Text style={s.colPrice}>{f(Number(item.unit_price))}</Text>
               <Text style={[s.colTotal, { fontFamily: "Helvetica-Bold" }]}>
-                {fmt(Number(item.total))}
+                {f(Number(item.total))}
               </Text>
             </View>
           ))}
@@ -446,11 +449,11 @@ export function DevisPdf(props: DevisPdfProps) {
         <View style={s.totalsContainer}>
           <View style={s.totalRow}>
             <Text style={s.totalLabel}>Total HT</Text>
-            <Text style={s.totalValue}>{fmt(total_ht)}</Text>
+            <Text style={s.totalValue}>{f(total_ht)}</Text>
           </View>
           <View style={s.totalRow}>
             <Text style={s.totalLabel}>TVA ({tva_rate}%)</Text>
-            <Text style={s.totalValue}>{fmt(tvaAmount)}</Text>
+            <Text style={s.totalValue}>{f(tvaAmount)}</Text>
           </View>
           {discount > 0 && (
             <View style={s.totalRow}>
@@ -464,7 +467,7 @@ export function DevisPdf(props: DevisPdfProps) {
           )}
           <View style={s.totalTtcRow}>
             <Text style={s.totalTtcLabel}>Total TTC</Text>
-            <Text style={s.totalTtcValue}>{fmt(total_ttc)}</Text>
+            <Text style={s.totalTtcValue}>{f(total_ttc)}</Text>
           </View>
         </View>
 

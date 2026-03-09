@@ -32,6 +32,7 @@ export async function POST(request: Request) {
       titre?: string;
       share_token?: string;
       stripe_url?: string;
+      currency?: string;
     };
   };
 
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
   const quoteRef = `DEV-${String(devis.id).padStart(4, "0")}`;
   const totalTTC = new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: "EUR",
+    currency: devis.currency || "EUR",
   }).format(devis.montant);
 
   const shareUrl = devis.share_token

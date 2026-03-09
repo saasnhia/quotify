@@ -26,6 +26,7 @@ import {
   Send,
 } from "lucide-react";
 import { calculateItemTotal, calculateTotals, formatCurrency } from "@/lib/utils/quote";
+import { CURRENCIES } from "@/lib/currencies";
 import type { Client, QuoteItemDraft } from "@/types";
 import { toast } from "sonner";
 
@@ -52,6 +53,7 @@ export default function NouveauDevisPage() {
   const [clientId, setClientId] = useState<string>("");
   const [tvaRate, setTvaRate] = useState("20");
   const [discount, setDiscount] = useState("0");
+  const [currency, setCurrency] = useState("EUR");
   const [notes, setNotes] = useState("");
   const [validUntil, setValidUntil] = useState("");
   const [items, setItems] = useState<QuoteItemDraft[]>([{ ...emptyItem }]);
@@ -84,6 +86,7 @@ export default function NouveauDevisPage() {
       setClientId(data.client_id || "");
       setTvaRate(String(data.tva_rate));
       setDiscount(String(data.discount));
+      setCurrency(data.currency || "EUR");
       setNotes(data.notes || "");
       setValidUntil(data.valid_until || "");
       if (data.quote_items && data.quote_items.length > 0) {
@@ -180,6 +183,7 @@ export default function NouveauDevisPage() {
     const payload = {
       title,
       client_id: clientId || null,
+      currency,
       tva_rate: Number(tvaRate),
       discount: Number(discount),
       notes,
@@ -368,7 +372,7 @@ export default function NouveauDevisPage() {
                     <div>
                       <Label className="text-xs">Total</Label>
                       <Input
-                        value={formatCurrency(item.total)}
+                        value={formatCurrency(item.total, currency)}
                         disabled
                         className="bg-slate-50"
                       />
@@ -391,7 +395,22 @@ export default function NouveauDevisPage() {
           {/* Totals */}
           <Card>
             <CardContent className="space-y-3 pt-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label>Devise</Label>
+                  <Select value={currency} onValueChange={setCurrency}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CURRENCIES.map((c) => (
+                        <SelectItem key={c.code} value={c.code}>
+                          {c.symbol} {c.code}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div className="space-y-2">
                   <Label>TVA</Label>
                   <Select value={tvaRate} onValueChange={setTvaRate}>
@@ -424,28 +443,28 @@ export default function NouveauDevisPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Sous-total HT</span>
-                  <span>{formatCurrency(totals.subtotalHT)}</span>
+                  <span>{formatCurrency(totals.subtotalHT, currency)}</span>
                 </div>
                 {Number(discount) > 0 && (
                   <div className="flex justify-between text-red-600">
                     <span>Remise ({discount}%)</span>
-                    <span>-{formatCurrency(totals.discountAmount)}</span>
+                    <span>-{formatCurrency(totals.discountAmount, currency)}</span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Total HT</span>
-                  <span>{formatCurrency(totals.totalHT)}</span>
+                  <span>{formatCurrency(totals.totalHT, currency)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">
                     TVA ({tvaRate}%)
                   </span>
-                  <span>{formatCurrency(totals.tvaAmount)}</span>
+                  <span>{formatCurrency(totals.tvaAmount, currency)}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total TTC</span>
-                  <span>{formatCurrency(totals.totalTTC)}</span>
+                  <span>{formatCurrency(totals.totalTTC, currency)}</span>
                 </div>
               </div>
 

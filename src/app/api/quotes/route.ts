@@ -53,7 +53,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, client_id, tva_rate, discount, notes, valid_until, items, ai_prompt, total_ht, total_ttc } = body;
+  const { title, client_id, currency, tva_rate, discount, notes, valid_until, items, ai_prompt, total_ht, total_ttc } = body;
 
   if (!title) {
     return NextResponse.json({ error: "Le titre est requis" }, { status: 400 });
@@ -65,6 +65,7 @@ export async function POST(request: Request) {
       user_id: user.id,
       title,
       client_id: client_id || null,
+      currency: currency || "EUR",
       tva_rate: tva_rate ?? 20,
       discount: discount ?? 0,
       notes: notes || null,

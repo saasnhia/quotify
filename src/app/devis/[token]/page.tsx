@@ -273,10 +273,10 @@ export default function PublicQuotePage({
                       {Number(item.quantity)}
                     </TableCell>
                     <TableCell className="text-right">
-                      {formatCurrency(Number(item.unit_price))}
+                      {formatCurrency(Number(item.unit_price), quote.currency || "EUR")}
                     </TableCell>
                     <TableCell className="text-right font-medium">
-                      {formatCurrency(Number(item.total))}
+                      {formatCurrency(Number(item.total), quote.currency || "EUR")}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -287,13 +287,13 @@ export default function PublicQuotePage({
             <div className="ml-auto max-w-xs space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total HT</span>
-                <span>{formatCurrency(Number(quote.total_ht))}</span>
+                <span>{formatCurrency(Number(quote.total_ht), quote.currency || "EUR")}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">
                   TVA ({Number(quote.tva_rate)}%)
                 </span>
-                <span>{formatCurrency(tvaAmount)}</span>
+                <span>{formatCurrency(tvaAmount, quote.currency || "EUR")}</span>
               </div>
               {Number(quote.discount) > 0 && (
                 <div className="flex justify-between text-sm text-red-600">
@@ -304,7 +304,7 @@ export default function PublicQuotePage({
               <Separator />
               <div className="flex justify-between text-lg font-bold">
                 <span>Total TTC</span>
-                <span>{formatCurrency(Number(quote.total_ttc))}</span>
+                <span>{formatCurrency(Number(quote.total_ttc), quote.currency || "EUR")}</span>
               </div>
             </div>
 
@@ -431,7 +431,7 @@ export default function PublicQuotePage({
                     En signant, je confirme avoir lu et accepté les termes de ce
                     devis pour un montant de{" "}
                     <strong>
-                      {formatCurrency(Number(quote.total_ttc))} TTC
+                      {formatCurrency(Number(quote.total_ttc), quote.currency || "EUR")} TTC
                     </strong>
                     .
                   </p>
@@ -473,7 +473,7 @@ export default function PublicQuotePage({
                     ) : (
                       <CreditCard className="mr-2 h-5 w-5" />
                     )}
-                    Payer {formatCurrency(Number(quote.total_ttc))} maintenant
+                    Payer {formatCurrency(Number(quote.total_ttc), quote.currency || "EUR")} maintenant
                   </Button>
 
                   {/* Sign/Refuse — only for envoyé */}

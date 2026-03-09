@@ -142,7 +142,7 @@ export default async function FacturesPage() {
                       {inv.client?.name || "—"}
                     </td>
                     <td className="px-4 py-3 text-right font-medium">
-                      {formatCurrency(Number(inv.amount))}
+                      {formatCurrency(Number(inv.amount), inv.currency || "EUR")}
                     </td>
                     <td className="px-4 py-3 text-center">
                       {getStatusBadge(inv.status)}

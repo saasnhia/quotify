@@ -65,6 +65,7 @@ export async function GET(
       phone: meta.company_phone || undefined,
       logo_url: profile?.logo_url || undefined,
     },
+    currency: quote.currency || "EUR",
   };
 
   const buffer = await renderToBuffer(<DevisPdf {...props} />);

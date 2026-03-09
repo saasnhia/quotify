@@ -108,6 +108,7 @@ interface PipelineData {
     title: string;
     number: number;
     total_ttc: number;
+    currency: string;
     status: string;
     created_at: string;
     viewed_at: string | null;
@@ -122,6 +123,7 @@ interface PipelineData {
     company: string | null;
     notes: string | null;
     estimated_amount: number;
+    source: string;
     created_at: string;
   }>;
 }
@@ -154,6 +156,7 @@ export function KanbanBoard() {
             clientName: client?.name || "Client inconnu",
             clientEmail: client?.email || null,
             amount: q.total_ttc,
+            currency: q.currency || "EUR",
             status: q.status,
             createdAt: q.created_at,
             viewedAt: q.viewed_at,
@@ -168,10 +171,12 @@ export function KanbanBoard() {
           clientName: p.name,
           clientEmail: p.email,
           amount: p.estimated_amount,
+          currency: "EUR",
           status: "prospect",
           createdAt: p.created_at,
           viewedAt: null,
           viewCount: 0,
+          source: p.source || "manual",
         })),
       ];
 

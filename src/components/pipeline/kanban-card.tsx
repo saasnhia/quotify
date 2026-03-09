@@ -17,11 +17,13 @@ export interface KanbanItem {
   clientName: string;
   clientEmail: string | null;
   amount: number;
+  currency: string;
   status: string;
   createdAt: string;
   viewedAt: string | null;
   viewCount: number;
   quoteNumber?: number;
+  source?: string;
 }
 
 interface KanbanCardProps {
@@ -76,7 +78,7 @@ export function KanbanCard({ item }: KanbanCardProps) {
 
               {/* Amount */}
               <p className="mt-1.5 text-sm font-bold">
-                {formatCurrency(item.amount)}
+                {formatCurrency(item.amount, item.currency)}
               </p>
 
               {/* Meta row */}
@@ -100,9 +102,16 @@ export function KanbanCard({ item }: KanbanCardProps) {
                 )}
 
                 {item.type === "prospect" && (
-                  <Badge variant="secondary" className="h-5 px-1.5 text-[10px] bg-slate-100 text-slate-500">
-                    Prospect
-                  </Badge>
+                  <>
+                    <Badge variant="secondary" className="h-5 px-1.5 text-[10px] bg-slate-100 text-slate-500">
+                      Prospect
+                    </Badge>
+                    {item.source === "form" && (
+                      <Badge variant="secondary" className="h-5 px-1.5 text-[10px] bg-violet-50 text-violet-600">
+                        Via formulaire
+                      </Badge>
+                    )}
+                  </>
                 )}
               </div>
 

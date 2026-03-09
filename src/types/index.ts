@@ -65,6 +65,7 @@ export interface Quote {
   recurring_end_date: string | null;
   recurring_next_date: string | null;
   recurring_invoice_count: number;
+  currency: string;
   created_at: string;
   updated_at: string;
 }
