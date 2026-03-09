@@ -16,9 +16,12 @@ const geistMono = Geist_Mono({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://devizly.fr";
 
 export const metadata: Metadata = {
-  title: "Devizly - Créez vos devis professionnels avec l'IA",
+  title: {
+    default: "Devizly — Devis professionnels par IA pour freelancers",
+    template: "%s — Devizly",
+  },
   description:
-    "Devizly : générez des devis professionnels en quelques secondes grâce à l'intelligence artificielle. Signature, paiement Stripe et portail client intégrés.",
+    "Générez vos devis en 30 secondes avec l'IA, relancez automatiquement et encaissez plus vite. Essai gratuit.",
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
   openGraph: {

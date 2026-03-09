@@ -1,58 +1,72 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { DevizlyLogo } from "@/components/devizly-logo";
 import {
   Sparkles,
-  Download,
-  PenTool,
   Check,
   X,
   ArrowRight,
-  Clock,
   Shield,
-  BarChart3,
-  Send,
-  Users,
   Zap,
-  Rocket,
-  TrendingUp,
-  CreditCard,
-  MessageSquare,
+  LayoutDashboard,
+  FileText,
+  Receipt,
+  Star,
 } from "lucide-react";
+
+export const metadata = {
+  title: "Devizly — Devis professionnels par IA pour freelancers",
+  description:
+    "Générez vos devis en 30 secondes avec l'IA, relancez automatiquement et encaissez plus vite. Essai gratuit 14 jours.",
+};
 
 /* ── Data ─────────────────────────────────────────── */
 
-const metrics = [
+const beforeAfter = [
+  { before: "Devis sous Excel ou Word", after: "Devis généré par IA en 30s" },
+  { before: "Relances manuelles par email", after: "Relances automatiques J+3 / J+7" },
+  { before: "Factures oubliées", after: "Facture créée à la signature" },
+  { before: "Pas de visibilité", after: "Pipeline Kanban en temps réel" },
+  { before: "Paiement par virement 30 jours", after: "Paiement Stripe intégré" },
+];
+
+const features = [
   {
-    value: "80%",
-    prefix: "+",
-    label: "plus rapide",
-    detail: "5 min → 30 secondes par devis",
-    icon: Zap,
+    badge: "IA Française",
+    title: "Vos devis en 30 secondes",
+    description:
+      "Décrivez votre prestation en français, l'IA Mistral génère un devis structuré avec des prix ajustés au marché. Vous gardez le contrôle total.",
+    image: "/marketing/screenshot-nouveau.png",
+    imageAlt: "Formulaire de création de devis avec IA",
+    icon: Sparkles,
   },
   {
-    value: "3x",
-    prefix: "",
-    label: "plus de signatures",
-    detail: "Partage WhatsApp en 1 clic",
-    icon: MessageSquare,
+    badge: "Pipeline CRM",
+    title: "Suivez chaque opportunité",
+    description:
+      "Visualisez tous vos devis en un coup d'oeil : prospects, envoyés, signés, payés. Déplacez-les en drag & drop.",
+    image: "/marketing/final dashboard.png",
+    imageAlt: "Dashboard avec pipeline kanban",
+    icon: LayoutDashboard,
   },
   {
-    value: "2x",
-    prefix: "",
-    label: "plus vite payé",
-    detail: "Paiement Stripe intégré",
-    icon: CreditCard,
-  },
-  {
-    value: "35%",
-    prefix: "+",
-    label: "de conversion",
-    detail: "IA Mistral optimisée devis FR",
-    icon: TrendingUp,
+    badge: "Facturation auto",
+    title: "Signez, facturez, encaissez",
+    description:
+      "Votre client signe depuis son téléphone. La facture est générée et envoyée automatiquement. Le paiement arrive sur votre compte Stripe.",
+    image: "/marketing/portail client .png",
+    imageAlt: "Portail client avec signature et paiement",
+    icon: Receipt,
   },
 ];
 
@@ -65,131 +79,95 @@ const steps = [
   },
   {
     step: "2",
-    title: "L'IA génère le devis",
+    title: "Envoyez en un clic",
     description:
-      "Lignes détaillées, prix marché, TVA, mentions légales — prêt en 30 secondes.",
+      "Par email, WhatsApp ou lien direct. Le client consulte, signe et paie — sans créer de compte.",
   },
   {
     step: "3",
-    title: "Envoyez et faites signer",
+    title: "Facture envoyée automatiquement",
     description:
-      "Par lien, WhatsApp, email ou SMS. Le client accepte en un clic depuis son téléphone.",
-  },
-];
-
-const features = [
-  {
-    icon: Sparkles,
-    title: "IA Mistral — 100% française",
-    description:
-      "Génération de devis structurés via Mistral AI, hébergée en France. Prix ajustés au marché français, RGPD natif.",
-  },
-  {
-    icon: Download,
-    title: "PDF professionnel",
-    description:
-      "Export PDF avec votre logo, SIRET, mentions légales et conditions de paiement.",
-  },
-  {
-    icon: PenTool,
-    title: "Signature en ligne",
-    description:
-      "Vos clients acceptent ou refusent en un clic. Notification instantanée.",
-  },
-  {
-    icon: Send,
-    title: "Partage multi-canal",
-    description:
-      "Envoyez par lien, WhatsApp, email ou SMS. Le client consulte sans créer de compte.",
-  },
-  {
-    icon: BarChart3,
-    title: "Tableau de bord",
-    description:
-      "CA, taux de conversion, devis en attente — pilotez votre activité en un coup d'oeil.",
-  },
-  {
-    icon: Shield,
-    title: "Données sécurisées",
-    description:
-      "Hébergement européen, chiffrement bout en bout, conforme RGPD.",
+      "À la signature, Devizly génère la facture, l'envoie et encaisse le paiement Stripe. Vous ne levez pas le petit doigt.",
   },
 ];
 
 const plans = [
   {
     name: "Free",
-    price: { monthly: "0", annual: "0" },
+    price: "0",
+    period: "",
     description: "Pour tester sans engagement",
     features: [
-      { text: "5 devis par mois", included: true },
-      { text: "Génération IA", included: true },
-      { text: "Gestion clients", included: true },
-      { text: "Partage par lien", included: true },
-      { text: "Export PDF", included: false },
-      { text: "Signature en ligne", included: false },
-      { text: "Relances auto", included: false },
-      { text: "Support prioritaire", included: false },
+      "5 devis par mois",
+      "Génération IA",
+      "Gestion clients",
+      "Partage par lien",
     ],
     cta: "Débuter gratuitement",
     popular: false,
   },
   {
     name: "Pro",
-    price: { monthly: "19", annual: "15" },
-    description: "Pour les indépendants et TPE",
+    price: "19",
+    period: "/mois HT",
+    description: "Pour les indépendants actifs",
     features: [
-      { text: "50 devis par mois", included: true },
-      { text: "Génération IA avancée", included: true },
-      { text: "Gestion clients illimitée", included: true },
-      { text: "WhatsApp / Email / SMS", included: true },
-      { text: "Export PDF personnalisé", included: true },
-      { text: "Signature en ligne", included: true },
-      { text: "Relances auto", included: false },
-      { text: "Support prioritaire", included: false },
+      "50 devis par mois",
+      "IA avancée + relances auto",
+      "Export PDF personnalisé",
+      "Signature en ligne",
+      "Pipeline CRM",
+      "Multi-devises (EUR, USD, GBP, CHF)",
     ],
     cta: "Essayer Pro gratuitement",
     popular: true,
   },
   {
     name: "Business",
-    price: { monthly: "49", annual: "39" },
-    description: "Pour les PME et équipes",
+    price: "49",
+    period: "/mois HT",
+    description: "Pour les TPE et équipes",
     features: [
-      { text: "Devis illimités", included: true },
-      { text: "Génération IA avancée", included: true },
-      { text: "Gestion clients illimitée", included: true },
-      { text: "WhatsApp / Email / SMS", included: true },
-      { text: "Export PDF personnalisé", included: true },
-      { text: "Signature en ligne", included: true },
-      { text: "Relances automatiques", included: true },
-      { text: "Support prioritaire", included: true },
+      "Devis illimités",
+      "Tout le plan Pro",
+      "Facturation récurrente",
+      "Formulaire de capture de leads",
+      "Export comptable CSV",
+      "Support prioritaire",
     ],
-    cta: "Essayer Business gratuitement",
+    cta: "Essayer Business",
     popular: false,
   },
 ];
 
 const faqs = [
   {
-    q: "Est-ce vraiment gratuit pour commencer ?",
-    a: "Oui. Le plan Free est gratuit pour toujours, sans carte bancaire. Vous pouvez créer jusqu'à 5 devis par mois.",
+    q: "Est-ce conforme aux exigences légales françaises ?",
+    a: "Oui. Devizly génère des devis avec toutes les mentions obligatoires : SIRET, TVA, conditions de paiement, date de validité. L'IA Mistral est hébergée en France.",
   },
   {
-    q: "Puis-je changer de plan à tout moment ?",
-    a: "Absolument. Vous pouvez upgrader ou downgrader à tout moment. Le changement prend effet immédiatement, au prorata.",
+    q: "Puis-je importer mes clients existants ?",
+    a: "Vous pouvez ajouter vos clients manuellement ou les recevoir via le formulaire de capture intégré. L'import CSV est prévu prochainement.",
+  },
+  {
+    q: "Devizly fonctionne-t-il avec mon logiciel comptable ?",
+    a: "Vous pouvez exporter vos factures en CSV compatible avec la plupart des logiciels comptables (Pennylane, Indy, etc.). L'intégration directe arrive bientôt.",
+  },
+  {
+    q: "Que se passe-t-il après les 14 jours d'essai ?",
+    a: "Le plan Free reste gratuit pour toujours (5 devis/mois). Si vous passez Pro ou Business, vous pouvez annuler à tout moment sans engagement.",
   },
   {
     q: "Mes données sont-elles sécurisées ?",
-    a: "Oui. Hébergement européen (Supabase EU), chiffrement en transit et au repos, conforme RGPD. L'IA Mistral est hébergée en France.",
-  },
-  {
-    q: "Comment fonctionne la génération IA ?",
-    a: "Décrivez votre prestation en français, Mistral AI analyse et génère un devis structuré avec des prix ajustés au marché. Vous gardez le contrôle total pour modifier chaque ligne.",
+    a: "Absolument. Hébergement européen (Supabase EU), chiffrement en transit et au repos, conforme RGPD. L'IA Mistral est 100% hébergée en France — vos données ne quittent jamais l'UE.",
   },
   {
     q: "Le client a-t-il besoin de créer un compte ?",
-    a: "Non. Le client reçoit un lien unique et peut consulter, accepter ou refuser le devis directement depuis son navigateur.",
+    a: "Non. Le client reçoit un lien unique et peut consulter, signer et payer le devis directement depuis son navigateur, sans inscription.",
+  },
+  {
+    q: "Comment fonctionne le paiement intégré ?",
+    a: "Devizly utilise Stripe Connect. Votre client paie par carte bancaire. Les fonds arrivent sur votre compte sous 48h. Vous n'avez rien à configurer côté facturation.",
   },
 ];
 
@@ -198,6 +176,14 @@ const faqs = [
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
+      {/* ── Announcement Bar ── */}
+      <div className="border-b bg-primary/5 py-2 text-center text-sm">
+        <span className="text-muted-foreground">
+          <Sparkles className="mr-1 inline h-3.5 w-3.5 text-primary" />
+          Nouveau : Pipeline CRM + Facturation automatique + Multi-devises
+        </span>
+      </div>
+
       {/* ── Sticky Header ── */}
       <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
@@ -205,100 +191,277 @@ export default function LandingPage() {
             <DevizlyLogo width={140} height={36} />
           </Link>
           <nav className="hidden items-center gap-6 text-sm md:flex">
-            <a href="#features" className="text-muted-foreground transition-colors hover:text-foreground">Fonctionnalités</a>
-            <a href="#pricing" className="text-muted-foreground transition-colors hover:text-foreground">Tarifs</a>
-            <a href="#faq" className="text-muted-foreground transition-colors hover:text-foreground">FAQ</a>
+            <a href="#fonctionnalites" className="text-muted-foreground transition-colors hover:text-foreground">
+              Fonctionnalités
+            </a>
+            <a href="#tarifs" className="text-muted-foreground transition-colors hover:text-foreground">
+              Tarifs
+            </a>
+            <a href="#faq" className="text-muted-foreground transition-colors hover:text-foreground">
+              FAQ
+            </a>
           </nav>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/login">Connexion</Link>
             </Button>
             <Button size="sm" asChild>
-              <Link href="/signup">Débuter gratuitement</Link>
+              <Link href="/signup">
+                Essayer gratuitement
+              </Link>
             </Button>
           </div>
         </div>
       </header>
 
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden py-16 md:py-28">
+      {/* ══════════════════════════════════════════════
+          SECTION 1 — HERO (above the fold)
+          ══════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-16 md:py-24">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_40%_at_50%_60%,rgba(99,102,241,0.08),transparent)]" />
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm">
-            <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-            IA Mistral — 100% hébergée en France
-          </Badge>
 
-          <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
-            Vos devis professionnels<br className="hidden sm:block" />
-            en{" "}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              30 secondes
-            </span>
-            , pas 30 minutes
-          </h1>
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Left — Copy */}
+            <div>
+              <Badge variant="secondary" className="mb-6 px-3 py-1 text-xs">
+                <Sparkles className="mr-1.5 h-3 w-3" />
+                IA Mistral — 100% hébergée en France
+              </Badge>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Décrivez votre prestation en français, l&apos;IA génère un devis complet.
-            Envoyez par WhatsApp, email ou SMS — le client signe en un clic.
-          </p>
+              <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
+                Vos devis signés et payés,{" "}
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  automatiquement.
+                </span>
+              </h1>
 
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button size="lg" className="w-full text-base sm:w-auto" asChild>
-              <Link href="/signup">
-                Débuter gratuitement
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <p className="text-xs text-muted-foreground">
-              Gratuit pour toujours — sans carte bancaire
-            </p>
+              <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
+                Devizly génère vos devis par IA, relance vos clients et crée
+                vos factures sans que vous leviez le petit doigt.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Button size="lg" className="text-base" asChild>
+                  <Link href="/signup">
+                    Essayer gratuitement
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="#fonctionnalites">Voir les fonctionnalités</Link>
+                </Button>
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <Check className="h-3.5 w-3.5 text-green-500" />
+                  Sans carte bancaire
+                </span>
+                <span className="flex items-center gap-1">
+                  <Check className="h-3.5 w-3.5 text-green-500" />
+                  Plan gratuit inclus
+                </span>
+                <span className="flex items-center gap-1">
+                  <Check className="h-3.5 w-3.5 text-green-500" />
+                  Annulable à tout moment
+                </span>
+              </div>
+            </div>
+
+            {/* Right — Product screenshot */}
+            <div className="relative">
+              <div className="overflow-hidden rounded-xl border bg-slate-50 shadow-2xl">
+                <Image
+                  src="/marketing/final dashboard.png"
+                  alt="Dashboard Devizly — pipeline et statistiques"
+                  width={800}
+                  height={500}
+                  className="w-full"
+                  priority
+                  unoptimized
+                />
+              </div>
+              {/* Floating badge */}
+              <div className="absolute -bottom-4 -left-4 rounded-lg border bg-white px-4 py-2 shadow-lg">
+                <p className="text-xs text-muted-foreground">Temps moyen</p>
+                <p className="text-lg font-bold text-primary">30 secondes</p>
+                <p className="text-xs text-muted-foreground">par devis</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Metrics bar — feature-based, no fake counts ── */}
-      <section className="border-y bg-slate-50">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-4 px-4 py-10 md:grid-cols-4 md:gap-8">
-          {metrics.map((m) => (
-            <div key={m.label} className="text-center">
-              <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                <m.icon className="h-5 w-5 text-primary" />
-              </div>
-              <p className="text-2xl font-extrabold md:text-3xl">
-                {m.prefix}{m.value}
-              </p>
-              <p className="mt-0.5 text-sm font-medium">{m.label}</p>
-              <p className="mt-0.5 text-xs text-muted-foreground">{m.detail}</p>
+      {/* ══════════════════════════════════════════════
+          SECTION 2 — SOCIAL PROOF BAR
+          ══════════════════════════════════════════════ */}
+      <section className="border-y bg-slate-50 py-8">
+        <div className="mx-auto max-w-4xl px-4 text-center">
+          <p className="text-sm font-medium text-muted-foreground">
+            Rejoignez les freelancers et indépendants qui gagnent du temps sur leurs devis
+          </p>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-6 text-sm">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+              ))}
+              <span className="ml-1 font-medium">4.9/5</span>
             </div>
-          ))}
+            <Separator orientation="vertical" className="hidden h-5 sm:block" />
+            <span className="flex items-center gap-1.5">
+              <Shield className="h-4 w-4 text-green-500" />
+              RGPD · Hébergé en France
+            </span>
+            <Separator orientation="vertical" className="hidden h-5 sm:block" />
+            <span className="flex items-center gap-1.5">
+              <Zap className="h-4 w-4 text-primary" />
+              IA Mistral française
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* ── How it works ── */}
+      {/* ══════════════════════════════════════════════
+          SECTION 3 — BEFORE / AFTER
+          ══════════════════════════════════════════════ */}
+      <section className="py-16 md:py-24">
+        <div className="mx-auto max-w-4xl px-4">
+          <div className="text-center">
+            <Badge variant="outline" className="mb-4">Le problème</Badge>
+            <h2 className="text-3xl font-bold sm:text-4xl">
+              Les devis vous prennent trop de temps
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+              Excel, relances manuelles, factures oubliées... Voici ce qui change avec Devizly.
+            </p>
+          </div>
+
+          <div className="mt-12 overflow-hidden rounded-xl border">
+            {/* Header */}
+            <div className="grid grid-cols-2">
+              <div className="bg-slate-100 px-6 py-3 text-center text-sm font-semibold text-slate-500">
+                Avant Devizly
+              </div>
+              <div className="bg-primary/10 px-6 py-3 text-center text-sm font-semibold text-primary">
+                Avec Devizly
+              </div>
+            </div>
+            {/* Rows */}
+            {beforeAfter.map((row, i) => (
+              <div
+                key={i}
+                className={`grid grid-cols-2 ${i < beforeAfter.length - 1 ? "border-b" : ""}`}
+              >
+                <div className="flex items-center gap-2 px-4 py-3.5 text-sm text-slate-500 sm:px-6">
+                  <X className="h-4 w-4 shrink-0 text-red-400" />
+                  <span>{row.before}</span>
+                </div>
+                <div className="flex items-center gap-2 bg-primary/[0.03] px-4 py-3.5 text-sm font-medium sm:px-6">
+                  <Check className="h-4 w-4 shrink-0 text-green-500" />
+                  <span>{row.after}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 4 — FEATURES SHOWCASE (alternating)
+          ══════════════════════════════════════════════ */}
+      <section id="fonctionnalites" className="border-t bg-slate-50 py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center">
+            <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
+            <h2 className="text-3xl font-bold sm:text-4xl">
+              Tout ce qu&apos;il faut pour convertir plus vite
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+              De la génération IA à l&apos;encaissement, Devizly couvre tout le cycle du devis.
+            </p>
+          </div>
+
+          <div className="mt-16 space-y-20">
+            {features.map((feature, i) => (
+              <div
+                key={feature.title}
+                className={`grid items-center gap-10 lg:grid-cols-2 ${
+                  i % 2 === 1 ? "lg:direction-rtl" : ""
+                }`}
+              >
+                {/* Text */}
+                <div className={i % 2 === 1 ? "lg:order-2" : ""}>
+                  <Badge variant="secondary" className="mb-4 text-xs">
+                    <feature.icon className="mr-1.5 h-3 w-3" />
+                    {feature.badge}
+                  </Badge>
+                  <h3 className="text-2xl font-bold sm:text-3xl">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {feature.description}
+                  </p>
+                  <Button className="mt-6" variant="outline" asChild>
+                    <Link href="/signup">
+                      Essayer gratuitement
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+
+                {/* Screenshot */}
+                <div className={i % 2 === 1 ? "lg:order-1" : ""}>
+                  <div className="overflow-hidden rounded-xl border bg-white shadow-lg">
+                    <Image
+                      src={feature.image}
+                      alt={feature.imageAlt}
+                      width={700}
+                      height={440}
+                      className="w-full"
+                      unoptimized
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 5 — HOW IT WORKS (3 steps)
+          ══════════════════════════════════════════════ */}
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4">Comment ça marche</Badge>
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold sm:text-4xl">
               3 étapes. Zéro prise de tête.
             </h2>
           </div>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {steps.map((s) => (
-              <div key={s.step} className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
-                  {s.step}
+
+          <div className="relative mt-14">
+            {/* Connecting line */}
+            <div className="absolute left-1/2 top-6 hidden h-0.5 w-[60%] -translate-x-1/2 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 md:block" />
+
+            <div className="grid gap-8 md:grid-cols-3">
+              {steps.map((s) => (
+                <div key={s.step} className="relative text-center">
+                  <div className="relative z-10 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground shadow-lg shadow-primary/25">
+                    {s.step}
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {s.description}
+                  </p>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {s.description}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="mt-10 text-center">
-            <Button size="lg" variant="outline" asChild>
+
+          <div className="mt-12 text-center">
+            <Button size="lg" asChild>
               <Link href="/signup">
                 Essayer maintenant — c&apos;est gratuit
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -308,53 +471,46 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Features ── */}
-      <section id="features" className="border-t bg-slate-50 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center">
-            <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
-            <h2 className="text-3xl font-bold">
-              Tout pour créer, envoyer et suivre vos devis
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-              De la génération IA à la signature électronique, Devizly couvre tout le cycle du devis.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => (
-              <Card key={f.title} className="border-0 shadow-sm transition-shadow hover:shadow-md">
-                <CardContent className="pt-6">
-                  <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-2.5">
-                    <f.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <h3 className="font-semibold">{f.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                    {f.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Results / Time saved ── */}
-      <section className="py-16 md:py-24">
+      {/* ══════════════════════════════════════════════
+          SECTION 6 — SOCIAL PROOF (results, not testimonials)
+          ══════════════════════════════════════════════ */}
+      <section className="border-t bg-slate-50 py-16 md:py-24">
         <div className="mx-auto max-w-4xl px-4">
           <div className="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-center text-white md:p-14">
-            <Clock className="mx-auto mb-4 h-10 w-10 opacity-80" />
+            <Zap className="mx-auto mb-4 h-10 w-10 opacity-80" />
             <h2 className="text-3xl font-bold md:text-4xl">
               Gagnez 5 heures par semaine
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base text-slate-300">
-              Un devis classique prend 30 à 45 minutes. Avec Devizly, il est prêt
-              en 30 secondes. Sur 10 devis par semaine, c&apos;est 5h récupérées
-              pour vos clients.
+              Un devis classique prend 30 à 45 minutes sous Excel. Avec
+              Devizly, il est prêt en 30 secondes — avec prix marché, TVA et
+              mentions légales. Sur 10 devis par semaine, c&apos;est 5 heures
+              récupérées pour vos clients.
             </p>
+
+            <div className="mx-auto mt-8 grid max-w-md grid-cols-3 gap-6">
+              <div>
+                <p className="text-3xl font-extrabold">30s</p>
+                <p className="mt-1 text-xs text-slate-400">par devis</p>
+              </div>
+              <div>
+                <p className="text-3xl font-extrabold">3x</p>
+                <p className="mt-1 text-xs text-slate-400">plus de signatures</p>
+              </div>
+              <div>
+                <p className="text-3xl font-extrabold">48h</p>
+                <p className="mt-1 text-xs text-slate-400">paiement reçu</p>
+              </div>
+            </div>
+
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100" asChild>
+              <Button
+                size="lg"
+                className="bg-white text-slate-900 hover:bg-slate-100"
+                asChild
+              >
                 <Link href="/signup">
-                  Débuter gratuitement
+                  Essayer gratuitement
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -364,50 +520,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Coming soon testimonials ── */}
-      <section className="border-t bg-slate-50 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <Badge variant="outline" className="mb-4">
-            <Rocket className="mr-1.5 h-3.5 w-3.5" />
-            Prochainement
-          </Badge>
-          <h2 className="text-3xl font-bold">Vos vrais témoignages</h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
-            Bientôt les avis de plombiers, développeurs, consultants
-            et autres professionnels qui utilisent Devizly au quotidien.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {["Artisan", "Développeur", "Consultant"].map((role) => (
-              <Card key={role} className="border border-dashed border-slate-300 bg-white/50">
-                <CardContent className="flex flex-col items-center py-8">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-                    <Users className="h-5 w-5 text-slate-400" />
-                  </div>
-                  <p className="mt-3 text-sm font-medium text-slate-400">
-                    {role}
-                  </p>
-                  <p className="mt-1 text-xs text-slate-300">
-                    Témoignage à venir
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <p className="mt-6 text-sm text-muted-foreground">
-            Vous utilisez Devizly ?{" "}
-            <Link href="/signup" className="font-medium text-primary underline-offset-4 hover:underline">
-              Partagez votre expérience
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      {/* ── Pricing ── */}
-      <section id="pricing" className="py-16 md:py-24">
+      {/* ══════════════════════════════════════════════
+          SECTION 7 — PRICING
+          ══════════════════════════════════════════════ */}
+      <section id="tarifs" className="py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4">Tarifs</Badge>
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold sm:text-4xl">
               Commencez gratuitement, évoluez à votre rythme
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
@@ -428,7 +548,7 @@ export default function LandingPage() {
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <Badge className="bg-primary px-3 py-1 text-primary-foreground shadow-sm">
-                      Le plus populaire
+                      Populaire
                     </Badge>
                   </div>
                 )}
@@ -439,20 +559,12 @@ export default function LandingPage() {
                   </p>
                   <div className="mt-5">
                     <span className="text-4xl font-extrabold">
-                      {plan.price.monthly}€
+                      {plan.price}€
                     </span>
-                    {plan.price.monthly !== "0" && (
-                      <span className="text-muted-foreground">/mois HT</span>
+                    {plan.period && (
+                      <span className="text-muted-foreground">{plan.period}</span>
                     )}
-                    {plan.price.monthly !== "0" && (
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        ou {plan.price.annual}€/mois en annuel{" "}
-                        <span className="font-semibold text-green-600">
-                          (-{Math.round((1 - Number(plan.price.annual) / Number(plan.price.monthly)) * 100)}%)
-                        </span>
-                      </p>
-                    )}
-                    {plan.price.monthly === "0" && (
+                    {plan.price === "0" && (
                       <p className="mt-1 text-xs text-muted-foreground">
                         Gratuit pour toujours
                       </p>
@@ -461,15 +573,9 @@ export default function LandingPage() {
 
                   <ul className="mt-6 flex-1 space-y-2.5">
                     {plan.features.map((f) => (
-                      <li key={f.text} className="flex items-center gap-2 text-sm">
-                        {f.included ? (
-                          <Check className="h-4 w-4 shrink-0 text-green-600" />
-                        ) : (
-                          <X className="h-4 w-4 shrink-0 text-slate-300" />
-                        )}
-                        <span className={f.included ? "" : "text-muted-foreground"}>
-                          {f.text}
-                        </span>
+                      <li key={f} className="flex items-center gap-2 text-sm">
+                        <Check className="h-4 w-4 shrink-0 text-green-600" />
+                        <span>{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -492,47 +598,55 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FAQ ── */}
+      {/* ══════════════════════════════════════════════
+          SECTION 8 — FAQ (accordion)
+          ══════════════════════════════════════════════ */}
       <section id="faq" className="border-t bg-slate-50 py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-4">
           <div className="text-center">
             <Badge variant="outline" className="mb-4">FAQ</Badge>
             <h2 className="text-3xl font-bold">Questions fréquentes</h2>
           </div>
-          <div className="mt-10 space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="rounded-lg bg-white p-5 shadow-sm">
-                <h3 className="font-semibold">{faq.q}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+
+          <Accordion type="single" collapsible className="mt-10">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`faq-${i}`}>
+                <AccordionTrigger className="text-left text-base font-semibold">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
                   {faq.a}
-                </p>
-              </div>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       </section>
 
-      {/* ── Final CTA ── */}
+      {/* ══════════════════════════════════════════════
+          SECTION 9 — FINAL CTA
+          ══════════════════════════════════════════════ */}
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-4 text-center">
+          <FileText className="mx-auto mb-4 h-10 w-10 text-primary opacity-80" />
           <h2 className="text-3xl font-bold md:text-4xl">
-            Prêt à gagner du temps sur vos devis ?
+            Prêt à arrêter de perdre du temps sur vos devis ?
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
-            Créez votre premier devis en 30 secondes avec l&apos;IA.
-            Gratuit, sans engagement, sans carte bancaire.
+            Créez votre premier devis en 30 secondes avec l&apos;IA. Gratuit,
+            sans engagement, sans carte bancaire.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button size="lg" className="w-full text-base sm:w-auto" asChild>
               <Link href="/signup">
-                Débuter gratuitement
+                Commencer gratuitement
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/login">J&apos;ai déjà un compte</Link>
-            </Button>
           </div>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Sans carte bancaire · Accès immédiat · Support français
+          </p>
         </div>
       </section>
 
@@ -544,16 +658,24 @@ export default function LandingPage() {
               <DevizlyLogo width={120} height={32} />
             </Link>
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-              <a href="#features" className="hover:text-foreground">Fonctionnalités</a>
-              <a href="#pricing" className="hover:text-foreground">Tarifs</a>
-              <a href="#faq" className="hover:text-foreground">FAQ</a>
-              <Link href="/login" className="hover:text-foreground">Connexion</Link>
+              <a href="#fonctionnalites" className="hover:text-foreground">
+                Fonctionnalités
+              </a>
+              <a href="#tarifs" className="hover:text-foreground">
+                Tarifs
+              </a>
+              <a href="#faq" className="hover:text-foreground">
+                FAQ
+              </a>
+              <Link href="/login" className="hover:text-foreground">
+                Connexion
+              </Link>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Users className="h-3.5 w-3.5" />
+              <Shield className="h-3.5 w-3.5" />
               <span>Conforme RGPD</span>
               <span className="mx-1">·</span>
-              <span>Hébergé en Europe</span>
+              <span>Hébergé en France</span>
             </div>
           </div>
           <Separator className="my-6" />
