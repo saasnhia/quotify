@@ -68,6 +68,15 @@ const features = [
     imageAlt: "Portail client avec signature et paiement",
     icon: Receipt,
   },
+  {
+    badge: "Portail client",
+    title: "Un devis pro que vos clients adorent",
+    description:
+      "Vos clients reçoivent un lien unique vers un portail moderne. Ils consultent le devis, signent et paient — le tout sans créer de compte.",
+    image: "/marketing/devis client.png",
+    imageAlt: "Portail de consultation du devis côté client",
+    icon: FileText,
+  },
 ];
 
 const steps = [
@@ -679,7 +688,24 @@ export default function LandingPage() {
             </div>
           </div>
           <Separator className="my-6" />
-          <p className="text-center text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
+            <Link href="/mentions-legales" className="hover:text-foreground">
+              Mentions légales
+            </Link>
+            <Link href="/cgv" className="hover:text-foreground">
+              CGV
+            </Link>
+            <Link href="/cgu" className="hover:text-foreground">
+              CGU
+            </Link>
+            <Link href="/confidentialite" className="hover:text-foreground">
+              Confidentialité
+            </Link>
+            <Link href="/cookies" className="hover:text-foreground">
+              Cookies
+            </Link>
+          </div>
+          <p className="mt-4 text-center text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Devizly. Tous droits réservés.
           </p>
         </div>
