@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { tryAutoInvoice } from "@/lib/invoices/auto-invoice";
 
 function createPublicClient() {
   return createServerClient(
@@ -86,7 +87,7 @@ export async function POST(
 
   const { data: quote, error: findError } = await supabase
     .from("quotes")
-    .select("id, status")
+    .select("id, status, user_id")
     .eq("share_token", token)
     .single();
 
@@ -125,6 +126,11 @@ export async function POST(
 
   if (updateError) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
+  }
+
+  // Automation: auto-generate invoice on signature (non-blocking)
+  if (action === "signé" && quote.user_id) {
+    tryAutoInvoice("sign", { quoteId: quote.id, userId: quote.user_id });
   }
 
   return NextResponse.json({ success: true, status: action });

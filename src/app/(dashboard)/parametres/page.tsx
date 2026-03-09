@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Save, Loader2, CreditCard, Building, ExternalLink, Upload, Trash2, ImageIcon, Wallet, CheckCircle2 } from "lucide-react";
+import { Save, Loader2, CreditCard, Building, ExternalLink, Upload, Trash2, ImageIcon, Wallet, CheckCircle2, Zap } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 
@@ -27,6 +27,11 @@ export default function ParametresPage() {
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [stripeConnectStatus, setStripeConnectStatus] = useState("not_connected");
   const [connectLoading, setConnectLoading] = useState(false);
+  const [automations, setAutomations] = useState({
+    auto_invoice_on_sign: true,
+    auto_invoice_on_payment: true,
+    auto_send_invoice: true,
+  });
   const [profile, setProfile] = useState({
     full_name: "",
     company_name: "",
@@ -69,6 +74,19 @@ export default function ParametresPage() {
       }
     }
     loadProfile();
+
+    async function loadAutomations() {
+      try {
+        const res = await fetch("/api/settings/automations");
+        if (res.ok) {
+          const data = await res.json();
+          setAutomations(data);
+        }
+      } catch {
+        // Use defaults
+      }
+    }
+    loadAutomations();
   }, []);
 
   async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -145,6 +163,26 @@ export default function ParametresPage() {
       toast.error("Erreur de connexion");
     } finally {
       setPortalLoading(false);
+    }
+  }
+
+  async function handleAutomationToggle(
+    field: "auto_invoice_on_sign" | "auto_invoice_on_payment" | "auto_send_invoice"
+  ) {
+    const newValue = !automations[field];
+    setAutomations((prev) => ({ ...prev, [field]: newValue }));
+
+    try {
+      const res = await fetch("/api/settings/automations", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [field]: newValue }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Paramètre mis à jour");
+    } catch {
+      setAutomations((prev) => ({ ...prev, [field]: !newValue }));
+      toast.error("Erreur de sauvegarde");
     }
   }
 
@@ -488,6 +526,95 @@ export default function ParametresPage() {
               )}
             </>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Automations */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-amber-500" />
+            Automations
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-0 divide-y">
+          {/* Auto-invoice on sign */}
+          <div className="flex items-center justify-between py-4">
+            <div>
+              <p className="text-sm font-medium">
+                Générer une facture à la signature
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Une facture est créée automatiquement dès qu&apos;un client signe votre devis.
+              </p>
+            </div>
+            <button
+              role="switch"
+              aria-checked={automations.auto_invoice_on_sign}
+              onClick={() => handleAutomationToggle("auto_invoice_on_sign")}
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                automations.auto_invoice_on_sign ? "bg-primary" : "bg-slate-200"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  automations.auto_invoice_on_sign ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Auto-invoice on payment */}
+          <div className="flex items-center justify-between py-4">
+            <div>
+              <p className="text-sm font-medium">
+                Générer un reçu au paiement
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Un reçu est généré automatiquement après chaque paiement Stripe.
+              </p>
+            </div>
+            <button
+              role="switch"
+              aria-checked={automations.auto_invoice_on_payment}
+              onClick={() => handleAutomationToggle("auto_invoice_on_payment")}
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                automations.auto_invoice_on_payment ? "bg-primary" : "bg-slate-200"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  automations.auto_invoice_on_payment ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Auto-send invoice email */}
+          <div className="flex items-center justify-between py-4">
+            <div>
+              <p className="text-sm font-medium">
+                Envoyer automatiquement par email
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Les factures sont envoyées sans action manuelle de votre part.
+              </p>
+            </div>
+            <button
+              role="switch"
+              aria-checked={automations.auto_send_invoice}
+              onClick={() => handleAutomationToggle("auto_send_invoice")}
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                automations.auto_send_invoice ? "bg-primary" : "bg-slate-200"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  automations.auto_send_invoice ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
         </CardContent>
       </Card>
     </div>

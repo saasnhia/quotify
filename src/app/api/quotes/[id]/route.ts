@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { tryAutoInvoice } from "@/lib/invoices/auto-invoice";
 
 export async function GET(
   _request: Request,
@@ -78,6 +79,11 @@ export async function PUT(
 
       await supabase.from("quote_items").insert(itemsToInsert);
     }
+  }
+
+  // Automation: auto-generate invoice when status changes to "signé" (non-blocking)
+  if (status === "signé") {
+    tryAutoInvoice("sign", { quoteId: id, userId: user.id });
   }
 
   return NextResponse.json({ success: true });

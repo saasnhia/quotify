@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { createServerClient } from "@supabase/ssr";
+import { tryAutoInvoice } from "@/lib/invoices/auto-invoice";
 import type Stripe from "stripe";
 
 function createServiceClient() {
@@ -64,6 +65,13 @@ export async function POST(request: Request) {
       if (session.metadata?.devizly_payment === "true") {
         const quoteId = session.metadata.quote_id;
         if (quoteId) {
+          // Fetch user_id before update (needed for auto-invoice)
+          const { data: quoteData } = await supabase
+            .from("quotes")
+            .select("user_id")
+            .eq("id", quoteId)
+            .single();
+
           await supabase
             .from("quotes")
             .update({
@@ -73,6 +81,15 @@ export async function POST(request: Request) {
               updated_at: new Date().toISOString(),
             })
             .eq("id", quoteId);
+
+          // Automation: auto-generate paid invoice receipt (non-blocking)
+          if (quoteData?.user_id) {
+            tryAutoInvoice("payment", {
+              quoteId,
+              userId: quoteData.user_id,
+              markAsPaid: true,
+            });
+          }
         }
         break;
       }
