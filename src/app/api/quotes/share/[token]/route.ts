@@ -36,13 +36,14 @@ export async function GET(
     return NextResponse.json({ error: "Devis introuvable" }, { status: 404 });
   }
 
-  // Update viewed_at on first view
+  // Track views: set viewed_at on first view, always increment view_count
+  const updates: Record<string, unknown> = {
+    view_count: (quote.view_count || 0) + 1,
+  };
   if (!quote.viewed_at) {
-    await supabase
-      .from("quotes")
-      .update({ viewed_at: new Date().toISOString() })
-      .eq("id", quote.id);
+    updates.viewed_at = new Date().toISOString();
   }
+  await supabase.from("quotes").update(updates).eq("id", quote.id);
 
   return NextResponse.json({ success: true, data: quote });
 }

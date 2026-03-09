@@ -31,6 +31,8 @@ import {
   Trash2,
   FileText,
   Share2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import {
   formatCurrency,
@@ -40,6 +42,7 @@ import {
 } from "@/lib/utils/quote";
 import type { QuoteWithClient, QuoteStatus } from "@/types";
 import { ShareModal } from "@/components/quotes/ShareModal";
+import { RelanceModal } from "@/components/quotes/relance-modal";
 import { toast } from "sonner";
 
 const statusTabs: { label: string; value: QuoteStatus | "all" }[] = [
@@ -233,16 +236,36 @@ export default function DevisPage() {
                       {formatCurrency(Number(quote.total_ttc))}
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        variant="secondary"
-                        className={getStatusColor(quote.status)}
-                      >
-                        {getStatusLabel(quote.status)}
-                      </Badge>
+                      <div className="flex items-center gap-1.5">
+                        <Badge
+                          variant="secondary"
+                          className={getStatusColor(quote.status)}
+                        >
+                          {getStatusLabel(quote.status)}
+                        </Badge>
+                        {quote.status === "envoyé" && (
+                          quote.viewed_at ? (
+                            <span className="inline-flex items-center gap-1 text-xs text-emerald-600" title={`Consulte le ${formatDate(quote.viewed_at)}`}>
+                              <Eye className="h-3 w-3" /> Vu
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-xs text-slate-400">
+                              <EyeOff className="h-3 w-3" /> Non lu
+                            </span>
+                          )
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>{formatDate(quote.created_at)}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
+                        {quote.status === "envoyé" && quote.clients?.name && (
+                          <RelanceModal
+                            quoteId={quote.id}
+                            clientName={quote.clients.name}
+                            variant="icon"
+                          />
+                        )}
                         {quote.share_token && (
                           <ShareModal
                             shareToken={quote.share_token}
