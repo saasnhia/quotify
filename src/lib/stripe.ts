@@ -14,9 +14,9 @@ export function getStripe(): Stripe {
 }
 
 export const PLANS = {
-  free: { name: 'Free', devisLimit: 3, price: 0, teamLimit: 1 },
-  pro: { name: 'Pro', devisLimit: 50, price: 19, teamLimit: 1 },
-  business: { name: 'Business', devisLimit: -1, price: 49, teamLimit: 5 },
+  free: { name: 'Gratuit', devisLimit: 5, price: 0, teamLimit: 1 },
+  pro: { name: 'Pro', devisLimit: -1, price: 19, teamLimit: 1 },
+  business: { name: 'Business', devisLimit: -1, price: 39, teamLimit: 5 },
 } as const;
 
 export type PlanId = keyof typeof PLANS;

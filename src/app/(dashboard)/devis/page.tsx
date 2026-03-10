@@ -67,14 +67,27 @@ export default function DevisPage() {
   const [statusFilter, setStatusFilter] = useState<QuoteStatus | "all">("all");
   const [loading, setLoading] = useState(true);
   const [templateModalQuote, setTemplateModalQuote] = useState<QuoteWithClient | null>(null);
+  const [quota, setQuota] = useState<{ plan: string; used: number; limit: number } | null>(null);
 
   const fetchQuotes = useCallback(async () => {
     const supabase = createClient();
-    const { data } = await supabase
-      .from("quotes")
-      .select("*, clients(*)")
-      .order("created_at", { ascending: false });
-    setQuotes((data || []) as QuoteWithClient[]);
+    const [quotesRes, profileRes] = await Promise.all([
+      supabase
+        .from("quotes")
+        .select("*, clients(*)")
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("profiles")
+        .select("subscription_status, devis_used")
+        .single(),
+    ]);
+    setQuotes((quotesRes.data || []) as QuoteWithClient[]);
+    if (profileRes.data) {
+      const plan = profileRes.data.subscription_status || "free";
+      const used = profileRes.data.devis_used || 0;
+      const limit = plan === "free" ? 5 : -1;
+      setQuota({ plan, used, limit });
+    }
     setLoading(false);
   }, []);
 
@@ -287,6 +300,49 @@ export default function DevisPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+      )}
+
+      {/* Quota banner */}
+      {quota && (
+        <div
+          className={`rounded-xl p-4 ${
+            quota.limit === -1
+              ? "bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200"
+              : quota.used >= quota.limit
+                ? "bg-gradient-to-r from-red-50 to-orange-50 border border-red-200"
+                : "bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200"
+          }`}
+        >
+          {quota.limit === -1 ? (
+            <p className="text-sm font-semibold text-green-700">
+              Plan {quota.plan === "pro" ? "Pro" : "Business"} — Devis illimités
+            </p>
+          ) : (
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold">
+                  Gratuit : {quota.used}/{quota.limit} devis utilisés ce mois
+                </p>
+                {quota.used >= quota.limit && (
+                  <p className="text-sm text-red-600 mt-0.5">
+                    Limite atteinte.{" "}
+                    <Link href="/pricing" className="underline font-semibold hover:text-red-800">
+                      Passez Pro (19€) pour des devis illimités
+                    </Link>
+                  </p>
+                )}
+              </div>
+              {quota.used < quota.limit && (
+                <Link
+                  href="/pricing"
+                  className="text-xs text-muted-foreground underline hover:text-foreground"
+                >
+                  Passer Pro — illimité
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       )}
 

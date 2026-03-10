@@ -284,7 +284,7 @@ export default function ParametresPage() {
       ? "Business"
       : subscriptionStatus === "pro"
         ? "Pro"
-        : "Free";
+        : "Gratuit";
 
   return (
     <div className="space-y-6">
@@ -474,10 +474,8 @@ export default function ParametresPage() {
                   <p className="font-medium">Plan {planLabel}</p>
                   <p className="text-sm text-muted-foreground">
                     {subscriptionStatus === "free"
-                      ? "3 devis/mois"
-                      : subscriptionStatus === "pro"
-                        ? "50 devis/mois"
-                        : "Devis illimités"}
+                      ? "5 devis/mois"
+                      : "Devis illimités"}
                   </p>
                 </div>
                 <Badge
@@ -511,26 +509,26 @@ export default function ParametresPage() {
               <>
                 <Separator />
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between rounded-lg border p-4">
+                  <div className="flex items-center justify-between rounded-lg border border-primary/20 bg-primary/5 p-4">
                     <div>
                       <p className="font-medium">Pro</p>
                       <p className="text-sm text-muted-foreground">
-                        50 devis/mois + IA avancée
+                        Devis illimités + Signature + Acompte
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-bold">19€<span className="text-sm font-normal text-muted-foreground">/mois HT</span></p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between rounded-lg border border-primary/20 bg-primary/5 p-4">
+                  <div className="flex items-center justify-between rounded-lg border p-4">
                     <div>
                       <p className="font-medium">Business</p>
                       <p className="text-sm text-muted-foreground">
-                        Devis illimités + Signature
+                        Tout Pro + Lead forms + Équipe
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold">49€<span className="text-sm font-normal text-muted-foreground">/mois HT</span></p>
+                      <p className="text-lg font-bold">39€<span className="text-sm font-normal text-muted-foreground">/mois HT</span></p>
                     </div>
                   </div>
                   <Button asChild className="w-full">

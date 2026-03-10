@@ -102,17 +102,18 @@ const steps = [
 
 const plans = [
   {
-    name: "Free",
+    name: "Gratuit",
     price: "0",
     period: "",
     description: "Pour tester sans engagement",
     features: [
       "5 devis par mois",
       "Génération IA",
-      "Gestion clients",
-      "Partage par lien",
+      "Templates Devizly (10+)",
+      "QR Code + liens publics",
+      "Versioning devis",
     ],
-    cta: "Débuter gratuitement",
+    cta: "Commencer gratuit",
     popular: false,
   },
   {
@@ -121,30 +122,31 @@ const plans = [
     period: "/mois HT",
     description: "Pour les indépendants actifs",
     features: [
-      "50 devis par mois",
-      "IA avancée + relances auto",
-      "Export PDF personnalisé",
-      "Signature en ligne",
-      "Pipeline CRM",
-      "Multi-devises (EUR, USD, GBP, CHF)",
+      "Devis illimités",
+      "Tout le plan Gratuit",
+      "Signature électronique",
+      "Acompte Stripe (30/50%)",
+      "Tracking ouvertures",
+      "Calendly intégré",
+      "Analytics + relances auto",
     ],
-    cta: "Essayer Pro gratuitement",
+    cta: "Choisir Pro",
     popular: true,
   },
   {
     name: "Business",
-    price: "49",
+    price: "39",
     period: "/mois HT",
-    description: "Pour les TPE et équipes",
+    description: "Pour les agences et équipes",
     features: [
       "Devis illimités",
       "Tout le plan Pro",
-      "Facturation récurrente",
-      "Formulaire de capture de leads",
-      "Export comptable CSV",
-      "Support prioritaire",
+      "Lead forms (5+ types)",
+      "Équipe multi-utilisateurs",
+      "Branding personnalisé",
+      "Support prioritaire 24h",
     ],
-    cta: "Essayer Business",
+    cta: "Choisir Business",
     popular: false,
   },
 ];
@@ -163,8 +165,8 @@ const faqs = [
     a: "Vous pouvez exporter vos factures en CSV compatible avec la plupart des logiciels comptables (Pennylane, Indy, etc.). L'intégration directe arrive bientôt.",
   },
   {
-    q: "Que se passe-t-il après les 14 jours d'essai ?",
-    a: "Le plan Free reste gratuit pour toujours (5 devis/mois). Si vous passez Pro ou Business, vous pouvez annuler à tout moment sans engagement.",
+    q: "Combien de devis gratuits par mois ?",
+    a: "Le plan Gratuit offre 5 devis par mois, pour toujours, sans carte bancaire. Passez Pro (19\u20ac/mois) pour un nombre illimité de devis.",
   },
   {
     q: "Mes données sont-elles sécurisées ?",
@@ -189,7 +191,7 @@ export default function LandingPage() {
       <div className="border-b bg-primary/5 py-2 text-center text-sm">
         <span className="text-muted-foreground">
           <Sparkles className="mr-1 inline h-3.5 w-3.5 text-primary" />
-          Nouveau : Pipeline CRM + Facturation automatique + Multi-devises
+          5 devis gratuits/mois &middot; Templates pros inclus &middot; Acompte Stripe
         </span>
       </div>
 
@@ -239,26 +241,26 @@ export default function LandingPage() {
               </Badge>
 
               <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
-                Vos devis signés et payés,{" "}
+                Des devis aux paiements{" "}
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  automatiquement.
+                  en 2 minutes.
                 </span>
               </h1>
 
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-                Devizly génère vos devis par IA, relance vos clients et crée
-                vos factures sans que vous leviez le petit doigt.
+                5 devis gratuits ce mois. Templates pros inclus. Signature
+                électronique et acompte Stripe en un clic.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Button size="lg" className="text-base" asChild>
                   <Link href="/signup">
-                    Essayer gratuitement
+                    Commencer gratuit
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link href="#fonctionnalites">Voir les fonctionnalités</Link>
+                  <Link href="#tarifs">Pricing &mdash; 19€ illimité</Link>
                 </Button>
               </div>
 
