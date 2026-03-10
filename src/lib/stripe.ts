@@ -14,7 +14,7 @@ export function getStripe(): Stripe {
 }
 
 export const PLANS = {
-  free: { name: 'Gratuit', devisLimit: 5, price: 0, teamLimit: 1 },
+  free: { name: 'Gratuit', devisLimit: 3, price: 0, teamLimit: 1 },
   pro: { name: 'Pro', devisLimit: -1, price: 19, teamLimit: 1 },
   business: { name: 'Business', devisLimit: -1, price: 39, teamLimit: 5 },
 } as const;

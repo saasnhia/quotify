@@ -43,13 +43,13 @@ const comparisonFeatures: PlanFeature[] = [
   { text: "Analytics devis", free: false, pro: true, business: true },
   { text: "Relances automatiques", free: false, pro: true, business: true },
   { text: "Lead forms (5+ types)", free: false, pro: false, business: true },
-  { text: "Équipe multi-utilisateurs", free: false, pro: false, business: true },
+  { text: "Export CSV comptable", free: false, pro: false, business: true },
   { text: "Branding personnalisé", free: false, pro: false, business: true },
   { text: "Support prioritaire 24h", free: false, pro: false, business: true },
 ];
 
 const devisLimits: Record<string, string> = {
-  free: "5",
+  free: "3",
   pro: "Illimités",
   business: "Illimités",
 };
@@ -82,7 +82,7 @@ const plans = [
     name: "Business",
     monthlyPrice: "39",
     annualPrice: "31",
-    description: "Pour les agences et équipes",
+    description: "Pour les agences et pros exigeants",
     highlight: null,
     cta: "Choisir Business",
     priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_BUSINESS || null,
@@ -97,7 +97,7 @@ const faqs = [
   },
   {
     q: "Comment fonctionne le plan gratuit ?",
-    a: "Le plan Gratuit offre 5 devis par mois, pour toujours, sans carte bancaire. Passez Pro pour un nombre illimité de devis.",
+    a: "Le plan Gratuit offre 3 devis par mois, pour toujours, sans carte bancaire. Passez Pro pour un nombre illimité de devis.",
   },
   {
     q: "Que se passe-t-il si je dépasse mon quota ?",

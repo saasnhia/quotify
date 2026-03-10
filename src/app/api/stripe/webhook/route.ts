@@ -142,6 +142,7 @@ export async function POST(request: Request) {
         .update({
           subscription_status: "free",
           subscription_id: null,
+          devis_used: 0,
         })
         .eq("stripe_customer_id", customerId);
       break;

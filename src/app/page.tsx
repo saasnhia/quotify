@@ -107,7 +107,7 @@ const plans = [
     period: "",
     description: "Pour tester sans engagement",
     features: [
-      "5 devis par mois",
+      "3 devis par mois",
       "Génération IA",
       "Templates Devizly (10+)",
       "QR Code + liens publics",
@@ -137,12 +137,12 @@ const plans = [
     name: "Business",
     price: "39",
     period: "/mois HT",
-    description: "Pour les agences et équipes",
+    description: "Pour les agences et pros exigeants",
     features: [
       "Devis illimités",
       "Tout le plan Pro",
       "Lead forms (5+ types)",
-      "Équipe multi-utilisateurs",
+      "Export CSV comptable",
       "Branding personnalisé",
       "Support prioritaire 24h",
     ],
@@ -166,7 +166,7 @@ const faqs = [
   },
   {
     q: "Combien de devis gratuits par mois ?",
-    a: "Le plan Gratuit offre 5 devis par mois, pour toujours, sans carte bancaire. Passez Pro (19\u20ac/mois) pour un nombre illimité de devis.",
+    a: "Le plan Gratuit offre 3 devis par mois, pour toujours, sans carte bancaire. Passez Pro (19\u20ac/mois) pour un nombre illimité de devis.",
   },
   {
     q: "Mes données sont-elles sécurisées ?",
@@ -191,7 +191,7 @@ export default function LandingPage() {
       <div className="border-b bg-primary/5 py-2 text-center text-sm">
         <span className="text-muted-foreground">
           <Sparkles className="mr-1 inline h-3.5 w-3.5 text-primary" />
-          5 devis gratuits/mois &middot; Templates pros inclus &middot; Acompte Stripe
+          3 devis gratuits/mois &middot; Templates pros inclus &middot; Acompte Stripe
         </span>
       </div>
 
@@ -248,7 +248,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
-                5 devis gratuits ce mois. Templates pros inclus. Signature
+                3 devis gratuits ce mois. Templates pros inclus. Signature
                 électronique et acompte Stripe en un clic.
               </p>
 

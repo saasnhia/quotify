@@ -11,6 +11,10 @@
     {
       "path": "/api/cron/invoices",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/reset-quota",
+      "schedule": "0 0 1 * *"
     }
   ]
 }

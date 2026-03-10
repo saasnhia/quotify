@@ -438,12 +438,31 @@ export default function ParametresPage() {
               <Label className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 Lien Calendly (prise de RDV)
+                {subscriptionStatus === "free" && (
+                  <Badge variant="outline" className="text-xs text-indigo-600 border-indigo-200">Pro</Badge>
+                )}
               </Label>
-              <Input
-                value={calendlyUrl}
-                onChange={(e) => setCalendlyUrl(e.target.value)}
-                placeholder="https://calendly.com/votre-nom/30min"
-              />
+              {subscriptionStatus === "free" ? (
+                <div className="relative">
+                  <Input
+                    disabled
+                    placeholder="Calendly — disponible avec le plan Pro"
+                    className="opacity-60"
+                  />
+                  <a
+                    href="/pricing"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-indigo-600 hover:underline"
+                  >
+                    Upgrade Pro
+                  </a>
+                </div>
+              ) : (
+                <Input
+                  value={calendlyUrl}
+                  onChange={(e) => setCalendlyUrl(e.target.value)}
+                  placeholder="https://calendly.com/votre-nom/30min"
+                />
+              )}
               <p className="text-xs text-muted-foreground">
                 Affiché sur vos devis publics pour permettre la prise de RDV.
               </p>
@@ -474,7 +493,7 @@ export default function ParametresPage() {
                   <p className="font-medium">Plan {planLabel}</p>
                   <p className="text-sm text-muted-foreground">
                     {subscriptionStatus === "free"
-                      ? "5 devis/mois"
+                      ? "3 devis/mois"
                       : "Devis illimités"}
                   </p>
                 </div>

@@ -58,6 +58,7 @@ export default function PublicQuotePage({
   const [signerName, setSignerName] = useState("");
   const [payLoading, setPayLoading] = useState(false);
   const [calendlyUrl, setCalendlyUrl] = useState<string | null>(null);
+  const [ownerPlan, setOwnerPlan] = useState<string>("free");
 
   const fetchQuote = useCallback(async () => {
     const response = await fetch(`/api/quotes/share/${token}`);
@@ -70,6 +71,9 @@ export default function PublicQuotePage({
     setQuote(result.data);
     if (result.calendly_url) {
       setCalendlyUrl(result.calendly_url);
+    }
+    if (result.owner_plan) {
+      setOwnerPlan(result.owner_plan);
     }
     setLoading(false);
   }, [token]);
@@ -499,38 +503,51 @@ export default function PublicQuotePage({
                     Payer {formatCurrency(Number(quote.total_ttc), quote.currency || "EUR")} maintenant
                   </Button>
 
-                  {/* Deposit options */}
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => handlePayment(30)}
-                      disabled={payLoading}
-                    >
-                      Acompte 30% — {formatCurrency(Number(quote.total_ttc) * 0.3, quote.currency || "EUR")}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => handlePayment(50)}
-                      disabled={payLoading}
-                    >
-                      Acompte 50% — {formatCurrency(Number(quote.total_ttc) * 0.5, quote.currency || "EUR")}
-                    </Button>
-                  </div>
+                  {/* Deposit options — Pro/Business only */}
+                  {ownerPlan !== "free" ? (
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => handlePayment(30)}
+                        disabled={payLoading}
+                      >
+                        Acompte 30% — {formatCurrency(Number(quote.total_ttc) * 0.3, quote.currency || "EUR")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => handlePayment(50)}
+                        disabled={payLoading}
+                      >
+                        Acompte 50% — {formatCurrency(Number(quote.total_ttc) * 0.5, quote.currency || "EUR")}
+                      </Button>
+                    </div>
+                  ) : null}
 
                   {/* Sign/Refuse — only for envoyé */}
                   {quote.status === "envoyé" && (
                     <div className="flex flex-col gap-3 sm:flex-row">
-                      <Button
-                        variant="outline"
-                        className="flex-1"
-                        onClick={() => setShowSignature(true)}
-                        disabled={responding}
-                      >
-                        <PenLine className="mr-2 h-4 w-4" />
-                        Accepter et signer
-                      </Button>
+                      {ownerPlan !== "free" ? (
+                        <Button
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() => setShowSignature(true)}
+                          disabled={responding}
+                        >
+                          <PenLine className="mr-2 h-4 w-4" />
+                          Accepter et signer
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          className="flex-1 opacity-60 cursor-not-allowed"
+                          disabled
+                        >
+                          <PenLine className="mr-2 h-4 w-4" />
+                          Signature indisponible
+                        </Button>
+                      )}
                       <Button
                         variant="outline"
                         className="flex-1 border-red-200 text-red-600 hover:bg-red-50"

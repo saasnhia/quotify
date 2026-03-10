@@ -90,7 +90,7 @@ export default function DevisPage() {
     if (profileRes.data) {
       const plan = profileRes.data.subscription_status || "free";
       const used = profileRes.data.devis_used || 0;
-      const limit = plan === "free" ? 5 : -1;
+      const limit = plan === "free" ? 3 : -1;
       setQuota({ plan, used, limit });
     }
     // Count reminders per quote
@@ -440,14 +440,20 @@ export default function DevisPage() {
                           {getStatusLabel(quote.status)}
                         </Badge>
                         {quote.status === "envoyé" && (
-                          quote.viewed_at ? (
-                            <span className="inline-flex items-center gap-1 text-xs text-emerald-600" title={`Consulté le ${formatDate(quote.viewed_at)}`}>
-                              <Eye className="h-3 w-3" /> Vu{quote.view_count > 1 ? ` ${quote.view_count}x` : ""}
-                            </span>
+                          quota && quota.plan !== "free" ? (
+                            quote.viewed_at ? (
+                              <span className="inline-flex items-center gap-1 text-xs text-emerald-600" title={`Consulté le ${formatDate(quote.viewed_at)}`}>
+                                <Eye className="h-3 w-3" /> Vu{quote.view_count > 1 ? ` ${quote.view_count}x` : ""}
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-xs text-slate-400">
+                                <EyeOff className="h-3 w-3" /> Non lu
+                              </span>
+                            )
                           ) : (
-                            <span className="inline-flex items-center gap-1 text-xs text-slate-400">
-                              <EyeOff className="h-3 w-3" /> Non lu
-                            </span>
+                            <a href="/pricing" className="inline-flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-600">
+                              <Eye className="h-3 w-3" /> Tracking Pro
+                            </a>
                           )
                         )}
                         {quote.deposit_percent && quote.deposit_paid_at && (

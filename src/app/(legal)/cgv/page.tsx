@@ -65,12 +65,12 @@ export default function CGVPage() {
           <tr>
             <td>Free</td>
             <td>0 €</td>
-            <td>5 devis/mois, génération IA, gestion clients</td>
+            <td>3 devis/mois, génération IA, gestion clients</td>
           </tr>
           <tr>
             <td>Pro</td>
             <td>19 €</td>
-            <td>50 devis/mois, relances auto, signature, multi-devises</td>
+            <td>Devis illimités, relances auto, signature, multi-devises</td>
           </tr>
           <tr>
             <td>Business</td>

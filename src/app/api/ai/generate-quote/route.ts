@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getMistral } from "@/lib/mistral";
 import { checkRateLimit } from "@/lib/ratelimit";
+import { canCreateDevis, type PlanId } from "@/lib/stripe";
 
 export async function POST(request: Request) {
   // Rate limit check
@@ -13,6 +14,26 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+  }
+
+  // Quota check — prevent free users from generating beyond their limit
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_status, devis_used")
+    .eq("id", user.id)
+    .single();
+
+  const plan = (profile?.subscription_status || "free") as PlanId;
+  const devisUsed = profile?.devis_used || 0;
+
+  if (!canCreateDevis(plan, devisUsed)) {
+    return NextResponse.json(
+      {
+        error: "Quota de devis atteint. Passez au plan supérieur.",
+        code: "QUOTA_EXCEEDED",
+      },
+      { status: 403 }
+    );
   }
 
   const { prompt } = await request.json();

@@ -57,17 +57,20 @@ export async function GET(
     .insert({ quote_id: quote.id, ip_address: ip, user_agent: ua })
     .then(() => {});
 
-  // Fetch owner profile for calendly link
+  // Fetch owner profile for calendly link + subscription status
   const { data: ownerProfile } = await supabase
     .from("profiles")
-    .select("calendly_url")
+    .select("calendly_url, subscription_status")
     .eq("id", quote.user_id)
     .single();
+
+  const ownerPlan = ownerProfile?.subscription_status || "free";
 
   return NextResponse.json({
     success: true,
     data: quote,
-    calendly_url: ownerProfile?.calendly_url || null,
+    calendly_url: ownerPlan !== "free" ? (ownerProfile?.calendly_url || null) : null,
+    owner_plan: ownerPlan,
   });
 }
 
@@ -126,6 +129,26 @@ export async function POST(
       { error: "Ce devis a déjà reçu une réponse" },
       { status: 400 }
     );
+  }
+
+  // Gate signature to Pro/Business — check quote owner's plan
+  if (action === "signé") {
+    const { data: ownerProfile } = await supabase
+      .from("profiles")
+      .select("subscription_status")
+      .eq("id", quote.user_id)
+      .single();
+
+    if (!ownerProfile || ownerProfile.subscription_status === "free") {
+      return NextResponse.json(
+        {
+          error: "PLAN_REQUIRED",
+          message: "Signature électronique — Pro requis",
+          upgradeUrl: "/pricing",
+        },
+        { status: 403 }
+      );
+    }
   }
 
   const now = new Date().toISOString();

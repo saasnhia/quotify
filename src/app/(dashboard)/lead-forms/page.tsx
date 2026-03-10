@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,9 +42,18 @@ export default function LeadFormsPage() {
   const [editingForm, setEditingForm] = useState<LeadForm | null>(null);
   const [embedSlug, setEmbedSlug] = useState<string | null>(null);
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const [plan, setPlan] = useState<string>("free");
 
   const fetchForms = useCallback(async () => {
     try {
+      const supabase = createClient();
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("subscription_status")
+        .single();
+      if (profile?.subscription_status) {
+        setPlan(profile.subscription_status);
+      }
       const data = await getUserForms();
       setForms(data);
     } catch {
@@ -55,6 +66,32 @@ export default function LeadFormsPage() {
   useEffect(() => {
     fetchForms();
   }, [fetchForms]);
+
+  // Lead forms are Business-only
+  if (!loading && plan !== "business") {
+    return (
+      <div className="space-y-6">
+        <h1 className="text-2xl font-bold">Formulaires de leads</h1>
+        <Card>
+          <CardContent className="py-12 text-center">
+            <div className="mx-auto mb-4 h-16 w-16 rounded-2xl bg-gradient-to-br from-indigo-100 to-violet-100 flex items-center justify-center">
+              <FileInput className="h-8 w-8 text-indigo-600" />
+            </div>
+            <h2 className="text-xl font-bold mb-2">Lead Forms — Plan Business</h2>
+            <p className="text-muted-foreground max-w-md mx-auto mb-6">
+              Capturez des leads qualifies directement depuis votre site avec des formulaires
+              personnalises et des champs sur-mesure.
+            </p>
+            <Button asChild>
+              <Link href="/pricing">
+                Passer au Business — 39€/mois
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   function handleNew() {
     setEditingForm(null);

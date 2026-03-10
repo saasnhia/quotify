@@ -60,6 +60,26 @@ export async function POST(
     deposit_percent !== undefined &&
     validDepositPercents.includes(deposit_percent);
 
+  // Gate acompte to Pro/Business — check quote owner's plan
+  if (isDeposit) {
+    const { data: ownerProfile } = await supabase
+      .from("profiles")
+      .select("subscription_status")
+      .eq("id", quote.user_id)
+      .single();
+
+    if (!ownerProfile || ownerProfile.subscription_status === "free") {
+      return NextResponse.json(
+        {
+          error: "PLAN_REQUIRED",
+          message: "Acompte Stripe — Pro requis",
+          upgradeUrl: "/pricing",
+        },
+        { status: 403 }
+      );
+    }
+  }
+
   const stripe = getStripe();
   const appUrl = getSiteUrl();
   const stripeCurrency = (quote.currency || "EUR").toLowerCase();
