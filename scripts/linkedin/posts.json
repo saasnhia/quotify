@@ -1,0 +1,452 @@
+[
+  {
+    "day": 1,
+    "title": "Vous perdez 4 680 € par an à faire vos devis sur Word",
+    "hour": "Mardi 9h",
+    "virality": "9/10",
+    "type": "educatif",
+    "slides": [
+      "HOOK: Vous perdez 4 680 €/an\nà faire vos devis sur Word.\n\n(Le calcul va vous choquer →)",
+      "LE CALCUL :\n\n45 min par devis × 2 devis/semaine\n= 6h/mois sur des devis\n\nVotre TJM × 6h × 12 mois\n= 4 680 € minimum perdus\n\nSans compter les relances,\nles PDF moches, les impayés.",
+      "AVEC DEVIZLY :\n\n✨ Décrivez en 1 phrase → l'IA génère le devis\n✍️ Signature électronique eIDAS\n💳 Paiement Stripe intégré\n🔔 Relances auto J+2, J+5, J+7\n\n= 30 secondes au lieu de 45 min",
+      "RÉSULTAT RÉEL :\n\n📊 67% de taux de conversion devis\n⏱️ 30s pour générer un devis pro\n💰 Encaissement 3x plus rapide\n🇫🇷 IA hébergée en France (RGPD)\n\n[Screenshot dashboard Devizly]",
+      "Créez vos 3 premiers devis gratuitement.\nSans carte bancaire.\n\n→ devizly.fr\n\nVous êtes graphiste, dev, consultant, artisan ?\nDevizly est fait pour vous."
+    ],
+    "hashtags": "#Freelance #Devis #Entrepreneur #GestionFreelance #Devizly"
+  },
+  {
+    "day": 2,
+    "title": "J'ai regardé comment 200 freelances font leurs devis",
+    "hour": "Mercredi 11h",
+    "virality": "8/10",
+    "type": "cas_usage",
+    "slides": [
+      "J'ai regardé comment\n200 freelances font leurs devis.\n\n73% utilisent encore Word ou Google Docs.\n\nVoici ce qui cloche →",
+      "LES 5 PROBLÈMES :\n\n1️⃣ Pas de numérotation légale\n2️⃣ Mentions obligatoires manquantes\n3️⃣ Pas de suivi (ouvert ? lu ? signé ?)\n4️⃣ Relances manuelles oubliées\n5️⃣ Aucun encaissement intégré\n\n= Amendes + impayés + temps perdu",
+      "UN DEVIS LÉGAL EN FRANCE :\n\n✅ Numéro séquentiel unique\n✅ Date + durée de validité\n✅ Mentions SIRET, TVA, RCS\n✅ Détail lignes (qté × prix)\n✅ Total HT, TVA, TTC\n\nDevizly génère tout ça automatiquement.",
+      "LE WORKFLOW DEVIZLY :\n\n1. Décrivez → l'IA structure\n2. Ajustez les prix\n3. Envoyez en 1 clic\n4. Client signe + paie en ligne\n5. Facture auto-générée\n\nPipeline visuel : Prospect → Envoyé → Signé → Payé",
+      "Testez sur votre prochain devis.\n3 devis gratuits, 0 engagement.\n\n→ devizly.fr\n\n(Oui, même si vous êtes micro-entrepreneur)"
+    ],
+    "hashtags": "#Freelance #DevisProfessionnel #Entrepreneur #MicroEntrepreneur #Devizly"
+  },
+  {
+    "day": 3,
+    "title": "Mon client a signé mon devis en 47 secondes",
+    "hour": "Jeudi 14h",
+    "virality": "9/10",
+    "type": "storytelling",
+    "slides": [
+      "Mon client a signé\nmon devis en 47 secondes.\n\nAvant, ça prenait 3 jours\nde ping-pong email.\n\nVoici ce qui a changé →",
+      "AVANT :\n\n📧 J'envoie le devis PDF par email\n⏳ 2 jours sans réponse\n📧 Je relance manuellement\n📞 \"Ah oui je l'ai pas vu\"\n📧 Il demande une modif\n📧 Je renvoie un nouveau PDF\n✍️ Il imprime, signe, scanne\n\n= 3-5 jours minimum",
+      "MAINTENANT :\n\n1️⃣ Je génère le devis en 30s avec l'IA\n2️⃣ J'envoie le lien en 1 clic\n3️⃣ Le client ouvre (notification)\n4️⃣ Il signe au doigt sur son téléphone\n5️⃣ Il paie directement par carte\n\n= 47 secondes. Terminé.",
+      "TRACKING EN TEMPS RÉEL :\n\n👀 \"Devis consulté\" → notification\n🔥 Badge \"HOT\" si ouvert 3x\n📊 Taux de conversion visible\n🔔 Relance auto si pas de réponse\n\n[Screenshot pipeline Devizly]",
+      "Arrêtez de courir après vos clients.\n\nLaissez-les signer et payer\ndepuis leur navigateur.\n\n→ devizly.fr — Gratuit pour commencer"
+    ],
+    "hashtags": "#Freelance #SignatureElectronique #Productivite #GestionClient #Devizly"
+  },
+  {
+    "day": 4,
+    "title": "Le truc que 90% des freelances oublient sur leurs devis",
+    "hour": "Mardi 9h",
+    "virality": "8/10",
+    "type": "educatif",
+    "slides": [
+      "Le truc que 90% des freelances\noublient sur leurs devis :\n\nLa durée de validité.\n\nEt ça peut vous coûter très cher →",
+      "SANS DURÉE DE VALIDITÉ :\n\n❌ Le client accepte 6 mois après\n❌ Vos prix ont changé\n❌ Vous êtes légalement engagé\n❌ Impossible de refuser\n\nArticle L441-1 Code de commerce :\n\"Le devis lie le prestataire\npendant sa durée de validité.\"",
+      "LES 6 MENTIONS OBLIGATOIRES :\n\n1. Numéro unique séquentiel\n2. Date d'émission\n3. Durée de validité\n4. SIRET + forme juridique\n5. Détail des prestations\n6. Total HT + TTC + TVA\n\nAmende : jusqu'à 75 000 €",
+      "DEVIZLY GÈRE TOUT :\n\n✅ Numérotation auto (DEV-0001...)\n✅ Validité configurable (30j par défaut)\n✅ Mentions légales pré-remplies\n✅ TVA auto (20% ou exonéré micro)\n✅ PDF conforme téléchargeable\n\nVous ne pouvez plus vous tromper.",
+      "Mettez-vous en conformité\nen 30 secondes.\n\n→ devizly.fr\n\nGratuit. Conforme. Professionnel."
+    ],
+    "hashtags": "#Freelance #DevisLegal #DroitDesAffaires #MicroEntrepreneur #Devizly"
+  },
+  {
+    "day": 5,
+    "title": "Graphiste freelance : de 800 € à 3 200 € par devis",
+    "hour": "Mercredi 11h",
+    "virality": "9/10",
+    "type": "cas_usage",
+    "slides": [
+      "Graphiste freelance :\nde 800 € à 3 200 € par devis.\n\nPas en travaillant plus.\nEn structurant mieux.\n\nVoici la méthode →",
+      "LE DEVIS À 800 € :\n\n\"Création logo — 800 €\"\n\n❌ 1 seule ligne\n❌ Pas de détail des livrables\n❌ Le client ne voit pas la valeur\n❌ Il négocie à la baisse",
+      "LE DEVIS À 3 200 € :\n\n1. Brief créatif & recherche — 400 €\n2. 3 propositions de logo — 900 €\n3. Charte graphique complète — 800 €\n4. Déclinaisons (web, print, réseaux) — 600 €\n5. Fichiers sources HD — 500 €\n\nMême travail. 4x le prix.",
+      "L'IA DEVIZLY STRUCTURE POUR VOUS :\n\nTapez : \"Logo + charte graphique\npour une startup tech\"\n\n→ L'IA génère 5-8 lignes détaillées\n→ Prix marché suggérés\n→ Vous ajustez à vos tarifs\n\nRésultat : devis pro en 30 secondes",
+      "Arrêtez de brader vos prestations.\nStructurez vos devis comme un pro.\n\n→ devizly.fr\n\n3 devis gratuits pour tester"
+    ],
+    "hashtags": "#Freelance #Graphiste #Tarification #ValeurPercue #Devizly"
+  },
+  {
+    "day": 6,
+    "title": "\"Je vous envoie ça lundi\" — Le mensonge n°1 du freelance",
+    "hour": "Jeudi 14h",
+    "virality": "9/10",
+    "type": "storytelling",
+    "slides": [
+      "\"Je vous envoie ça lundi.\"\n\nLe mensonge n°1 du freelance.\n\nOn dit ça le vendredi.\nOn l'envoie le mercredi suivant.\nLe client a trouvé quelqu'un d'autre.",
+      "POURQUOI ÇA TRAÎNE :\n\n1️⃣ Ouvrir Word/Excel\n2️⃣ Chercher un ancien devis à copier\n3️⃣ Modifier les lignes\n4️⃣ Vérifier les mentions légales\n5️⃣ Exporter en PDF\n6️⃣ Écrire l'email d'envoi\n\n= 45 min minimum\n= \"Je ferai ça plus tard\"",
+      "AVEC DEVIZLY :\n\n1️⃣ Ouvrir Devizly (30s)\n2️⃣ Décrire la prestation à l'IA\n3️⃣ Ajuster les prix\n4️⃣ Cliquer \"Envoyer\"\n\n= 2 minutes top chrono\n= Vous l'envoyez PENDANT l'appel client",
+      "LE PREMIER QUI ENVOIE GAGNE :\n\n📊 Un devis envoyé dans l'heure\na 3x plus de chances d'être accepté\nqu'un devis envoyé 48h après.\n\nVitesse = Crédibilité = Signature",
+      "Ne perdez plus de clients\npar procrastination.\n\n→ devizly.fr\n\nEnvoyez votre prochain devis\nen moins de 2 minutes."
+    ],
+    "hashtags": "#Freelance #Productivite #GestionClient #Devis #Devizly"
+  },
+  {
+    "day": 7,
+    "title": "Développeur web : le template de devis qui convertit à 80%",
+    "hour": "Dimanche 18h",
+    "virality": "8/10",
+    "type": "inspiration",
+    "slides": [
+      "Développeur web :\nle template de devis\nqui convertit à 80%.\n\n5 sections. Pas une de plus →",
+      "STRUCTURE QUI CONVERTIT :\n\n1️⃣ Audit & cadrage (10% du total)\n2️⃣ Design UX/UI (25%)\n3️⃣ Développement front + back (40%)\n4️⃣ Tests & mise en prod (15%)\n5️⃣ Maintenance 3 mois incluse (10%)\n\nChaque ligne = une valeur visible.",
+      "LES DÉTAILS QUI FONT SIGNER :\n\n✅ \"Responsive mobile\" dans chaque ligne\n✅ Nombre de pages explicite\n✅ Technologies mentionnées\n✅ Délai par phase\n✅ \"Hébergement 1 an offert\"\n\n= Le client comprend ce qu'il paie",
+      "SUR DEVIZLY :\n\n→ Tapez \"Site vitrine 5 pages React\npour un restaurant\"\n\nL'IA génère :\n• Maquettes Figma (3 propositions)\n• Dev React + Next.js\n• Intégration CMS\n• SEO technique\n• Formation client (1h)\n\nPrix marché inclus.",
+      "Utilisez ce template\nsur votre prochain devis.\n\n→ devizly.fr\n\nOu créez le vôtre depuis un template pro."
+    ],
+    "hashtags": "#Developpeur #FreelanceDev #WebDev #DevisWeb #Devizly"
+  },
+  {
+    "day": 8,
+    "title": "3 clients m'ont payé pendant que je dormais",
+    "hour": "Mardi 9h",
+    "virality": "9/10",
+    "type": "educatif",
+    "slides": [
+      "3 clients m'ont payé\npendant que je dormais.\n\nPas de relance. Pas d'email.\nPas de \"c'est bon je vous fais\nun virement demain\".\n\nComment →",
+      "LE PROBLÈME DES FREELANCES :\n\n📧 \"Je vous paie en fin de mois\"\n📧 3 semaines plus tard : rien\n📞 \"Ah j'ai oublié, je fais ça demain\"\n📧 Encore rien\n😤 Vous relancez 5 fois\n\nRésultat : payé 47 jours après.\nOu jamais.",
+      "LE WORKFLOW DEVIZLY :\n\n1. Client reçoit le devis par lien\n2. Il consulte → vous êtes notifié\n3. Il signe électroniquement (eIDAS)\n4. Bouton \"Payer maintenant\" (Stripe)\n5. Argent sur votre compte en 48h\n\nTout ça sans intervention de votre part.",
+      "STRIPE CONNECT :\n\n💳 Carte bancaire (Visa, MC, Amex)\n🏦 Virement sous 48h\n🔒 Chiffrement SSL\n📱 Le client paie depuis son téléphone\n\nConfiguration : 2 minutes.\nCoût : 1.4% + 0.25€ par transaction.\n\nMoins cher qu'un impayé.",
+      "Encaissez vos clients\npendant que vous dormez.\n\n→ devizly.fr\n\nStipe Connect intégré.\nGratuit à configurer."
+    ],
+    "hashtags": "#Freelance #Paiement #StripeConnect #Tresorerie #Devizly"
+  },
+  {
+    "day": 9,
+    "title": "Le devis de 30 720 € généré en 30 secondes",
+    "hour": "Mercredi 11h",
+    "virality": "9/10",
+    "type": "cas_usage",
+    "slides": [
+      "Un devis de 30 720 €\ngénéré en 30 secondes.\n\nRénovation cuisine pro\npour un restaurant gastronomique.\n\nVoici exactement comment →",
+      "CE QUE J'AI TAPÉ :\n\n\"Rénovation complète cuisine\nprofessionnelle pour restaurant\ngastronomique à Bordeaux.\nPlan de travail inox 6m,\nhotte extraction, plomberie complète,\nsol antidérapant 35m².\"\n\n= 3 lignes. C'est tout.",
+      "CE QUE L'IA A GÉNÉRÉ :\n\n1. Plan inox professionnel — 4 800 €\n2. Hotte extraction — 5 200 €\n3. Installation gaz — 3 600 €\n4. Sol antidérapant (35m²) — 4 200 €\n5. Plonge + lave-vaisselle — 4 800 €\n6. Normes électriques — 3 000 €\n\nTotal HT : 25 600 €\nTTC : 30 720 €",
+      "LE CLIENT A :\n\n👀 Ouvert le devis en 4 min\n✍️ Signé électroniquement\n💳 Payé l'acompte 30% (9 216 €)\n\nTemps total :\nCréation → Signature → Acompte\n= 2h47\n\n[Screenshot devis réel Devizly]",
+      "Votre prochain gros devis\nen 30 secondes.\n\n→ devizly.fr\n\nL'IA connaît les prix marché\nde votre secteur."
+    ],
+    "hashtags": "#Freelance #BTP #Artisan #DevisIA #Devizly"
+  },
+  {
+    "day": 10,
+    "title": "Consultant : facturez vos heures sans tableur Excel",
+    "hour": "Jeudi 14h",
+    "virality": "8/10",
+    "type": "storytelling",
+    "slides": [
+      "Consultant :\nfacturez vos heures\nsans tableur Excel.\n\nLe time tracking intégré\nqui se transforme en devis →",
+      "LE CAUCHEMAR DU CONSULTANT :\n\n📊 Feuille Excel \"heures_mars.xlsx\"\n🕐 \"C'était 2h ou 3h ce call ?\"\n📧 \"Tu peux me détailler tes heures ?\"\n💀 Fin de mois : 4h à tout recompiler\n\nRésultat : vous oubliez des heures\n= vous travaillez gratuitement",
+      "DEVIZLY TIME TRACKING :\n\n⏱️ Start/Stop par client ou devis\n📋 Description de chaque session\n💰 Taux horaire par défaut\n📊 Total heures + montant en temps réel\n\nUn bouton : \"Facturer ces heures\"\n→ Les heures deviennent des lignes de devis",
+      "EXEMPLE :\n\n3 sessions de consulting :\n• Audit SEO — 2h × 120€ = 240€\n• Stratégie contenu — 3h × 120€ = 360€\n• Formation équipe — 1.5h × 120€ = 180€\n\n→ Clic \"Facturer\" → Devis 780€ généré\n→ Envoyé → Signé → Payé\n\nEn 2 clics.",
+      "Arrêtez de travailler\ndes heures gratuitement.\n\n→ devizly.fr\n\nTime tracking + facturation\nen un seul outil."
+    ],
+    "hashtags": "#Consultant #Freelance #TimeTracking #Facturation #Devizly"
+  },
+  {
+    "day": 11,
+    "title": "La relance qui sauve 12 000 € par an",
+    "hour": "Mardi 9h",
+    "virality": "9/10",
+    "type": "educatif",
+    "slides": [
+      "La relance qui sauve\n12 000 € par an.\n\n42% des devis non relancés\nfinissent à la poubelle.\n\nVoici le système →",
+      "SANS RELANCE :\n\n📧 Devis envoyé\n⏳ 3 jours... silence\n😰 \"Je relance ou pas ?\"\n⏳ 5 jours... \"Il a peut-être pas vu\"\n⏳ 10 jours... trop tard\n💀 Le client est parti ailleurs\n\n× 10 devis/mois\n= 12 000 €/an perdus",
+      "RELANCES AUTO DEVIZLY :\n\nJ+2 : \"Votre devis est disponible\"\n(Si consulté mais pas signé)\n\nJ+5 : \"Rappel : votre devis expire dans X jours\"\n(Urgence douce)\n\nJ+7 : \"Dernière chance\"\n(Scarcity)\n\n100% automatique. 0 effort.",
+      "TRACKING INTELLIGENT :\n\n👀 \"Vu 3 fois\" → Badge HOT 🔥\n📊 Notification temps réel\n📧 Relance déclenchée par l'activité\n🔕 Opt-out RGPD respecté\n\nVous savez exactement\nquand et combien de fois\nvotre client a ouvert le devis.",
+      "Ne laissez plus 12 000 €\nsur la table chaque année.\n\n→ devizly.fr\n\nRelances auto dès le plan Pro (19€/mois)"
+    ],
+    "hashtags": "#Freelance #Relance #Tresorerie #GestionClient #Devizly"
+  },
+  {
+    "day": 12,
+    "title": "Artisan BTP : le devis conforme que l'assureur accepte",
+    "hour": "Mercredi 11h",
+    "virality": "8/10",
+    "type": "cas_usage",
+    "slides": [
+      "Artisan BTP :\nle devis conforme que\nl'assureur de votre client accepte.\n\nParce qu'un devis sur un bout\nde papier, c'est fini →",
+      "CE QUE L'ASSUREUR EXIGE :\n\n✅ Numérotation séquentielle\n✅ SIRET + assurance décennale\n✅ Détail matériaux + main d'œuvre\n✅ TVA ventilée par ligne\n✅ Conditions de paiement\n✅ Durée de validité\n\nSans ça : le client n'est pas remboursé\n= il ne signe pas.",
+      "DEVIZLY POUR LE BTP :\n\nTapez : \"Terrasse bois composite 20m²,\nfondations béton, garde-corps inox\"\n\n→ L'IA génère :\n• Fourniture bois composite — X €\n• Main d'œuvre pose — X €\n• Fondations béton — X €\n• Garde-corps inox — X €\n• Évacuation déchets — X €",
+      "PDF PROFESSIONNEL :\n\n📄 Logo de votre entreprise\n📋 Toutes les mentions légales\n💰 TVA 10% ou 20% auto\n✍️ Signature électronique eIDAS\n📜 Certificat d'intégrité SHA-256\n\nValeur légale = signature manuscrite",
+      "Vos devis BTP conformes\nen 30 secondes.\n\n→ devizly.fr\n\nFonctionne pour plombier, électricien,\nmaçon, menuisier, peintre..."
+    ],
+    "hashtags": "#BTP #Artisan #Devis #Construction #Devizly"
+  },
+  {
+    "day": 13,
+    "title": "J'ai automatisé 100% de ma facturation freelance",
+    "hour": "Jeudi 14h",
+    "virality": "9/10",
+    "type": "storytelling",
+    "slides": [
+      "J'ai automatisé 100%\nde ma facturation freelance.\n\nDe la création du devis\njusqu'à l'écriture comptable.\n\n0 intervention manuelle →",
+      "LE FLUX COMPLET :\n\n1️⃣ IA génère le devis (30s)\n2️⃣ Envoi au client (1 clic)\n3️⃣ Client signe (eIDAS)\n4️⃣ Facture auto-générée\n5️⃣ Client paie (Stripe)\n6️⃣ Export FEC comptable\n\n= Du devis à la compta\nen 0 clic après l'envoi.",
+      "EXPORT COMPTABLE FEC :\n\n📊 Fichier des Écritures Comptables\n✅ Format légal français\n✅ 18 colonnes obligatoires\n✅ Double-entry (411/706/4457/512)\n✅ Compatible tous les logiciels compta\n\nVotre comptable vous adorera.",
+      "MICRO-ENTREPRENEUR ?\n\n✅ TVA non applicable (art. 293B CGI)\n✅ Mention auto sur les devis\n✅ Export simplifié sans TVA\n✅ Suivi du CA vs plafond\n\nTout est pré-configuré\nselon votre statut.",
+      "Automatisez votre facturation\nde A à Z.\n\n→ devizly.fr\n\nExport FEC inclus dès le plan Pro."
+    ],
+    "hashtags": "#Freelance #Facturation #Comptabilite #FEC #Devizly"
+  },
+  {
+    "day": 14,
+    "title": "Le secret des freelances à 100K+ : l'acompte 30%",
+    "hour": "Dimanche 18h",
+    "virality": "9/10",
+    "type": "inspiration",
+    "slides": [
+      "Le secret des freelances\nà 100K+ de CA :\n\nl'acompte de 30%\navant de commencer.\n\nPourquoi et comment →",
+      "SANS ACOMPTE :\n\n❌ Vous travaillez 2 semaines\n❌ Le client disparaît\n❌ Aucun recours facile\n❌ Trésorerie en dents de scie\n\nStatistique : 18% des freelances\nont au moins 1 impayé total/an.",
+      "AVEC ACOMPTE 30% :\n\n✅ Vous filtrez les clients sérieux\n✅ Cash immédiat pour démarrer\n✅ Client engagé = moins d'abandon\n✅ Trésorerie prévisible\n\nDevizly : le bouton \"Payer 30%\"\napparaît automatiquement\nsur le devis partagé.",
+      "COMMENT CONFIGURER :\n\n1. Créez votre devis normalement\n2. Activez l'acompte (30% par défaut)\n3. Le client voit :\n   \"Payer 9 216,00 € maintenant\"\n4. Stripe encaisse\n5. Vous recevez l'argent en 48h\n\n[Screenshot bouton payer Devizly]",
+      "Protégez votre trésorerie.\nDemandez un acompte.\n\n→ devizly.fr\n\nAcompte Stripe en 2 clics."
+    ],
+    "hashtags": "#Freelance #Tresorerie #Acompte #GestionFinanciere #Devizly"
+  },
+  {
+    "day": 15,
+    "title": "Votre devis Word ne passera pas le contrôle URSSAF",
+    "hour": "Mardi 9h",
+    "virality": "9/10",
+    "type": "educatif",
+    "slides": [
+      "Votre devis Word\nne passera pas\nle contrôle URSSAF.\n\nVoici les 4 erreurs\nqui déclenchent un redressement →",
+      "ERREUR 1 : Pas de numérotation\n\"Devis_final_v3_corrigé.docx\"\n❌ Pas de numéro séquentiel unique\n\nERREUR 2 : TVA fantôme\n\"Total : 1 200 €\"\n❌ HT ? TTC ? TVA à quel taux ?\n\nAmendes : jusqu'à 75 000 €",
+      "ERREUR 3 : Mentions manquantes\n❌ Pas de SIRET\n❌ Pas de forme juridique\n❌ Pas d'adresse complète\n❌ Pas de durée de validité\n\nERREUR 4 : Pas de séquence\n❌ Devis-001, Devis-003... Devis-002 ?\n❌ L'URSSAF vérifie la continuité",
+      "DEVIZLY = 0 ERREUR POSSIBLE :\n\n✅ DEV-0001, DEV-0002... auto\n✅ SIRET pré-rempli\n✅ TVA calculée (20% ou exonéré)\n✅ Toutes mentions légales\n✅ PDF archivé + horodaté\n✅ Export FEC pour le comptable",
+      "Mettez-vous en conformité\navant le prochain contrôle.\n\n→ devizly.fr\n\n3 devis gratuits.\nConformes dès le premier."
+    ],
+    "hashtags": "#Freelance #URSSAF #Conformite #MentionsLegales #Devizly"
+  },
+  {
+    "day": 16,
+    "title": "Photographe : comment j'ai doublé mes tarifs avec un meilleur devis",
+    "hour": "Mercredi 11h",
+    "virality": "8/10",
+    "type": "cas_usage",
+    "slides": [
+      "Photographe :\ncomment j'ai doublé mes tarifs\navec un meilleur devis.\n\nLe problème n'était pas\nmon travail. C'était\nma présentation →",
+      "MON ANCIEN DEVIS :\n\n\"Shooting photo mariage — 800 €\"\n\n1 ligne. Pas de détail.\nLe client compare avec\nle photographe à 400 €.\n\nIl ne voit aucune différence.",
+      "MON NOUVEAU DEVIS (Devizly) :\n\n1. RDV préparatoire (1h) — 100 €\n2. Shooting jour J (8h) — 600 €\n3. Retouche 200 photos HD — 400 €\n4. Galerie privée en ligne — 150 €\n5. Album 30x30 premium — 250 €\n6. Clé USB + droits usage — 100 €\n\nTotal : 1 600 €\nMême travail. Double du prix.",
+      "LA CLÉ :\n\n📋 Détaillez chaque livrable\n💰 Le client voit la VALEUR\n✨ Présentation pro = confiance\n📄 PDF avec votre logo\n✍️ Signature en ligne\n\nRésultat : 0 négociation.\nLe prix se justifie tout seul.",
+      "Structurez vos devis photo\ncomme un pro.\n\n→ devizly.fr\n\nL'IA connaît les tarifs marché\nde la photo."
+    ],
+    "hashtags": "#Photographe #Freelance #Tarification #Photo #Devizly"
+  },
+  {
+    "day": 17,
+    "title": "La signature électronique eIDAS change tout",
+    "hour": "Jeudi 14h",
+    "virality": "8/10",
+    "type": "storytelling",
+    "slides": [
+      "\"Imprimez, signez, scannez,\nrenvoyez par email.\"\n\nC'est 2019 ça.\n\nEn 2026, la signature eIDAS\na la même valeur légale\nqu'un paraphe manuscrit →",
+      "SIGNATURE EIDAS :\n\n✅ Règlement européen 910/2014\n✅ Valeur probante en justice\n✅ Horodatage cryptographique\n✅ SHA-256 hash du document\n✅ IP + User-Agent du signataire\n✅ Certificat d'intégrité",
+      "SUR DEVIZLY :\n\n1. Le client ouvre le lien du devis\n2. Il dessine sa signature au doigt\n3. Devizly capture :\n   • Hash SHA-256 du document\n   • IP du signataire\n   • Navigateur + appareil\n   • Horodatage exact\n4. Certificat eIDAS généré en PDF",
+      "FINI :\n\n❌ \"J'ai pas d'imprimante\"\n❌ \"Je vous renvoie ça demain\"\n❌ \"Le scan est illisible\"\n❌ Documents perdus\n\n✅ Signature en 10 secondes\n✅ Depuis un téléphone\n✅ Preuve légale archivée",
+      "Passez à la signature électronique.\nC'est gratuit sur Devizly.\n\n→ devizly.fr\n\neIDAS inclus. Tous les plans."
+    ],
+    "hashtags": "#SignatureElectronique #eIDAS #Freelance #Legal #Devizly"
+  },
+  {
+    "day": 18,
+    "title": "Le pipeline qui a transformé mon business freelance",
+    "hour": "Mardi 9h",
+    "virality": "8/10",
+    "type": "educatif",
+    "slides": [
+      "Le pipeline qui a transformé\nmon business freelance.\n\nAvant : des devis partout,\naucune visibilité.\n\nAprès : un Kanban visuel\nqui me dit quoi faire →",
+      "AVANT (chaos) :\n\n📧 \"Le devis de Martin ?\" — cherche dans les mails\n📝 \"Sophie a signé ?\" — aucune idée\n💰 \"Qui me doit de l'argent ?\" — faut vérifier\n📊 \"Mon CA ce mois ?\" — Excel cassé\n\n= Stress permanent",
+      "APRÈS (pipeline Devizly) :\n\n🟢 Prospects : 3 (12 400 €)\n🔵 Envoyés : 5 (53 472 €)\n🟡 Signés : 2 (9 350 €)\n🟢 Payés : 4 (28 600 €)\n\nUn coup d'œil = tout est clair.\nDrag & drop pour déplacer.",
+      "FEATURES PIPELINE :\n\n🔥 Badge HOT (client a ouvert 3x)\n👀 Badge \"Vu\" / \"Non lu\"\n🔔 Relance en 1 clic\n📊 CA par colonne\n💰 Total en cours visible\n\n[Screenshot pipeline réel Devizly]",
+      "Visualisez votre business\nen un coup d'œil.\n\n→ devizly.fr\n\nPipeline inclus. Gratuit."
+    ],
+    "hashtags": "#Freelance #Pipeline #CRM #GestionProjet #Devizly"
+  },
+  {
+    "day": 19,
+    "title": "Community manager : le devis que vos clients attendent",
+    "hour": "Mercredi 11h",
+    "virality": "8/10",
+    "type": "cas_usage",
+    "slides": [
+      "Community manager :\nle devis que vos clients attendent.\n\nPas \"gestion réseaux sociaux — X€\".\n\nMais un plan détaillé\nqui justifie chaque euro →",
+      "LE MAUVAIS DEVIS :\n\n\"Community management\n3 mois — 2 400 €\"\n\n❌ Trop vague\n❌ Le client ne sait pas ce qu'il a\n❌ Il va comparer avec Fiverr à 200€/mois",
+      "LE BON DEVIS (Devizly) :\n\n1. Audit réseaux existants — 300 €\n2. Stratégie éditoriale — 400 €\n3. Création 12 posts/mois × 3 — 1 800 €\n4. Planning éditorial — 200 €\n5. Reporting mensuel — 300 €\n6. Veille concurrentielle — 200 €\n\nTotal : 3 200 €\nMême travail. +33% de valeur perçue.",
+      "TAPEZ SUR DEVIZLY :\n\n\"Community management Instagram\n+ LinkedIn pour une agence immobilière,\n12 posts/mois pendant 3 mois\"\n\n→ L'IA structure en 6-8 lignes\n→ Prix marché CM freelance\n→ Vous ajustez à vos tarifs\n→ Envoi + signature en 2 min",
+      "Structurez vos devis CM\ncomme une agence.\n\n→ devizly.fr\n\n3 devis gratuits pour tester."
+    ],
+    "hashtags": "#CommunityManager #Freelance #SocialMedia #Devis #Devizly"
+  },
+  {
+    "day": 20,
+    "title": "Pourquoi vos clients ne signent pas vos devis",
+    "hour": "Jeudi 14h",
+    "virality": "9/10",
+    "type": "storytelling",
+    "slides": [
+      "Pourquoi vos clients\nne signent pas vos devis.\n\nCe n'est pas le prix.\nCe n'est pas la concurrence.\n\nC'est la friction →",
+      "LES 5 FRICTIONS QUI TUENT :\n\n1️⃣ PDF en pièce jointe → spam\n2️⃣ \"Imprimez et signez\" → abandon\n3️⃣ Pas de bouton de paiement → report\n4️⃣ Pas de relance → oubli\n5️⃣ Design amateur → méfiance\n\nChaque friction = -20% de conversion",
+      "DEVIZLY ÉLIMINE TOUT :\n\n1️⃣ Lien direct (pas de PJ)\n2️⃣ Signature au doigt (10s)\n3️⃣ Bouton \"Payer maintenant\"\n4️⃣ Relances auto J+2, J+5, J+7\n5️⃣ Design pro avec votre logo\n\n0 friction = signature immédiate",
+      "RÉSULTAT MESURABLE :\n\n📊 Taux de conversion moyen :\n• Devis PDF par email : 23%\n• Devis Devizly : 67%\n\n= 3x plus de signatures\npour le même nombre de prospects",
+      "Éliminez les frictions.\nMultipliez vos signatures.\n\n→ devizly.fr\n\nVotre premier devis sans friction\nen 30 secondes."
+    ],
+    "hashtags": "#Freelance #Conversion #Vente #UX #Devizly"
+  },
+  {
+    "day": 21,
+    "title": "Le portail client qui impressionne vos prospects",
+    "hour": "Dimanche 18h",
+    "virality": "8/10",
+    "type": "inspiration",
+    "slides": [
+      "Le portail client\nqui impressionne vos prospects.\n\nComme HoneyBook ou Bonsai.\nMais en français. Et à 19€/mois →",
+      "CE QUE VOIT VOTRE CLIENT :\n\n🎨 Votre logo + couleur de marque\n📋 Tous ses devis en un endroit\n💳 Statut de paiement en temps réel\n📄 Téléchargement PDF\n✍️ Signature en 1 clic\n\nURL personnalisée :\ndevizly.fr/portal/votre-slug",
+      "POURQUOI C'EST IMPORTANT :\n\n✅ Image professionnelle +100\n✅ Le client retrouve tout seul\n✅ Moins de questions par email\n✅ Confiance = signature plus rapide\n✅ Différenciation vs concurrents",
+      "CONFIGURATION (2 min) :\n\n1. Paramètres → Slug personnalisé\n2. Couleur de marque (hex)\n3. Logo de votre entreprise\n\nC'est tout. Le portail est live.\n\n[Screenshot portail client Devizly]",
+      "Offrez à vos clients\nune expérience premium.\n\n→ devizly.fr\n\nPortail client inclus\ndès le plan Pro."
+    ],
+    "hashtags": "#Freelance #PortailClient #Branding #Experience #Devizly"
+  },
+  {
+    "day": 22,
+    "title": "Le briefing IA qui vous dit quoi faire chaque matin",
+    "hour": "Mardi 9h",
+    "virality": "8/10",
+    "type": "educatif",
+    "slides": [
+      "Le briefing IA\nqui vous dit quoi faire\nchaque matin.\n\nPlus besoin de chercher\ndans vos emails ou votre CRM →",
+      "CHAQUE MATIN :\n\n☕ Vous ouvrez Devizly\n📊 L'IA a analysé votre pipeline\n\nVous voyez :\n• 2 devis à relancer aujourd'hui\n• 1 devis qui expire demain\n• 3 paiements en attente\n• CA du mois vs objectif",
+      "ACTIONS PRIORITAIRES :\n\n🔴 \"Relancer Martin Dupont — 9 350 €\n   (devis ouvert 3x, pas signé)\"\n🟡 \"Sophie Laurent expire dans 2j\n   — 14 592 €\"\n🟢 \"Tech Solutions a payé — 3 456 €\"\n\nPas de réflexion. Juste de l'action.",
+      "IA MISTRAL (FRANCE) :\n\n🇫🇷 Hébergée en France\n🔒 RGPD natif\n📊 Analyse vos données localement\n💬 Ton professionnel et direct\n\nPas de ChatGPT US\nqui lit vos données clients.",
+      "Commencez chaque journée\navec un plan d'action clair.\n\n→ devizly.fr\n\nBriefing IA inclus. Plan Pro."
+    ],
+    "hashtags": "#Freelance #IA #Productivite #MistralAI #Devizly"
+  },
+  {
+    "day": 23,
+    "title": "Rédacteur web : le devis qui fait dire \"oui\" en 5 min",
+    "hour": "Mercredi 11h",
+    "virality": "8/10",
+    "type": "cas_usage",
+    "slides": [
+      "Rédacteur web :\nle devis qui fait dire \"oui\"\nen 5 minutes.\n\nPas en baissant vos prix.\nEn structurant votre offre →",
+      "TAPEZ SUR DEVIZLY :\n\n\"Rédaction de 10 articles SEO\nde 1500 mots pour un site e-commerce\nde compléments alimentaires.\nRecherche de mots-clés incluse.\"\n\n= 2 lignes de description.",
+      "L'IA GÉNÈRE :\n\n1. Audit sémantique — 250 €\n2. Recherche mots-clés (10) — 200 €\n3. Rédaction 10 articles × 1500 mots — 1 500 €\n4. Optimisation SEO on-page — 300 €\n5. Meta descriptions × 10 — 100 €\n6. Maillage interne — 150 €\n\nTotal : 2 500 €\n\nPlus pro. Plus cher. Plus clair.",
+      "LE CLIENT REÇOIT :\n\n📧 Lien de consultation\n📄 Devis détaillé professionnel\n✍️ Signature en 10 secondes\n💳 Paiement acompte 30% = 750 €\n\nTemps entre l'envoi et le \"oui\" :\n5 minutes en moyenne.",
+      "Vos devis rédaction\nen 30 secondes.\n\n→ devizly.fr\n\nL'IA connaît les tarifs\ndu marché rédaction."
+    ],
+    "hashtags": "#Redacteur #SEO #Freelance #ContentMarketing #Devizly"
+  },
+  {
+    "day": 24,
+    "title": "J'ai arrêté de perdre des clients le weekend",
+    "hour": "Jeudi 14h",
+    "virality": "9/10",
+    "type": "storytelling",
+    "slides": [
+      "J'ai arrêté de perdre\ndes clients le weekend.\n\nParce que mes devis travaillent\npendant que je ne travaille pas →",
+      "LE PROBLÈME :\n\n📧 Vendredi soir : prospect chaud\n🏖️ Weekend : vous déconnectez\n📧 Lundi matin : le client\na signé avec quelqu'un d'autre\n\nVous avez perdu le deal\nparce que vous n'étiez pas\nassez rapide.",
+      "LA SOLUTION :\n\n📧 Vendredi soir : vous créez le devis\nen 30 secondes sur Devizly\n📧 Vous l'envoyez avant de partir\n🔔 Samedi 10h : notification\n   \"Client a ouvert le devis\"\n✍️ Samedi 14h : \"Devis signé !\"\n💳 Dimanche : paiement reçu",
+      "LE SYSTÈME TRAVAILLE POUR VOUS :\n\n✅ Notifications temps réel\n✅ Relances automatiques\n✅ Signature sans intervention\n✅ Paiement Stripe 24/7\n\nVous n'avez RIEN à faire.\nLe système gère.",
+      "Créez un système\nqui vend sans vous.\n\n→ devizly.fr\n\nVos devis travaillent 24/7."
+    ],
+    "hashtags": "#Freelance #Automatisation #Weekend #Systeme #Devizly"
+  },
+  {
+    "day": 25,
+    "title": "Le QR code qui a remplacé ma carte de visite",
+    "hour": "Mardi 9h",
+    "virality": "8/10",
+    "type": "educatif",
+    "slides": [
+      "Le QR code\nqui a remplacé\nma carte de visite.\n\nEn networking, je ne donne\nplus de carte. Je donne\nun devis en direct →",
+      "LA SCÈNE :\n\n🤝 \"Bonjour, qu'est-ce que vous faites ?\"\n💬 \"Je suis dev web freelance.\"\n🤝 \"Justement, j'ai un projet !\"\n\nAvant : \"Envoyez-moi un email\"\n(perdu dans la pile)\n\nMaintenant : je sors mon tel,\n30 secondes, devis envoyé.",
+      "COMMENT :\n\n1️⃣ Ouvrir Devizly sur mobile\n2️⃣ Décrire la prestation à l'IA\n3️⃣ Ajuster le prix\n4️⃣ Partager par QR code\n\nLe prospect scanne → devis affiché\n→ Il peut signer sur place\n\nImpact : \"Wow, c'est pro !\"",
+      "PARTAGE MULTI-CANAL :\n\n🔗 Lien direct\n📱 QR Code\n📧 Email\n💬 WhatsApp\n📲 SMS\n\nChaque canal en 1 clic.\n\n[Screenshot modal partage Devizly]",
+      "Soyez le freelance\nqui envoie un devis\nen plein meeting.\n\n→ devizly.fr\n\nQR code inclus. Gratuit."
+    ],
+    "hashtags": "#Freelance #Networking #QRCode #MobileFirst #Devizly"
+  },
+  {
+    "day": 26,
+    "title": "Architecte d'intérieur : devis de 14 592 € en 2 minutes",
+    "hour": "Mercredi 11h",
+    "virality": "8/10",
+    "type": "cas_usage",
+    "slides": [
+      "Architecte d'intérieur :\ndevis de 14 592 €\nen 2 minutes.\n\nBureau sur mesure\npour un cabinet d'architecte.\n\nVoici le détail →",
+      "PROMPT IA DEVIZLY :\n\n\"Aménagement bureau cabinet architecte.\nBureau chêne massif 2m40,\nbibliothèque murale intégrée,\ncloison vitrée atelier,\néclairage architectural LED,\npeinture et finitions.\"\n\n= Description naturelle. Rien de plus.",
+      "DEVIS GÉNÉRÉ :\n\n1. Bureau chêne massif (2m40×0m80) — 3 600 €\n2. Bibliothèque murale intégrée — 3 500 €\n3. Cloison vitrée atelier — 2 800 €\n4. Éclairage architectural LED × 6 — 1 500 €\n5. Peinture et finitions (40m²) — 1 400 €\n\nTotal HT : 12 800 €\nTVA 20% : 1 792 €\nRemise 5% incluse\nTotal TTC : 14 592 €",
+      "ENVOYÉ → SIGNÉ → PAYÉ :\n\n📧 Envoyé par lien en 1 clic\n👀 Client ouvre en 4 min\n✍️ Signature eIDAS\n💳 Acompte 30% = 4 377,60 €\n📄 PDF avec certificat\n\n[Screenshot devis réel 14 592 €]",
+      "Vos devis archi d'intérieur\nprêts en 2 minutes.\n\n→ devizly.fr\n\nL'IA connaît les prix marché\ndu second œuvre."
+    ],
+    "hashtags": "#ArchiInterieur #Freelance #Design #Devis #Devizly"
+  },
+  {
+    "day": 27,
+    "title": "La feature que 100% des freelances demandent",
+    "hour": "Jeudi 14h",
+    "virality": "9/10",
+    "type": "storytelling",
+    "slides": [
+      "La feature que 100%\ndes freelances demandent :\n\n\"Je veux savoir si mon client\na ouvert mon devis.\"\n\nDevizly le fait →",
+      "TRACKING DE LECTURE :\n\n👀 \"Devis consulté\" — avec la date/heure\n🔥 \"HOT\" — ouvert 3+ fois\n📊 \"Non lu\" — pas encore ouvert\n⏱️ Temps de lecture\n\nVous savez EXACTEMENT\noù en est chaque devis.",
+      "COMMENT L'UTILISER :\n\n1. Devis envoyé lundi 9h\n2. Mardi 14h : notification\n   \"Martin Dupont a consulté\n    votre devis DEV-0007\"\n3. Mercredi : ouvert 3 fois → HOT 🔥\n4. Vous appelez : \"Bonjour Martin,\n   je vois que vous avez consulté\n   mon devis, des questions ?\"\n\n= Relance intelligente, pas aveugle.",
+      "SUR LE PIPELINE :\n\n📊 Chaque carte devis affiche :\n• Montant\n• Badges (Envoyé, HOT, Vu)\n• Bouton \"Relancer\"\n• Bouton \"Voir\"\n\nTout en un coup d'œil.\n\n[Screenshot pipeline badges]",
+      "Arrêtez de relancer\nà l'aveugle.\n\n→ devizly.fr\n\nTracking de lecture inclus."
+    ],
+    "hashtags": "#Freelance #CRM #Tracking #Vente #Devizly"
+  },
+  {
+    "day": 28,
+    "title": "Micro-entrepreneur : le devis 100% conforme en 30 secondes",
+    "hour": "Dimanche 18h",
+    "virality": "8/10",
+    "type": "inspiration",
+    "slides": [
+      "Micro-entrepreneur :\nle devis 100% conforme\nen 30 secondes.\n\nPas de TVA à gérer.\nPas de mentions à chercher.\nTout est automatique →",
+      "CE QUE DEVIZLY GÈRE :\n\n✅ \"TVA non applicable,\n   art. 293B du CGI\"\n   → Mention auto sur chaque devis\n\n✅ Pas de ligne TVA\n   → Total HT = Total TTC\n\n✅ SIRET pré-rempli\n✅ Numérotation séquentielle\n✅ Toutes les mentions légales",
+      "CONFIGURATION :\n\n1. Paramètres → Micro-entrepreneur ✅\n2. C'est tout.\n\nDevizly adapte automatiquement :\n• Les calculs (pas de TVA)\n• Les mentions légales\n• L'export comptable\n• Le PDF",
+      "COMPARATIF :\n\n| | Word | Devizly |\n|---|---|---|\n| Mention TVA | Manuel ❌ | Auto ✅ |\n| Numérotation | Manuel ❌ | Auto ✅ |\n| Signature | Imprimer ❌ | eIDAS ✅ |\n| Paiement | Virement ❌ | Stripe ✅ |\n| Relance | Manuel ❌ | Auto ✅ |\n| Prix | 0€ | 0€ ✅ |",
+      "Le meilleur outil\npour les micro-entrepreneurs.\n\n→ devizly.fr\n\n3 devis gratuits.\nParfait pour démarrer."
+    ],
+    "hashtags": "#MicroEntrepreneur #AutoEntrepreneur #Devis #Freelance #Devizly"
+  },
+  {
+    "day": 29,
+    "title": "Comment j'ai remplacé 4 outils par un seul",
+    "hour": "Mardi 9h",
+    "virality": "9/10",
+    "type": "educatif",
+    "slides": [
+      "Comment j'ai remplacé\n4 outils par un seul.\n\nWord + Excel + DocuSign + Stripe\n= 87 €/mois\n\nDevizly = 19 €/mois\n\nVoici le calcul →",
+      "L'ANCIEN STACK :\n\n📝 Word/Google Docs — Devis (0€, mais 45min/devis)\n📊 Excel — Suivi + compta (0€, mais erreurs)\n✍️ DocuSign — Signature (25€/mois)\n💳 Stripe — Paiement (séparé, pas intégré)\n📧 Mailchimp — Relances (13€/mois)\n\nTotal : 38-87€/mois + 3h/semaine",
+      "DEVIZLY REMPLACE TOUT :\n\n✨ Génération IA → remplace Word\n📊 Pipeline + Dashboard → remplace Excel\n✍️ Signature eIDAS → remplace DocuSign\n💳 Stripe Connect → intégré nativement\n🔔 Relances auto → remplace Mailchimp\n⏱️ Time tracking → bonus\n📄 Export FEC → bonus",
+      "LE CALCUL :\n\n❌ Avant : 87€/mois + 3h/semaine\n✅ Après : 19€/mois + 30min/semaine\n\nÉconomie : 68€/mois = 816€/an\nTemps gagné : 10h/mois = 120h/an\n\nSi votre TJM est 400€ :\n120h × 50€/h = 6 000€/an de temps récupéré",
+      "Simplifiez votre stack.\nUn seul outil pour tout.\n\n→ devizly.fr\n\nPlan Pro : 19€/mois.\nTout inclus."
+    ],
+    "hashtags": "#Freelance #SaaS #Productivite #Outils #Devizly"
+  },
+  {
+    "day": 30,
+    "title": "Votre prochaine mission commence par un bon devis",
+    "hour": "Mercredi 11h",
+    "virality": "9/10",
+    "type": "cas_usage",
+    "slides": [
+      "Votre prochaine mission\ncommence par un bon devis.\n\nPas par un email.\nPas par un coup de fil.\nPas par un PDF Word.\n\nPar un devis professionnel\nqui inspire confiance →",
+      "CE QUI DIFFÉRENCIE\nUN FREELANCE À 3K€/MOIS\nD'UN FREELANCE À 10K€/MOIS :\n\n❌ Pas le talent (souvent pareil)\n❌ Pas le réseau (ça se construit)\n\n✅ La rapidité de réponse\n✅ La qualité de présentation\n✅ Le professionnalisme perçu\n✅ La facilité de paiement",
+      "DEVIZLY VOUS DONNE TOUT ÇA :\n\n⚡ 30 secondes — plus rapide que tous\n🎨 Design pro — avec votre logo\n✍️ Signature eIDAS — crédibilité\n💳 Paiement intégré — pas de friction\n🔔 Relances auto — pas d'oubli\n📊 Dashboard — pilotage business",
+      "LE RÉSUMÉ :\n\n🆓 Gratuit : 3 devis/mois\n💜 Pro 19€ : 50 devis + relances + tracking\n🚀 Business 39€ : illimité + équipe\n\n✅ IA Mistral (France)\n✅ Signature eIDAS\n✅ Stripe Connect\n✅ Export FEC comptable\n✅ Portail client branded",
+      "Créez votre premier devis\nen 30 secondes.\n\n→ devizly.fr\n\nGratuit. Sans carte bancaire.\nRejoignez les freelances\nqui encaissent plus vite."
+    ],
+    "hashtags": "#Freelance #Devis #Entrepreneur #Devizly #LancezVous"
+  }
+]
