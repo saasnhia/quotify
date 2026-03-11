@@ -65,7 +65,7 @@ export async function GET(
   // Fetch logo from profiles
   const { data: profile } = await supabase
     .from("profiles")
-    .select("logo_url")
+    .select("logo_url, tva_number, is_micro_entrepreneur")
     .eq("id", user.id)
     .single();
 
@@ -93,6 +93,8 @@ export async function GET(
       siret: meta.company_siret || undefined,
       phone: meta.company_phone || undefined,
       logo_url: profile?.logo_url || undefined,
+      tva_number: meta.tva_number || profile?.tva_number || undefined,
+      is_micro_entrepreneur: meta.is_micro_entrepreneur || profile?.is_micro_entrepreneur || undefined,
     },
     currency: invoice.currency || "EUR",
   };

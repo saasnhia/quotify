@@ -33,6 +33,8 @@ interface PdfCompany {
   siret?: string;
   phone?: string;
   logo_url?: string | null;
+  tva_number?: string | null;
+  is_micro_entrepreneur?: boolean;
 }
 
 export interface DevisPdfProps {
@@ -374,6 +376,9 @@ export function DevisPdf(props: DevisPdfProps) {
             {company.siret && (
               <Text style={s.companyInfo}>SIRET : {company.siret}</Text>
             )}
+            {company.tva_number && !company.is_micro_entrepreneur && (
+              <Text style={s.companyInfo}>N° TVA : {company.tva_number}</Text>
+            )}
           </View>
           <View>
             <Text style={s.quoteNumber}>{quoteRef}</Text>
@@ -451,10 +456,12 @@ export function DevisPdf(props: DevisPdfProps) {
             <Text style={s.totalLabel}>Total HT</Text>
             <Text style={s.totalValue}>{f(total_ht)}</Text>
           </View>
-          <View style={s.totalRow}>
-            <Text style={s.totalLabel}>TVA ({tva_rate}%)</Text>
-            <Text style={s.totalValue}>{f(tvaAmount)}</Text>
-          </View>
+          {!company.is_micro_entrepreneur && (
+            <View style={s.totalRow}>
+              <Text style={s.totalLabel}>TVA ({tva_rate}%)</Text>
+              <Text style={s.totalValue}>{f(tvaAmount)}</Text>
+            </View>
+          )}
           {discount > 0 && (
             <View style={s.totalRow}>
               <Text style={[s.totalLabel, { color: "#DC2626" }]}>
@@ -466,10 +473,21 @@ export function DevisPdf(props: DevisPdfProps) {
             </View>
           )}
           <View style={s.totalTtcRow}>
-            <Text style={s.totalTtcLabel}>Total TTC</Text>
-            <Text style={s.totalTtcValue}>{f(total_ttc)}</Text>
+            <Text style={s.totalTtcLabel}>
+              {company.is_micro_entrepreneur ? "Total à payer" : "Total TTC"}
+            </Text>
+            <Text style={s.totalTtcValue}>
+              {f(company.is_micro_entrepreneur ? total_ht : total_ttc)}
+            </Text>
           </View>
         </View>
+        {company.is_micro_entrepreneur && (
+          <View style={{ marginBottom: 12 }}>
+            <Text style={{ fontSize: 8, color: C.muted, fontStyle: "italic" }}>
+              TVA non applicable, article 293 B du CGI
+            </Text>
+          </View>
+        )}
 
         {/* ── Notes ── */}
         {notes && (
@@ -508,10 +526,18 @@ export function DevisPdf(props: DevisPdfProps) {
           </Text>
           <Text style={s.footerText}>
             Conditions : Devis valide 30 jours sauf mention contraire.
-            Paiement a reception de facture.
+            Paiement à réception de facture. Pas d&apos;escompte pour règlement anticipé.
           </Text>
           <Text style={s.footerText}>
-            Document genere par Devizly — devizly.fr
+            Tout retard de paiement entraîne des pénalités au taux de 3 fois le taux d&apos;intérêt légal
+            (art. L441-10 du Code de commerce) et une indemnité forfaitaire de 40€ pour frais de recouvrement
+            (art. D441-5 du Code de commerce).
+          </Text>
+          <Text style={s.footerText}>
+            Prestations soumises à nos conditions générales de vente disponibles sur demande.
+          </Text>
+          <Text style={s.footerText}>
+            Document généré par Devizly — devizly.fr
           </Text>
         </View>
       </Page>

@@ -32,6 +32,7 @@ export default function ParametresPage() {
     auto_invoice_on_sign: true,
     auto_invoice_on_payment: true,
     auto_send_invoice: true,
+    relance_enabled: true,
   });
   const [leadForm, setLeadForm] = useState({
     lead_form_enabled: true,
@@ -50,6 +51,8 @@ export default function ParametresPage() {
     company_siret: "",
     company_phone: "",
     default_tva_rate: "20",
+    tva_number: "",
+    is_micro_entrepreneur: false,
   });
 
   useEffect(() => {
@@ -67,6 +70,8 @@ export default function ParametresPage() {
           company_siret: user.user_metadata.company_siret || "",
           company_phone: user.user_metadata.company_phone || "",
           default_tva_rate: user.user_metadata.default_tva_rate || "20",
+          tva_number: user.user_metadata.tva_number || "",
+          is_micro_entrepreneur: user.user_metadata.is_micro_entrepreneur || false,
         });
       }
 
@@ -193,6 +198,9 @@ export default function ParametresPage() {
           company_phone: profile.company_phone || null,
           default_tva_rate: parseFloat(profile.default_tva_rate) || 20,
           calendly_url: calendlyUrl || null,
+          tva_number: profile.tva_number || null,
+          tva_applicable: !profile.is_micro_entrepreneur,
+          is_micro_entrepreneur: profile.is_micro_entrepreneur,
         })
         .eq("id", user.id);
     }
@@ -219,7 +227,7 @@ export default function ParametresPage() {
   }
 
   async function handleAutomationToggle(
-    field: "auto_invoice_on_sign" | "auto_invoice_on_payment" | "auto_send_invoice"
+    field: "auto_invoice_on_sign" | "auto_invoice_on_payment" | "auto_send_invoice" | "relance_enabled"
   ) {
     const newValue = !automations[field];
     setAutomations((prev) => ({ ...prev, [field]: newValue }));
@@ -439,6 +447,51 @@ export default function ParametresPage() {
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Micro-entrepreneur toggle */}
+            <div className="flex items-center justify-between rounded-lg border p-4">
+              <div>
+                <p className="text-sm font-medium">
+                  Je suis micro-entrepreneur / auto-entrepreneur
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Active la mention &quot;TVA non applicable, art. 293B du CGI&quot; sur vos documents
+                </p>
+              </div>
+              <button
+                role="switch"
+                aria-checked={profile.is_micro_entrepreneur}
+                onClick={() =>
+                  setProfile({ ...profile, is_micro_entrepreneur: !profile.is_micro_entrepreneur })
+                }
+                className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                  profile.is_micro_entrepreneur ? "bg-primary" : "bg-slate-200"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    profile.is_micro_entrepreneur ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* TVA intracommunautaire */}
+            {!profile.is_micro_entrepreneur && (
+              <div className="space-y-2">
+                <Label>N° TVA intracommunautaire</Label>
+                <Input
+                  value={profile.tva_number}
+                  onChange={(e) =>
+                    setProfile({ ...profile, tva_number: e.target.value })
+                  }
+                  placeholder="FR12345678901"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Affiché sur vos devis et factures. Format : FR + 11 caractères.
+                </p>
+              </div>
+            )}
 
             <Separator />
 
@@ -746,6 +799,32 @@ export default function ParametresPage() {
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
                   automations.auto_send_invoice ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Relances automatiques */}
+          <div className="flex items-center justify-between py-4">
+            <div>
+              <p className="text-sm font-medium">
+                Relances automatiques (J+2, J+5, J+7)
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Vos clients reçoivent des rappels automatiques pour les devis en attente. Pro+ requis.
+              </p>
+            </div>
+            <button
+              role="switch"
+              aria-checked={automations.relance_enabled}
+              onClick={() => handleAutomationToggle("relance_enabled")}
+              className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
+                automations.relance_enabled ? "bg-primary" : "bg-slate-200"
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  automations.relance_enabled ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
