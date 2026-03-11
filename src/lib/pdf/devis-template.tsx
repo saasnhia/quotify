@@ -55,6 +55,11 @@ export interface DevisPdfProps {
   signed_at?: string | null;
   company: PdfCompany;
   currency?: string;
+  // eIDAS certificate fields
+  document_hash?: string | null;
+  document_hash_algorithm?: string | null;
+  signer_ip?: string | null;
+  signed_user_agent?: string | null;
 }
 
 /* ── Colors ────────────────────────────────────── */
@@ -347,6 +352,10 @@ export function DevisPdf(props: DevisPdfProps) {
     signed_at,
     company,
     currency = "EUR",
+    document_hash,
+    document_hash_algorithm,
+    signer_ip,
+    signed_user_agent,
   } = props;
 
   const f = (n: number) => fmt(n, currency);
@@ -541,6 +550,111 @@ export function DevisPdf(props: DevisPdfProps) {
           </Text>
         </View>
       </Page>
+
+      {/* ── eIDAS Certificate Page ── */}
+      {status === "signé" && document_hash && (
+        <Page size="A4" style={s.page}>
+          <View style={{ marginBottom: 24 }}>
+            <Text style={{ fontSize: 18, fontFamily: "Helvetica-Bold", color: C.primary, marginBottom: 4 }}>
+              Certificat de signature électronique
+            </Text>
+            <Text style={{ fontSize: 9, color: C.muted }}>
+              Conforme au règlement eIDAS (UE) n°910/2014
+            </Text>
+          </View>
+
+          <View style={{ backgroundColor: C.light, borderRadius: 6, padding: 16, marginBottom: 16 }}>
+            <Text style={{ fontSize: 8, color: C.muted, fontFamily: "Helvetica-Bold", textTransform: "uppercase" as const, marginBottom: 8 }}>
+              Document
+            </Text>
+            <View style={{ flexDirection: "row", marginBottom: 4 }}>
+              <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Référence</Text>
+              <Text style={{ fontSize: 9, fontFamily: "Helvetica-Bold" }}>{quoteRef} — {title}</Text>
+            </View>
+            <View style={{ flexDirection: "row", marginBottom: 4 }}>
+              <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Date de création</Text>
+              <Text style={{ fontSize: 9 }}>{fmtDate(created_at)}</Text>
+            </View>
+            <View style={{ flexDirection: "row", marginBottom: 4 }}>
+              <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Montant</Text>
+              <Text style={{ fontSize: 9, fontFamily: "Helvetica-Bold" }}>{f(company.is_micro_entrepreneur ? total_ht : total_ttc)}</Text>
+            </View>
+            <View style={{ flexDirection: "row", marginBottom: 4 }}>
+              <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Émetteur</Text>
+              <Text style={{ fontSize: 9 }}>{company.name || "Non renseigné"}</Text>
+            </View>
+            {client && (
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Destinataire</Text>
+                <Text style={{ fontSize: 9 }}>{client.name}</Text>
+              </View>
+            )}
+          </View>
+
+          <View style={{ backgroundColor: C.light, borderRadius: 6, padding: 16, marginBottom: 16 }}>
+            <Text style={{ fontSize: 8, color: C.muted, fontFamily: "Helvetica-Bold", textTransform: "uppercase" as const, marginBottom: 8 }}>
+              Signature
+            </Text>
+            {signer_name && (
+              <View style={{ flexDirection: "row", marginBottom: 4 }}>
+                <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Signataire</Text>
+                <Text style={{ fontSize: 9, fontFamily: "Helvetica-Bold" }}>{signer_name}</Text>
+              </View>
+            )}
+            {signed_at && (
+              <View style={{ flexDirection: "row", marginBottom: 4 }}>
+                <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Date de signature</Text>
+                <Text style={{ fontSize: 9 }}>{new Date(signed_at).toLocaleString("fr-FR", { timeZone: "Europe/Paris" })}</Text>
+              </View>
+            )}
+            {signer_ip && (
+              <View style={{ flexDirection: "row", marginBottom: 4 }}>
+                <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Adresse IP</Text>
+                <Text style={{ fontSize: 9, fontFamily: "Courier" }}>{signer_ip}</Text>
+              </View>
+            )}
+            {signed_user_agent && (
+              <View style={{ flexDirection: "row", marginBottom: 4 }}>
+                <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Navigateur</Text>
+                <Text style={{ fontSize: 8, color: C.muted, maxWidth: 350 }}>{signed_user_agent}</Text>
+              </View>
+            )}
+          </View>
+
+          <View style={{ backgroundColor: C.light, borderRadius: 6, padding: 16, marginBottom: 16 }}>
+            <Text style={{ fontSize: 8, color: C.muted, fontFamily: "Helvetica-Bold", textTransform: "uppercase" as const, marginBottom: 8 }}>
+              Intégrité du document
+            </Text>
+            <View style={{ flexDirection: "row", marginBottom: 4 }}>
+              <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Algorithme</Text>
+              <Text style={{ fontSize: 9 }}>{document_hash_algorithm || "SHA-256"}</Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ fontSize: 9, color: C.muted, width: 120 }}>Empreinte</Text>
+              <Text style={{ fontSize: 7, fontFamily: "Courier", maxWidth: 350 }}>{document_hash}</Text>
+            </View>
+          </View>
+
+          {signature_data && (
+            <View style={{ marginBottom: 16 }}>
+              <Text style={{ fontSize: 8, color: C.muted, fontFamily: "Helvetica-Bold", textTransform: "uppercase" as const, marginBottom: 8 }}>
+                Signature visuelle
+              </Text>
+              <Image src={signature_data} style={{ width: 200, height: 80 }} />
+            </View>
+          )}
+
+          <View style={{ borderTopWidth: 1, borderTopColor: C.border, paddingTop: 12 }}>
+            <Text style={{ fontSize: 8, color: C.muted, lineHeight: 1.6 }}>
+              Ce certificat atteste que le document référencé ci-dessus a été signé électroniquement
+              via la plateforme Devizly (devizly.fr). La signature a été réalisée conformément au
+              règlement eIDAS (UE) n°910/2014 relatif à l&apos;identification électronique et aux
+              services de confiance pour les transactions électroniques. L&apos;empreinte SHA-256
+              garantit l&apos;intégrité du document au moment de la signature.
+            </Text>
+          </View>
+        </Page>
+      )}
     </Document>
   );
 }

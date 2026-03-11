@@ -165,6 +165,24 @@ export async function POST(
     updateData.signature_data = signature_data;
     updateData.signer_name = signer_name.trim();
     updateData.signed_at = now;
+
+    // eIDAS audit trail: IP, User-Agent, document hash
+    const signerIp =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+    const signedUserAgent = request.headers.get("user-agent") || "unknown";
+    updateData.signer_ip = signerIp;
+    updateData.signed_user_agent = signedUserAgent;
+
+    // SHA-256 hash of signature payload for document integrity
+    const encoder = new TextEncoder();
+    const data = encoder.encode(`${quote.id}:${signer_name.trim()}:${now}:${signature_data}`);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const documentHash = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    updateData.document_hash = documentHash;
+    updateData.document_hash_algorithm = "SHA-256";
   }
 
   const { error: updateError } = await supabase

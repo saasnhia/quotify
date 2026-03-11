@@ -68,6 +68,10 @@ export async function GET(
       is_micro_entrepreneur: meta.is_micro_entrepreneur || profile?.is_micro_entrepreneur || undefined,
     },
     currency: quote.currency || "EUR",
+    document_hash: quote.document_hash || null,
+    document_hash_algorithm: quote.document_hash_algorithm || null,
+    signer_ip: quote.signer_ip || null,
+    signed_user_agent: quote.signed_user_agent || null,
   };
 
   const buffer = await renderToBuffer(<DevisPdf {...props} />);
