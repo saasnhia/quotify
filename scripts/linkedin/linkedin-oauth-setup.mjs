@@ -61,7 +61,7 @@ async function openBrowser(url) {
 const ENV_PATH = join(__dirname, ".env.linkedin");
 const PORT = 3456;
 const REDIRECT_URI = `http://localhost:${PORT}/callback`;
-const SCOPES = ["openid", "profile", "w_member_social"];
+const SCOPES = ["r_liteprofile", "w_member_social"];
 
 // ═══════════════════════════════════════════════════
 // LOAD ENV
@@ -160,16 +160,29 @@ async function exchangeCodeForToken(code, clientId, clientSecret) {
 }
 
 async function getProfileInfo(accessToken) {
-  const res = await fetch("https://api.linkedin.com/v2/userinfo", {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Profile fetch failed (${res.status}): ${errText}`);
+  // Try /v2/userinfo first (OpenID Connect), fallback to /v2/me (r_liteprofile)
+  for (const endpoint of [
+    "https://api.linkedin.com/v2/userinfo",
+    "https://api.linkedin.com/v2/me",
+  ]) {
+    const res = await fetch(endpoint, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      // Normalize response shape
+      return {
+        id: data.sub || data.id,
+        name:
+          data.name ||
+          [data.localizedFirstName, data.localizedLastName]
+            .filter(Boolean)
+            .join(" ") ||
+          "Inconnu",
+      };
+    }
   }
-
-  return res.json();
+  throw new Error("Profile fetch failed on both /v2/userinfo and /v2/me");
 }
 
 // ═══════════════════════════════════════════════════
@@ -263,8 +276,8 @@ async function main() {
         let profileName = "Inconnu";
         try {
           const profile = await getProfileInfo(accessToken);
-          personUrn = `urn:li:person:${profile.sub}`;
-          profileName = profile.name || `${profile.given_name} ${profile.family_name}`;
+          personUrn = `urn:li:person:${profile.id}`;
+          profileName = profile.name;
           console.log(`👤 Profil : ${profileName} (${personUrn})`);
         } catch (profileErr) {
           console.warn(`⚠️  Impossible de récupérer le profil : ${profileErr.message}`);
