@@ -11,6 +11,7 @@ interface ReminderParams {
   shareUrl: string;
   companyName: string;
   depositPercent?: number;
+  unsubscribeUrl: string;
 }
 
 interface ReminderTemplate {
@@ -18,7 +19,7 @@ interface ReminderTemplate {
   html: string;
 }
 
-function baseLayout(content: string, ctaUrl: string, ctaText: string): string {
+function baseLayout(content: string, ctaUrl: string, ctaText: string, unsubscribeUrl: string): string {
   return `
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,8 +45,12 @@ function baseLayout(content: string, ctaUrl: string, ctaText: string): string {
     </tr>
     <tr>
       <td style="padding:16px 32px;background:#F8FAFC;border-top:1px solid #E2E8F0;">
-        <p style="margin:0;font-size:12px;color:#94A3B8;text-align:center;">
+        <p style="margin:0 0 8px;font-size:12px;color:#94A3B8;text-align:center;">
           Cet email a été envoyé automatiquement par Devizly. Ne pas répondre.
+        </p>
+        <p style="margin:0;font-size:11px;color:#94A3B8;text-align:center;">
+          <a href="${unsubscribeUrl}" style="color:#6366F1;text-decoration:underline;">Se désinscrire des rappels pour ce devis</a>
+          <br/>Conformément au RGPD, votre demande sera traitée immédiatement.
         </p>
       </td>
     </tr>
@@ -67,7 +72,8 @@ export function reminderView(p: ReminderParams): ReminderTemplate {
          Des questions ? ${p.companyName} reste disponible. Sinon, vous pouvez le valider en un clic.
        </p>`,
       p.shareUrl,
-      `Consulter le devis — ${p.totalTTC}`
+      `Consulter le devis — ${p.totalTTC}`,
+      p.unsubscribeUrl
     ),
   };
 }
@@ -85,7 +91,8 @@ export function reminderSign(p: ReminderParams): ReminderTemplate {
          Pour ne pas retarder votre projet, signez directement en ligne — c'est rapide et sécurisé.
        </p>`,
       p.shareUrl,
-      `Signer le devis maintenant`
+      `Signer le devis maintenant`,
+      p.unsubscribeUrl
     ),
   };
 }
@@ -107,7 +114,8 @@ export function reminderDeposit(p: ReminderParams): ReminderTemplate {
          Signez et payez maintenant pour démarrer votre projet sans attendre.
        </p>`,
       p.shareUrl,
-      `Signer et payer l'acompte`
+      `Signer et payer l'acompte`,
+      p.unsubscribeUrl
     ),
   };
 }

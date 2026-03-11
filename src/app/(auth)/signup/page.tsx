@@ -60,7 +60,7 @@ export default function SignupPage() {
       }
 
       toast.success("Compte créé avec succès !");
-      router.push("/dashboard");
+      router.push("/wizard");
       router.refresh();
     } catch {
       toast.error("Erreur de connexion");

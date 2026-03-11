@@ -18,6 +18,20 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
 
+  // Business-only feature gate
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_status")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || profile.subscription_status !== "business") {
+    return NextResponse.json(
+      { error: "PLAN_REQUIRED", plan: "business", message: "Export CSV réservé au plan Business" },
+      { status: 403 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const year = searchParams.get("year");
   const month = searchParams.get("month");

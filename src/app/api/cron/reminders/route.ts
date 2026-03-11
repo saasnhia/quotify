@@ -42,29 +42,36 @@ export async function GET(request: Request) {
   let totalSent = 0;
   const errors: string[] = [];
 
-  // Find all "envoyé" quotes with client + owner profile
+  // Find all "envoyé" quotes with client + owner profile (exclude opted-out)
   const { data: quotes } = await supabase
     .from("quotes")
     .select(`
       id, title, number, total_ttc, share_token, created_at, viewed_at,
-      user_id, client_id, deposit_percent,
+      user_id, client_id, deposit_percent, relance_opt_out,
       clients(name, email),
-      profiles!quotes_user_id_fkey(subscription_status, company_name, full_name)
+      profiles!quotes_user_id_fkey(subscription_status, company_name, full_name, relance_enabled, relance_delays)
     `)
-    .eq("status", "envoyé");
+    .eq("status", "envoyé")
+    .neq("relance_opt_out", true);
 
   if (!quotes || quotes.length === 0) {
     return NextResponse.json({ sent: 0, message: "No pending quotes" });
   }
 
   for (const quote of quotes) {
-    // Only pro and business users get auto-reminders
+    // Only pro and business users with relance enabled get auto-reminders
     const profile = quote.profiles as unknown as {
       subscription_status: string;
       company_name: string | null;
       full_name: string | null;
+      relance_enabled: boolean | null;
+      relance_delays: number[] | null;
     } | null;
     if (!profile || profile.subscription_status === "free") continue;
+    if (profile.relance_enabled === false) continue;
+
+    // Use custom delays or default [2, 5, 7]
+    const userDelays = Array.isArray(profile.relance_delays) ? profile.relance_delays : [2, 5, 7];
 
     const client = quote.clients as unknown as {
       name: string;
@@ -87,9 +94,14 @@ export async function GET(request: Request) {
     const companyName =
       profile.company_name || profile.full_name || "Votre prestataire";
 
+    const unsubscribeUrl = `${appUrl}/api/unsubscribe?token=${quote.share_token}`;
+
     for (let i = 0; i < REMINDER_SCHEDULE.length; i++) {
       const { day, type } = REMINDER_SCHEDULE[i];
       const reminderNumber = i + 1;
+
+      // Skip if this delay is disabled by user
+      if (!userDelays.includes(day)) continue;
 
       // J+2 (view): only if the quote has been viewed and 2+ days since first view
       if (type === "view") {
@@ -120,6 +132,7 @@ export async function GET(request: Request) {
         shareUrl,
         companyName,
         depositPercent: quote.deposit_percent ?? undefined,
+        unsubscribeUrl,
       });
 
       // Send via Resend

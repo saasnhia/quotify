@@ -5,6 +5,7 @@ const ALLOWED_FIELDS = [
   "auto_invoice_on_sign",
   "auto_invoice_on_payment",
   "auto_send_invoice",
+  "relance_enabled",
 ] as const;
 
 /**
@@ -22,7 +23,7 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("auto_invoice_on_sign, auto_invoice_on_payment, auto_send_invoice")
+    .select("auto_invoice_on_sign, auto_invoice_on_payment, auto_send_invoice, relance_enabled")
     .eq("id", user.id)
     .single();
 
@@ -34,6 +35,7 @@ export async function GET() {
     auto_invoice_on_sign: data?.auto_invoice_on_sign ?? true,
     auto_invoice_on_payment: data?.auto_invoice_on_payment ?? true,
     auto_send_invoice: data?.auto_send_invoice ?? true,
+    relance_enabled: data?.relance_enabled ?? true,
   });
 }
 
