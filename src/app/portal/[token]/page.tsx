@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import {
   FileText,
   Download,
@@ -14,6 +15,8 @@ import {
   Euro,
   Loader2,
   ExternalLink,
+  Send,
+  MessageCircle,
 } from "lucide-react";
 import { formatCurrency, formatDate, getStatusColor, getStatusLabel } from "@/lib/utils/quote";
 
@@ -33,7 +36,7 @@ interface PortalQuote {
 
 interface PortalData {
   client: { name: string; email: string | null };
-  company: { name: string; logo_url: string | null };
+  company: { name: string; logo_url: string | null; brand_color: string; email: string | null };
   quotes: PortalQuote[];
   summary: {
     total: number;
@@ -53,6 +56,9 @@ export default function PortalPage({
   const [data, setData] = useState<PortalData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageSent, setMessageSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     async function fetchPortal() {
@@ -68,6 +74,27 @@ export default function PortalPage({
     }
     fetchPortal();
   }, [token]);
+
+  async function handleSendMessage() {
+    if (!message.trim() || !data) return;
+    setSending(true);
+    try {
+      await fetch("/api/portal/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          message: message.trim(),
+          clientName: data.client.name,
+          clientEmail: data.client.email,
+        }),
+      });
+      setMessageSent(true);
+      setMessage("");
+    } finally {
+      setSending(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -94,15 +121,19 @@ export default function PortalPage({
   }
 
   const { client, company, quotes, summary } = data;
+  const brandColor = company.brand_color || "#8B5CF6";
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="border-b bg-white">
+      {/* Branded Header */}
+      <div
+        className="border-b"
+        style={{ backgroundColor: brandColor }}
+      >
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
             {company.logo_url ? (
-              <div className="relative h-8 w-16">
+              <div className="relative h-10 w-20">
                 <Image
                   src={company.logo_url}
                   alt="Logo"
@@ -112,14 +143,16 @@ export default function PortalPage({
                 />
               </div>
             ) : (
-              <FileText className="h-6 w-6 text-primary" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20">
+                <FileText className="h-5 w-5 text-white" />
+              </div>
             )}
-            <span className="text-lg font-bold">{company.name}</span>
+            <span className="text-lg font-bold text-white">{company.name}</span>
           </div>
           <div className="text-right">
-            <p className="text-sm font-medium">{client.name}</p>
+            <p className="text-sm font-medium text-white">{client.name}</p>
             {client.email && (
-              <p className="text-xs text-muted-foreground">{client.email}</p>
+              <p className="text-xs text-white/80">{client.email}</p>
             )}
           </div>
         </div>
@@ -132,7 +165,7 @@ export default function PortalPage({
             Bonjour {client.name.split(" ")[0]}
           </h1>
           <p className="text-muted-foreground">
-            Retrouvez tous vos devis et paiements.
+            Retrouvez tous vos devis et paiements avec {company.name}.
           </p>
         </div>
 
@@ -140,7 +173,10 @@ export default function PortalPage({
         <div className="grid gap-4 sm:grid-cols-3">
           <Card>
             <CardContent className="flex items-center gap-4 pt-6">
-              <div className="rounded-lg bg-blue-50 p-3 text-blue-600">
+              <div
+                className="rounded-lg p-3"
+                style={{ backgroundColor: `${brandColor}15`, color: brandColor }}
+              >
                 <Clock className="h-5 w-5" />
               </div>
               <div>
@@ -168,7 +204,10 @@ export default function PortalPage({
           </Card>
           <Card>
             <CardContent className="flex items-center gap-4 pt-6">
-              <div className="rounded-lg bg-violet-50 p-3 text-violet-600">
+              <div
+                className="rounded-lg p-3"
+                style={{ backgroundColor: `${brandColor}15`, color: brandColor }}
+              >
                 <Euro className="h-5 w-5" />
               </div>
               <div>
@@ -253,7 +292,8 @@ export default function PortalPage({
                         quote.share_token && (
                           <Button
                             size="sm"
-                            className="bg-green-600 hover:bg-green-700"
+                            style={{ backgroundColor: brandColor }}
+                            className="text-white hover:opacity-90"
                             asChild
                           >
                             <a href={`/devis/${quote.share_token}`}>
@@ -278,8 +318,56 @@ export default function PortalPage({
           </CardContent>
         </Card>
 
+        {/* Contact / Message section */}
+        {company.email && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4" />
+                Contacter {company.name}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {messageSent ? (
+                <div className="flex items-center gap-2 rounded-lg bg-green-50 p-4 text-green-700">
+                  <CheckCircle className="h-5 w-5" />
+                  <p className="text-sm font-medium">
+                    Message envoye ! {company.name} vous repondra par email.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <Textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Votre message..."
+                    rows={3}
+                    maxLength={2000}
+                  />
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={!message.trim() || sending}
+                    style={{ backgroundColor: brandColor }}
+                    className="text-white hover:opacity-90"
+                  >
+                    {sending ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="mr-2 h-4 w-4" />
+                    )}
+                    Envoyer
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
         <p className="text-center text-xs text-muted-foreground">
-          Portail propulse par Devizly
+          Portail propulse par{" "}
+          <a href="https://devizly.fr" className="underline" target="_blank" rel="noopener noreferrer">
+            Devizly
+          </a>
         </p>
       </div>
     </div>

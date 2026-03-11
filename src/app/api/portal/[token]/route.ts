@@ -35,10 +35,10 @@ export async function GET(
     );
   }
 
-  // Get owner's company info
+  // Get owner's company info (including brand color + email for contact)
   const { data: owner } = await supabase
     .from("profiles")
-    .select("company_name, logo_url")
+    .select("company_name, logo_url, brand_color, email")
     .eq("id", client.user_id)
     .single();
 
@@ -70,6 +70,8 @@ export async function GET(
     company: {
       name: owner?.company_name || "Votre prestataire",
       logo_url: owner?.logo_url || null,
+      brand_color: owner?.brand_color || "#8B5CF6",
+      email: owner?.email || null,
     },
     quotes: allQuotes,
     summary: {

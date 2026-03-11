@@ -44,6 +44,8 @@ export default function ParametresPage() {
   const [snippetCopied, setSnippetCopied] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [calendlyUrl, setCalendlyUrl] = useState("");
+  const [slug, setSlug] = useState("");
+  const [brandColor, setBrandColor] = useState("#8B5CF6");
   const [profile, setProfile] = useState({
     full_name: "",
     company_name: "",
@@ -77,7 +79,7 @@ export default function ParametresPage() {
 
       const { data } = await supabase
         .from("profiles")
-        .select("subscription_status, logo_url, stripe_connect_status, calendly_url")
+        .select("subscription_status, logo_url, stripe_connect_status, calendly_url, slug, brand_color")
         .eq("id", user.id)
         .single();
       if (data?.subscription_status) {
@@ -91,6 +93,12 @@ export default function ParametresPage() {
       }
       if (data?.calendly_url) {
         setCalendlyUrl(data.calendly_url);
+      }
+      if (data?.slug) {
+        setSlug(data.slug);
+      }
+      if (data?.brand_color) {
+        setBrandColor(data.brand_color);
       }
     }
     loadProfile();
@@ -201,6 +209,8 @@ export default function ParametresPage() {
           tva_number: profile.tva_number || null,
           tva_applicable: !profile.is_micro_entrepreneur,
           is_micro_entrepreneur: profile.is_micro_entrepreneur,
+          slug: slug.toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 50) || null,
+          brand_color: brandColor || "#8B5CF6",
         })
         .eq("id", user.id);
     }
@@ -527,6 +537,50 @@ export default function ParametresPage() {
               <p className="text-xs text-muted-foreground">
                 Affiché sur vos devis publics pour permettre la prise de RDV.
               </p>
+            </div>
+
+            <Separator />
+
+            {/* Branding & Slug (B2) */}
+            <div className="space-y-2">
+              <Label htmlFor="slug">Lien personnalisé</Label>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">devizly.fr/portal/</span>
+                <Input
+                  id="slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+                  placeholder="votre-nom"
+                  maxLength={50}
+                  className="flex-1"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                3-50 caractères, lettres minuscules, chiffres et tirets uniquement.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="brand_color">Couleur de marque</Label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  id="brand_color"
+                  value={brandColor}
+                  onChange={(e) => setBrandColor(e.target.value)}
+                  className="h-10 w-14 cursor-pointer rounded-md border border-border bg-background"
+                />
+                <Input
+                  value={brandColor}
+                  onChange={(e) => setBrandColor(e.target.value)}
+                  placeholder="#8B5CF6"
+                  maxLength={7}
+                  className="w-28"
+                />
+                <span className="text-xs text-muted-foreground">
+                  Utilisé dans votre portail client
+                </span>
+              </div>
             </div>
 
             <Button onClick={handleSave} disabled={loading} className="w-full">
