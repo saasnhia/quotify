@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Send, Copy, ExternalLink } from "lucide-react";
+import { Send, Copy, ExternalLink, Download } from "lucide-react";
 import { toast } from "sonner";
 
 interface InvoiceActionsProps {
@@ -47,6 +47,19 @@ export function InvoiceActions({
 
   return (
     <div className="flex items-center justify-end gap-1">
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-7 px-2 text-xs"
+        asChild
+        title="Télécharger PDF"
+      >
+        <a href={`/api/invoices/${invoiceId}/pdf`} target="_blank" rel="noopener noreferrer">
+          <Download className="mr-1 h-3 w-3" />
+          PDF
+        </a>
+      </Button>
+
       {(status === "draft" || status === "sent") && (
         <Button
           variant="ghost"

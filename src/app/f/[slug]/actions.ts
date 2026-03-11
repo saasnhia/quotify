@@ -4,6 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { resend } from "@/lib/resend";
 import { leadFormEmail } from "@/lib/emails/lead-form";
 import { getSiteUrl } from "@/lib/url";
+import { createNotification } from "@/lib/notifications/create";
 import type { LeadForm } from "@/types";
 
 function createServiceClient() {
@@ -142,6 +143,17 @@ export async function submitLead(
   if (insertError) {
     console.error("[Lead form] Insert error:", insertError);
     return { error: "Erreur lors de l'enregistrement" };
+  }
+
+  // In-app notification (non-blocking, fire-and-forget, only for user-owned forms)
+  if (form.user_id) {
+    createNotification({
+      userId: form.user_id,
+      type: "lead",
+      title: "Nouveau lead",
+      message: name,
+      link: "/leads",
+    }).then(() => {});
   }
 
   // Send notification email (fire-and-forget, only for user-owned forms)

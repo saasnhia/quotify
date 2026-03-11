@@ -41,10 +41,12 @@ function KanbanColumn({
   column,
   items,
   onAddProspect,
+  onRefresh,
 }: {
   column: Column;
   items: KanbanItem[];
   onAddProspect?: () => void;
+  onRefresh: () => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
   const total = items.reduce((sum, item) => sum + item.amount, 0);
@@ -88,7 +90,7 @@ function KanbanColumn({
           strategy={verticalListSortingStrategy}
         >
           {items.map((item) => (
-            <KanbanCard key={item.id} item={item} />
+            <KanbanCard key={item.id} item={item} onRefresh={onRefresh} />
           ))}
         </SortableContext>
 
@@ -177,6 +179,13 @@ export function KanbanBoard() {
           viewedAt: null,
           viewCount: 0,
           source: p.source || "manual",
+          prospectData: {
+            name: p.name,
+            email: p.email,
+            company: p.company,
+            notes: p.notes,
+            estimated_amount: p.estimated_amount,
+          },
         })),
       ];
 
@@ -307,6 +316,7 @@ export function KanbanBoard() {
                   ? () => setShowAddProspect(true)
                   : undefined
               }
+              onRefresh={fetchData}
             />
           ))}
         </div>

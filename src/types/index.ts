@@ -239,3 +239,75 @@ export interface Lead {
 export interface LeadWithForm extends Lead {
   lead_forms: LeadForm | null;
 }
+
+// ── Contracts ─────────────────────────────────────────────────
+
+export type ContractStatus = 'draft' | 'active' | 'paused' | 'ended';
+
+export interface Contract {
+  id: string;
+  user_id: string;
+  client_id: string | null;
+  template_id: string | null;
+  title: string;
+  description: string | null;
+  amount: number;
+  currency: string;
+  frequency: RecurringFrequency;
+  start_date: string;
+  end_date: string | null;
+  next_invoice_date: string | null;
+  status: ContractStatus;
+  invoice_count: number;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ContractWithClient extends Contract {
+  clients: { name: string; email: string | null } | null;
+}
+
+export interface ContractTemplate {
+  id: string;
+  user_id: string | null;
+  name: string;
+  description: string | null;
+  is_system: boolean;
+  default_amount: number | null;
+  default_frequency: string;
+  default_duration_months: number | null;
+  items: { description: string; quantity: number; unit_price: number }[];
+  created_at: string;
+}
+
+// ── Team Members ──────────────────────────────────────────────
+
+export type TeamRole = 'admin' | 'editor' | 'viewer';
+export type InviteStatus = 'pending' | 'accepted' | 'rejected';
+
+export interface TeamMember {
+  id: string;
+  owner_id: string;
+  member_email: string;
+  member_user_id: string | null;
+  role: TeamRole;
+  status: InviteStatus;
+  invited_at: string;
+  accepted_at: string | null;
+}
+
+// ── Notifications ─────────────────────────────────────────────
+
+export type NotificationType = 'lead' | 'signature' | 'payment' | 'reminder' | 'system';
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  title: string;
+  message: string | null;
+  link: string | null;
+  read: boolean;
+  created_at: string;
+}

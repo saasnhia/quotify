@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { tryAutoInvoice } from "@/lib/invoices/auto-invoice";
+import { createNotification } from "@/lib/notifications/create";
 
 function createPublicClient() {
   return createServerClient(
@@ -176,6 +177,28 @@ export async function POST(
   // Automation: auto-generate invoice on signature (non-blocking)
   if (action === "signé" && quote.user_id) {
     tryAutoInvoice("sign", { quoteId: quote.id, userId: quote.user_id });
+  }
+
+  // In-app notification on signature (non-blocking, fire-and-forget)
+  if (action === "signé" && quote.user_id) {
+    // Fetch quote title for the notification message
+    supabase
+      .from("quotes")
+      .select("title, number")
+      .eq("id", quote.id)
+      .single()
+      .then(({ data: quoteDetail }) => {
+        const label = quoteDetail?.title
+          ? quoteDetail.title
+          : `Devis #${quoteDetail?.number ?? ""}`;
+        createNotification({
+          userId: quote.user_id,
+          type: "signature",
+          title: "Devis signé",
+          message: label,
+          link: "/devis",
+        }).then(() => {});
+      });
   }
 
   return NextResponse.json({ success: true, status: action });

@@ -22,19 +22,25 @@ import {
   LayoutTemplate,
   FileInput,
   Inbox,
+  FileSignature,
+  UsersRound,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
+import { NotificationBell } from "@/components/layout/notification-bell";
+import { GlobalSearch } from "@/components/layout/global-search";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/briefing", label: "Briefing IA", icon: Brain },
   { href: "/dashboard/pipeline", label: "Pipeline", icon: Kanban },
   { href: "/dashboard/factures", label: "Factures", icon: Receipt },
+  { href: "/contrats", label: "Contrats", icon: FileSignature },
   { href: "/devis", label: "Devis", icon: FileText },
   { href: "/templates", label: "Templates", icon: LayoutTemplate },
   { href: "/clients", label: "Clients", icon: Users },
   { href: "/lead-forms", label: "Formulaires", icon: FileInput },
   { href: "/leads", label: "Leads", icon: Inbox },
+  { href: "/equipe", label: "Équipe", icon: UsersRound },
   { href: "/pricing", label: "Tarifs", icon: CreditCard },
   { href: "/parametres", label: "Paramètres", icon: Settings },
 ];
@@ -80,10 +86,15 @@ export function DashboardShell({
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-16 items-center border-b px-6">
+        <div className="flex h-16 items-center justify-between border-b px-6">
           <Link href="/dashboard" className="transition-transform hover:scale-105">
             <DevizlyLogo width={160} height={40} />
           </Link>
+          <NotificationBell />
+        </div>
+
+        <div className="px-4 pb-2 pt-3">
+          <GlobalSearch />
         </div>
 
         <nav className="flex-1 space-y-1 p-4">
@@ -134,6 +145,9 @@ export function DashboardShell({
             {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
           <DevizlyLogo width={120} height={32} />
+          <div className="ml-auto">
+            <NotificationBell />
+          </div>
         </header>
 
         <main className="flex-1 overflow-y-auto p-6">

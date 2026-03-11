@@ -62,6 +62,22 @@ const STATUS_OPTIONS: { label: string; value: LeadStatus | "all" }[] = [
   { label: "Perdu", value: "lost" },
 ];
 
+function getLeadScore(lead: LeadWithForm): { label: string; color: string } {
+  const budget = lead.budget_range || "";
+  const amount = parseInt(budget.replace(/[^0-9]/g, "")) || 0;
+  if (amount >= 5000 || lead.status === "converted") {
+    return { label: "HOT", color: "bg-red-100 text-red-600" };
+  }
+  if (
+    amount >= 1000 ||
+    lead.status === "qualified" ||
+    lead.status === "contacted"
+  ) {
+    return { label: "WARM", color: "bg-amber-100 text-amber-600" };
+  }
+  return { label: "COLD", color: "bg-slate-100 text-slate-500" };
+}
+
 function timeAgo(dateStr: string): string {
   const now = new Date();
   const date = new Date(dateStr);
@@ -226,6 +242,16 @@ export default function LeadsPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-medium">{lead.name}</span>
+                        {(() => {
+                          const score = getLeadScore(lead);
+                          return (
+                            <span
+                              className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${score.color}`}
+                            >
+                              {score.label}
+                            </span>
+                          );
+                        })()}
                         <Badge
                           variant="secondary"
                           className={statusConf.color}

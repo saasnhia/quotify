@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { createServerClient } from "@supabase/ssr";
 import { tryAutoInvoice } from "@/lib/invoices/auto-invoice";
+import { createNotification } from "@/lib/notifications/create";
 import type Stripe from "stripe";
 
 function createServiceClient() {
@@ -89,6 +90,18 @@ export async function POST(request: Request) {
               userId: quoteData.user_id,
               markAsPaid: true,
             });
+
+            // In-app notification (non-blocking, fire-and-forget)
+            const amountTotal = session.amount_total
+              ? `${(session.amount_total / 100).toFixed(2)} €`
+              : null;
+            createNotification({
+              userId: quoteData.user_id,
+              type: "payment",
+              title: "Paiement reçu",
+              message: amountTotal ?? `Devis ${quoteId}`,
+              link: "/dashboard/factures",
+            }).then(() => {});
           }
         }
         break;

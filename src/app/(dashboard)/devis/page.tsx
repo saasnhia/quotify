@@ -39,6 +39,7 @@ import {
   CreditCard,
   GitBranch,
   Bell,
+  Receipt,
 } from "lucide-react";
 import {
   formatCurrency,
@@ -248,6 +249,30 @@ export default function DevisPage() {
     }
     toast.success(`Statut changé: ${getStatusLabel(newStatus)}`);
     fetchQuotes();
+  }
+
+  async function handleGenerateInvoice(quoteId: string) {
+    const res = await fetch("/api/invoices/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quoteId }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (data.error === "PLAN_REQUIRED") {
+        toast.error("Facturation Pro requise", {
+          action: { label: "Upgrade", onClick: () => router.push("/pricing") },
+        });
+      } else if (res.status === 409) {
+        toast.info("Facture déjà générée pour ce devis");
+        router.push("/dashboard/factures");
+      } else {
+        toast.error(data.error || "Erreur génération facture");
+      }
+      return;
+    }
+    toast.success(`Facture ${data.invoice.invoice_number} créée`);
+    router.push("/dashboard/factures");
   }
 
   return (
@@ -535,6 +560,14 @@ export default function DevisPage() {
                             <Save className="mr-2 h-4 w-4" />
                             Sauvegarder comme template
                           </DropdownMenuItem>
+                          {(quote.status === "signé" || quote.status === "accepté" || quote.status === "payé") && (
+                            <DropdownMenuItem
+                              onClick={() => handleGenerateInvoice(quote.id)}
+                            >
+                              <Receipt className="mr-2 h-4 w-4" />
+                              Générer facture
+                            </DropdownMenuItem>
+                          )}
                           {quote.status === "brouillon" && (
                             <DropdownMenuItem
                               onClick={() =>
