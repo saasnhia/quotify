@@ -61,7 +61,7 @@ async function openBrowser(url) {
 const ENV_PATH = join(__dirname, ".env.linkedin");
 const PORT = 3456;
 const REDIRECT_URI = `http://localhost:${PORT}/callback`;
-const SCOPES = ["r_liteprofile", "w_member_social"];
+const SCOPES = ["w_member_social"];
 
 // ═══════════════════════════════════════════════════
 // LOAD ENV
