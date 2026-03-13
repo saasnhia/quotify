@@ -41,7 +41,7 @@ export function OnboardingProgress({
   if (percent === 100) return null;
 
   return (
-    <div className="relative mb-6 overflow-hidden rounded-xl border border-violet-500/20 bg-gradient-to-r from-violet-500/5 via-indigo-500/5 to-violet-500/5 p-5">
+    <div className="relative mb-6 overflow-hidden rounded-xl border border-violet-400/30 bg-gradient-to-r from-violet-700/40 via-indigo-700/35 to-violet-700/40 p-5">
       <button
         onClick={() => {
           setDismissed(true);
@@ -61,15 +61,15 @@ export function OnboardingProgress({
         <h3 className="text-sm font-semibold text-white">
           Votre compte est prêt à {percent}%
         </h3>
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-white/70">
           {completed}/{steps.length} étapes
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="mb-4 h-2 overflow-hidden rounded-full bg-white/10">
+      <div className="mb-4 h-2 overflow-hidden rounded-full bg-white/30">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-500"
+          className="h-full rounded-full bg-violet-200 transition-all duration-500"
           style={{ width: `${percent}%` }}
         />
       </div>
@@ -81,25 +81,25 @@ export function OnboardingProgress({
             key={step.label}
             className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm ${
               step.done
-                ? "text-emerald-400"
-                : "text-slate-400"
+                ? "text-white"
+                : "text-white/70"
             }`}
           >
             {step.done ? (
               <Check className="h-4 w-4 shrink-0 text-emerald-400" />
             ) : (
-              <div className="h-4 w-4 shrink-0 rounded-full border border-slate-600" />
+              <div className="h-4 w-4 shrink-0 rounded-full border border-white/40" />
             )}
             {step.href && !step.done ? (
               <Link
                 href={step.href}
-                className="flex items-center gap-1 font-medium text-violet-400 transition-colors hover:text-violet-300"
+                className="flex items-center gap-1 font-medium text-white transition-colors hover:text-violet-200"
               >
                 {step.label}
                 <ArrowRight className="h-3 w-3" />
               </Link>
             ) : (
-              <span className={step.done ? "line-through opacity-60" : ""}>
+              <span className={step.done ? "line-through opacity-70" : ""}>
                 {step.label}
               </span>
             )}
