@@ -170,6 +170,16 @@ export default function DevisBatimentGratuitPage() {
           <span className="text-slate-600">·</span>
           <Link href="/pricing" className="text-violet-400 hover:text-violet-300">Tarifs</Link>
         </div>
+
+        {/* Blog links */}
+        <div className="mt-6 flex flex-wrap gap-3 text-sm">
+          <span className="text-slate-500">Articles :</span>
+          <Link href="/blog/modele-devis-batiment-gratuit" className="text-emerald-400 hover:text-emerald-300">Modèle de devis bâtiment gratuit</Link>
+          <span className="text-slate-600">·</span>
+          <Link href="/blog/tva-devis-facture-artisan" className="text-emerald-400 hover:text-emerald-300">TVA sur devis artisan</Link>
+          <span className="text-slate-600">·</span>
+          <Link href="/blog/acompte-devis-regles-2026" className="text-emerald-400 hover:text-emerald-300">Acompte sur devis : règles 2026</Link>
+        </div>
       </article>
     </>
   );

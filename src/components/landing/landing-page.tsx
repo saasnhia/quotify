@@ -30,6 +30,7 @@ import {
   Send,
   Play,
   MessageCircle,
+  BookOpen,
 } from "lucide-react";
 
 /* ══════════════════════════════════════════════════
@@ -316,15 +317,24 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
    MAIN COMPONENT
    ══════════════════════════════════════════════════ */
 
-export function LandingPage() {
+interface RecentPost {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  readingTime: string;
+}
+
+export function LandingPage({ recentPosts = [] }: { recentPosts?: RecentPost[] }) {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#0A0A0F]" />}>
-      <LandingPageInner />
+      <LandingPageInner recentPosts={recentPosts} />
     </Suspense>
   );
 }
 
-function LandingPageInner() {
+function LandingPageInner({ recentPosts }: { recentPosts: RecentPost[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [quotesCount, setQuotesCount] = useState(0);
@@ -1117,6 +1127,85 @@ function LandingPageInner() {
       </section>
 
       {/* ══════════════════════════════════════════════
+          DERNIERS ARTICLES
+          ══════════════════════════════════════════════ */}
+      {recentPosts.length > 0 && (
+        <section className="border-t border-white/5 py-20 sm:py-28">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              className="text-center"
+            >
+              <motion.span
+                variants={fadeUp}
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-slate-400"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                Blog
+              </motion.span>
+              <motion.h2
+                variants={fadeUp}
+                className="mt-6 text-3xl font-bold sm:text-4xl"
+              >
+                Derniers articles
+              </motion.h2>
+              <motion.p
+                variants={fadeUp}
+                className="mx-auto mt-4 max-w-lg text-slate-400"
+              >
+                Guides pratiques pour freelances, artisans et indépendants.
+              </motion.p>
+            </motion.div>
+
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {recentPosts.map((post) => (
+                <motion.div key={post.slug} variants={fadeUp}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="group block rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:border-violet-500/30 hover:bg-white/10"
+                  >
+                    <span className="inline-block rounded-full bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-400">
+                      {post.category}
+                    </span>
+                    <h3 className="mt-3 text-lg font-semibold leading-snug transition-colors group-hover:text-violet-400">
+                      {post.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm text-slate-400">
+                      {post.description}
+                    </p>
+                    <div className="mt-4 flex items-center gap-3 text-xs text-slate-500">
+                      <span>{new Date(post.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</span>
+                      <span>·</span>
+                      <span>{post.readingTime}</span>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <div className="mt-10 text-center">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 text-sm font-medium text-violet-400 transition-colors hover:text-violet-300"
+              >
+                Voir tous les articles
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════════════
           CTA FINAL
           ══════════════════════════════════════════════ */}
       <section className="py-20 sm:py-28">
@@ -1188,6 +1277,12 @@ function LandingPageInner() {
               <a href="#faq" className="transition-colors hover:text-white">
                 FAQ
               </a>
+              <Link
+                href="/blog"
+                className="transition-colors hover:text-white"
+              >
+                Blog
+              </Link>
               <Link
                 href="/login"
                 className="transition-colors hover:text-white"

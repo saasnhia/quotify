@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
 import { JsonLd } from "@/components/seo/json-ld";
+import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: "Logiciel Devis Gratuit en Ligne",
@@ -64,11 +65,21 @@ const faqSchema = {
   ],
 };
 
-export default function Page() {
+export default async function Page() {
+  const posts = getAllPosts();
+  const recentPosts = posts.slice(0, 3).map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    date: p.date,
+    category: p.category,
+    readingTime: p.readingTime,
+  }));
+
   return (
     <>
       <JsonLd data={faqSchema} />
-      <LandingPage />
+      <LandingPage recentPosts={recentPosts} />
     </>
   );
 }

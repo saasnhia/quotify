@@ -165,6 +165,14 @@ export default function LogicielDevisArtisanPage() {
           <span className="text-slate-600">·</span>
           <Link href="/pricing" className="text-violet-400 hover:text-violet-300">Tarifs</Link>
         </div>
+
+        {/* Blog links */}
+        <div className="mt-6 flex flex-wrap gap-3 text-sm">
+          <span className="text-slate-500">Articles :</span>
+          <Link href="/blog/mentions-obligatoires-devis-artisan" className="text-emerald-400 hover:text-emerald-300">Mentions obligatoires sur un devis artisan</Link>
+          <span className="text-slate-600">·</span>
+          <Link href="/blog/tva-devis-facture-artisan" className="text-emerald-400 hover:text-emerald-300">TVA sur devis et factures artisan</Link>
+        </div>
       </article>
     </>
   );

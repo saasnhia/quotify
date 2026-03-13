@@ -169,6 +169,14 @@ export default function DevisAutoEntrepreneurPage() {
           <span className="text-slate-600">·</span>
           <Link href="/pricing" className="text-violet-400 hover:text-violet-300">Tarifs</Link>
         </div>
+
+        {/* Blog links */}
+        <div className="mt-6 flex flex-wrap gap-3 text-sm">
+          <span className="text-slate-500">Articles :</span>
+          <Link href="/blog/devis-auto-entrepreneur-guide-complet" className="text-emerald-400 hover:text-emerald-300">Guide complet du devis auto-entrepreneur</Link>
+          <span className="text-slate-600">·</span>
+          <Link href="/blog/facturation-freelance-guide-2026" className="text-emerald-400 hover:text-emerald-300">Facturation freelance 2026</Link>
+        </div>
       </article>
     </>
   );
